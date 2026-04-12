@@ -1,0 +1,101 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.0.4",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.0.3",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "SyriaShomoos.Application": {
+      "path": "src/SyriaShomoos.Application/SyriaShomoos.Application.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.Application.Tests": {
+      "path": "test/SyriaShomoos.Application.Tests/SyriaShomoos.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "SyriaShomoos.Domain.Shared": {
+      "path": "src/SyriaShomoos.Domain.Shared/SyriaShomoos.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.Application.Contracts": {
+      "path": "src/SyriaShomoos.Application.Contracts/SyriaShomoos.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.HttpApi": {
+      "path": "src/SyriaShomoos.HttpApi/SyriaShomoos.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.HttpApi.Client": {
+      "path": "src/SyriaShomoos.HttpApi.Client/SyriaShomoos.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.EntityFrameworkCore.Tests": {
+      "path": "test/SyriaShomoos.EntityFrameworkCore.Tests/SyriaShomoos.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "SyriaShomoos.EntityFrameworkCore": {
+      "path": "src/SyriaShomoos.EntityFrameworkCore/SyriaShomoos.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.TestBase": {
+      "path": "test/SyriaShomoos.TestBase/SyriaShomoos.TestBase.abppkg",
+      "folder": "test"
+    },
+    "SyriaShomoos.Domain.Tests": {
+      "path": "test/SyriaShomoos.Domain.Tests/SyriaShomoos.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "SyriaShomoos.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/SyriaShomoos.HttpApi.Client.ConsoleTestApp/SyriaShomoos.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "SyriaShomoos.DbMigrator": {
+      "path": "src/SyriaShomoos.DbMigrator/SyriaShomoos.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.HttpApi.Host": {
+      "path": "src/SyriaShomoos.HttpApi.Host/SyriaShomoos.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "SyriaShomoos.Domain": {
+      "path": "src/SyriaShomoos.Domain/SyriaShomoos.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
