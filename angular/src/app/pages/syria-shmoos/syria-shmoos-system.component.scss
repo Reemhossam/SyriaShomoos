@@ -1,0 +1,45 @@
+.theme-2-bg {
+  background-color: #F3FFDC;
+}
+
+.theme-2-text {
+  color: #3F4F2C !important;
+}
+
+.theme-2-btn {
+  background-color: #3F4F2C !important;
+  color: white !important;
+}
+
+::ng-deep .theme-2-select-btn {
+  .p-button {
+    background-color: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    
+    &:hover {
+      background-color: #e2e8f0;
+    }
+  }
+
+  .p-button.p-highlight {
+    background-color: #3F4F2C !important;
+    color: white !important;
+    border-color: #3F4F2C !important;
+  }
+}
+
+
+
+::ng-deep .p-togglebutton-checked .p-togglebutton-content,
+::ng-deep .p-togglebutton-checked
+{
+
+  background-color: #3f4f2c !important;
+  color: white !important;
+}
+
+::ng-deep .p-togglebutton-content{
+  background-color: white !important;
+  color: #3f4f2c !important;
+}

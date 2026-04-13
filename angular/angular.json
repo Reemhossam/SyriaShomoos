@@ -38,7 +38,8 @@
               }
             ],
             "styles": [
-              {
+               "src/styles.scss",
+                {
                 "input": "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
                 "inject": true,
                 "bundleName": "fontawesome-all.min"

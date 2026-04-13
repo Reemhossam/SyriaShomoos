@@ -1,0 +1,42 @@
+::ng-deep .custom-table {
+  .p-datatable-header, .p-datatable-wrapper {
+    border: none;
+  }
+  
+  .p-datatable-thead > tr > th {
+    background-color: transparent;
+    padding: 1rem 0.5rem;
+    border-bottom: 2px solid #f8fafc;
+  }
+  
+  .p-datatable-tbody > tr > td {
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid #f8fafc;
+  }
+
+  .p-paginator {
+    margin-top: 1rem;
+    background-color: transparent;
+    border: none;
+    .p-paginator-pages .p-paginator-page.p-highlight {
+      background: #3F4F2C;
+      color: white;
+      border-radius: 4px;
+    }
+    .p-paginator-page, .p-paginator-next, .p-paginator-prev, .p-paginator-first, .p-paginator-last {
+      color: #85A95D; // using lighter green theme based on the last screenshot pagination icons
+      &:hover {
+        background: #f1f5f9;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+
+::ng-deep .p-button-outlined{
+    color: #3f4f2c !important;
+    border-color: #3f4f2c !important;
+}
+
+

@@ -1,41 +1,96 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-
-:root .lpx-brand-logo {
-  --lpx-logo: url('/assets/images/logo/logo-light.svg');
-  --lpx-logo-icon: url('/assets/images/logo/icon.svg');
-}
+/* PrimeNG icons only */
+@import 'primeicons/primeicons.css';
 
 :root {
-  --lpx-theme-light-bg: url('/assets/images/login/login-bg-img-light.svg');
-  --lpx-theme-dim-bg: url('/assets/images/login/login-bg-img-dim.svg');
-  --lpx-theme-dark-bg: url('/assets/images/login/login-bg-img-dark.svg');
+  --color-primary-dark: #193948;
+}
 
-  .abp-logo {
-    background-repeat: no-repeat;
-  }
+.bg-primary-dark {
+  background-color: var(--color-primary-dark) !important;
+}
 
-  .abp-support {
-    width: 178px;
-    height: 30px;
-    background-image: url('/assets/images/getting-started/abp-support.svg');
-  }
+.text-primary-dark {
+  color: var(--color-primary-dark) !important;
+}
 
-  .abp-community {
-    width: 215px;
-    height: 30px;
-    background-image: url('/assets/images/getting-started/abp-community.svg');
-  }
 
-  .abp-blog {
-    width: 142px;
-    height: 30px;
-    background-image: url('/assets/images/getting-started/abp-blog.svg');
-  }
+::ng-deep .layout-config-button.config-link{
+display: none !important;
+}
 
-  .logo-x {
-    width: 20px;
-    height: 20px;
-    background-image: url('/assets/images/getting-started/x.svg');
-  }
+// to use font custom 
+/* Thin */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* Extra Light */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+/* Light */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Regular */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Medium */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* SemiBold */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Extra Bold */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Black */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('assets/fonts/montserrat/Montserrat-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
 }
