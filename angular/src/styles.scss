@@ -1,5 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@use '@primeng/themes' as *;
+
+@include theme(lara-light-blue);
+
+@import 'primeicons/primeicons.css';
+/* You can add global styles to this file, and also import other style files */
 
 :root .lpx-brand-logo {
   --lpx-logo: url('/assets/images/logo/logo-light.svg');

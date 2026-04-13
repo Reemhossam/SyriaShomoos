@@ -16,6 +16,9 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +28,7 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
     AppRoutingModule,
     ThemeSharedModule,
     CoreModule,
+    SharedModule,
     ThemeLeptonXModule.forRoot(),
     SideMenuLayoutModule.forRoot(),
   ],
@@ -43,6 +47,9 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
     provideAccountConfig(),
     provideTenantManagementConfig(),
     provideAbpThemeShared(),
+    providePrimeNG({
+      theme: { preset: Aura }
+    })
   ],
   bootstrap: [AppComponent],
 })
