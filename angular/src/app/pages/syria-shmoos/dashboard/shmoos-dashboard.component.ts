@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
-import { SyriaStatsService } from '../../syria-shmoos/syria-stats.service';
+import { ReservationReadService } from '@proxy/reservations';
 
 @Component({
   selector: 'app-shmoos-dashboard',
@@ -13,7 +13,7 @@ import { SyriaStatsService } from '../../syria-shmoos/syria-stats.service';
   styleUrl: './shmoos-dashboard.component.scss'
 })
 export class ShmoosDashboardComponent implements OnInit {
-  statsService = inject(SyriaStatsService);
+  reservationReadService = inject(ReservationReadService);
 
   lineData: any;
   lineOptions: any;
@@ -42,7 +42,7 @@ export class ShmoosDashboardComponent implements OnInit {
 
   fetchStats() {
     this.isLoading = true;
-    this.statsService.getSyriaShomoosStatisticsReservations().subscribe({
+    this.reservationReadService.getList().subscribe({
       next: (res) => {
         this.isLoading = false;
         this.updateCharts(res);

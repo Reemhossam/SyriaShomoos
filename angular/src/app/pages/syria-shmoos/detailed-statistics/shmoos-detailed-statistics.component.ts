@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import { SyriaStatsService } from '../../syria-shmoos/syria-stats.service';
+import { ReservationReadService } from '@proxy/reservations';
 
 export enum GuestIdType {
   NationalId = 1,
@@ -25,7 +25,7 @@ export enum GuestIdType {
   styleUrl: './shmoos-detailed-statistics.component.scss'
 })
 export class ShmoosDetailedStatisticsComponent implements OnInit {
-  statsService = inject(SyriaStatsService);
+  reservationReadService = inject(ReservationReadService);
 
   showFilter = false;
   reservations: any[] = [];
@@ -80,8 +80,9 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
       dateFrom: this.filterDateFrom ? this.formatDate(this.filterDateFrom) : null,
       dateTo: this.filterDateTo ? this.formatDate(this.filterDateTo) : null
     };
+// payload to get with filters and pagination
 
-    this.statsService.getSyriaShomoosReservations(payload).subscribe({
+    this.reservationReadService.getList().subscribe({
       next: (res: any) => {
         // console.log('Real Shomoos API Data:', res);
         this.reservations = res.data?.result || [];

@@ -1,6 +1,8 @@
 import { authGuard, permissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotfoundComponent } from './pages/syria-shmoos/notfound/notfound.component';
+import { syriaRouteGuard } from './guards/syria-route.guard';
 
 const routes: Routes = [
   {
@@ -22,6 +24,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
+    {
+        path: 'syria-shomoos',
+        canActivate: [syriaRouteGuard],
+        loadComponent: () => import('./pages/syria-shmoos/syria-shmoos-system.component').then(m => m.SyriaShmoosSystemComponent)
+  },
+  {
+      path: '**',
+      component: NotfoundComponent
+  }
 ];
 
 @NgModule({
