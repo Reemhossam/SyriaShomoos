@@ -1,0 +1,38 @@
+<div class="main-layout theme-2-bg">
+  <!-- Navbar Top -->
+  <div class="navbar px-6 py-4 flex justify-between items-center">
+    <div class="logo-section flex items-center gap-3">
+      <img src="assets/images/shield-check (1).svg" alt="shield logo" class="w-6" style="width: 1.5rem;" />
+      <h2 class="m-0 text-xl font-bold theme-2-text">SecureSyria System</h2>
+    </div>
+
+    <div class="profile-section flex items-center gap-5">
+      <img src="assets/images/lang.svg" alt="lang" class="w-6" style="filter: brightness(0) saturate(100%) invert(26%) sepia(12%) saturate(1915%) hue-rotate(42deg) brightness(97%) contrast(87%);"/>      
+      <div class="flex items-center gap-3 px-3 py-2 rounded-lg"> <!-- removed bg-gray-50 for clean integration -->
+        <div class="avatar text-white rounded-full flex justify-center items-center font-bold theme-2-btn" style="width: 32px; height: 32px;">
+          A
+        </div>
+        <div class="profile-info flex flex-col">
+          <span class="font-bold text-sm theme-2-text m-0 leading-none">Ahmed Mohamed</span>
+          <span class="text-xs text-gray-500 mt-1">Premium Account</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper p-6 min-h-screen">
+    
+    <!-- Toggle Navigation -->
+    <div class="flex justify-end mb-6">
+      <p-selectButton [options]="viewOptions" [(ngModel)]="selectedView" optionLabel="label" optionValue="value" styleClass="theme-2-select-btn" [allowEmpty]="false"></p-selectButton>
+    </div>
+
+    <!-- Conditional Sub-views -->
+    <div class="view-container bg-white shadow-sm rounded-lg p-5 border border-gray-100">
+      <app-shmoos-detailed-statistics *ngIf="selectedView === 'Detailed Statistics'"></app-shmoos-detailed-statistics>
+      <app-shmoos-dashboard *ngIf="selectedView === 'Dashboard'"></app-shmoos-dashboard>
+      <app-shmoos-convicts *ngIf="selectedView === 'Convicts'"></app-shmoos-convicts>
+    </div>
+
+  </div>
+</div>

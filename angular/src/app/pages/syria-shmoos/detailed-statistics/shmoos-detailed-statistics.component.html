@@ -1,0 +1,104 @@
+<div>
+  <!-- Toolbar Actions -->
+  <div class="flex justify-between items-center mb-4">
+    <div class="filter-actions flex gap-3 ml-auto">
+      <button pButton label="Export To Excel" icon="pi pi-file-excel" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg"></button>
+      <button pButton label="Filter" icon="pi pi-filter" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg" (click)="toggleFilter()"></button>
+    </div>
+  </div>
+
+  <!-- Filter Grid -->
+  <div *ngIf="showFilter" class="filter-panel bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">Guest Name</label>
+        <input pInputText type="text" placeholder="Guest Name" class="w-full" [(ngModel)]="filterGuestName" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">Property Name</label>
+        <input pInputText type="text" placeholder="Property" class="w-full" [(ngModel)]="filterPropertyName" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">Guest ID Type</label>
+        <p-select [options]="idTypesList" placeholder="Guest ID Type" styleClass="w-full" [(ngModel)]="filterGuestIdType"></p-select>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">Unit Number</label>
+        <input pInputText type="text" placeholder="Unit Number" class="w-full" [(ngModel)]="filterUnitNumber" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">ID Number</label>
+        <input pInputText type="text" placeholder="ID Number" class="w-full" [(ngModel)]="filterIdNumber" />
+      </div>
+
+      <div class="flex gap-2 min-w-0 md:col-start-3 md:col-span-2">
+        <div class="flex flex-col gap-2 w-1/2">
+          <label class="text-sm font-semibold text-gray-600">From</label>
+          <p-datepicker styleClass="w-full" [iconDisplay]="'input'" [showIcon]="true" inputId="from-date" [(ngModel)]="filterDateFrom"></p-datepicker>
+        </div>
+        <div class="flex flex-col gap-2 w-1/2">
+          <label class="text-sm font-semibold text-gray-600">To</label>
+          <p-datepicker styleClass="w-full" [iconDisplay]="'input'" [showIcon]="true" inputId="to-date" [(ngModel)]="filterDateTo"></p-datepicker>
+        </div>
+      </div>
+
+      <div class="col-span-1 md:col-span-4 flex items-end justify-end gap-2 mt-2">
+        <button pButton label="" icon="pi pi-times" class="p-button-outlined border-gray-300 text-gray-500 bg-white px-4" (click)="clearFilters()"></button>
+        <button pButton label="Search" icon="pi pi-search" class="p-button-outlined border-gray-300 text-gray-700 bg-white px-6" (click)="onSearch()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <p-table
+    [value]="reservations"
+    [paginator]="true"
+    [lazy]="true"
+    [rows]="pageSize"
+    [totalRecords]="totalRecords"
+    [loading]="isLoading"
+    (onLazyLoad)="onPageChange($event)"
+    [rowsPerPageOptions]="[7, 14, 21]"
+    styleClass="p-datatable-sm"
+    class="custom-table w-full">
+
+    <ng-template #header>
+      <tr>
+        <th class="text-xs text-gray-500 font-medium">Guest name</th>
+        <th class="text-xs text-gray-500 font-medium whitespace-nowrap">ID Type</th>
+        <th class="text-xs text-gray-500 font-medium whitespace-nowrap">ID No.</th>
+        <th class="text-xs text-gray-500 font-medium">Property</th>
+        <th class="text-xs text-gray-500 font-medium">Floor</th>
+        <th class="text-xs text-gray-500 font-medium whitespace-nowrap">Unit No.</th>
+        <th class="text-xs text-gray-500 font-medium">Check-in date time</th>
+        <th class="text-xs text-gray-500 font-medium">Check-out date time</th>
+        <th class="text-xs text-gray-500 font-medium">Actual Check-in date time</th>
+        <th class="text-xs text-gray-500 font-medium">Actual Check-out date time</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template #body let-res>
+      <tr class="border-b border-gray-100 font-semibold text-sm" [ngClass]="{'text-red-500': res.isConvictFlagged, 'text-gray-800': !res.isConvictFlagged}">
+        <td class="py-5 whitespace-nowrap">{{ res.guestName }}</td>
+        <td class="whitespace-nowrap">{{ getGuestIdTypeName(res.guestIdType) }}</td>
+        <td class="whitespace-nowrap">{{ res.idNumber }}</td>
+        <td>{{ res.propertyName }}</td>
+        <td>{{ res.floor }}</td>
+        <td>{{ res.unitNo }}</td>
+        <td class="text-xs whitespace-pre-line">
+          <ng-container *ngIf="res.checkInDateTime">{{ res.checkInDateTime | date:'dd MMM yyyy' }}<br>{{ res.checkInDateTime | date:'hh:mm a' }}</ng-container>
+        </td>
+        <td class="text-xs whitespace-pre-line">
+          <ng-container *ngIf="res.checkOutDateTime">{{ res.checkOutDateTime | date:'dd MMM yyyy' }}<br>{{ res.checkOutDateTime | date:'hh:mm a' }}</ng-container>
+        </td>
+        <td class="text-xs whitespace-pre-line">
+          <ng-container *ngIf="res.actualCheckInDateTime">{{ res.actualCheckInDateTime | date:'dd MMM yyyy' }}<br>{{ res.actualCheckInDateTime | date:'hh:mm a' }}</ng-container>
+        </td>
+        <td class="text-xs whitespace-pre-line">
+          <ng-container *ngIf="res.actualCheckOutDateTime">{{ res.actualCheckOutDateTime | date:'dd MMM yyyy' }}<br>{{ res.actualCheckOutDateTime | date:'hh:mm a' }}</ng-container>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
