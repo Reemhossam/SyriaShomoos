@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SyriaShomoos.Domain\SyriaShomoos.Domain.csproj" />
     <ProjectReference Include="..\SyriaShomoos.Application.Contracts\SyriaShomoos.Application.Contracts.csproj" />
+    <ProjectReference Include="..\SyriaShomoos.EntityFrameworkCore\SyriaShomoos.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +21,6 @@
     <PackageReference Include="Volo.Abp.Account.Application" Version="9.0.3" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="9.0.3" />
     <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="9.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Reservations\" />
   </ItemGroup>
 
 </Project>
