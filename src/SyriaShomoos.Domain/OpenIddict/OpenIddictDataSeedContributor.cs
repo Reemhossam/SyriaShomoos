@@ -108,12 +108,6 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             );
         }
 
-        
-        
-
-
-
-
         // Swagger Client
         var swaggerClientId = configurationSection["SyriaShomoos_Swagger:ClientId"];
         if (!swaggerClientId.IsNullOrWhiteSpace())
@@ -133,6 +127,48 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 clientUri: swaggerRootUrl,
                 logoUri: "/images/clients/swagger.svg"
             );
+        }
+        
+        // Nazeel Client
+        var nazeelClientId = configurationSection["Nazeel_App:ClientId"];
+        var nazeelClientSecret = configurationSection["Nazeel_App:ClientSecret"];
+
+        if (!nazeelClientId.IsNullOrWhiteSpace() && !nazeelClientSecret.IsNullOrWhiteSpace())
+        {
+            var existingApplication = await _applicationManager.FindByClientIdAsync(nazeelClientId);
+
+            if (existingApplication == null)
+            {
+                
+                var application = new OpenIddictApplicationDescriptor
+                {
+                    ClientId = nazeelClientId,
+                    ClientSecret = nazeelClientSecret,
+                    DisplayName = "Nazeel Service Client",
+                    Permissions =
+                    {
+                        OpenIddictConstants.Permissions.Endpoints.Token,
+                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials
+                    }
+                };
+
+
+                var buildInScopes = new[]
+                {
+                    OpenIddictConstants.Permissions.Scopes.Address, OpenIddictConstants.Permissions.Scopes.Email,
+                    OpenIddictConstants.Permissions.Scopes.Phone, OpenIddictConstants.Permissions.Scopes.Profile,
+                    OpenIddictConstants.Permissions.Scopes.Roles
+                };
+
+                foreach (var scope in buildInScopes)
+                {
+                    application.Permissions.Add(scope);
+                }
+
+                application.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "SyriaShomoos");
+
+                await _applicationManager.CreateAsync(application);
+            }
         }
 
 
