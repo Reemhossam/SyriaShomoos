@@ -18,5 +18,8 @@ namespace SyriaShomoos.Entities
     public string Nationality { get; set; }
     public int? VersionNumber { get; set; }
     public double? Rating { get; set; }
+    
+    public string DateOfBirth { get; set; }
+    
   }
 }

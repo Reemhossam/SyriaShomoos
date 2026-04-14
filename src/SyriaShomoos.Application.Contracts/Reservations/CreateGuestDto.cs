@@ -13,5 +13,8 @@ namespace SyriaShomoos.Reservations
     public string IdentityType { get; set; }
     public DateTime CheckInDate { get; set; }
     public string Nationality { get; set; }
+    
+    public string DateOfBirth { get; set; }
+    
   }
 }

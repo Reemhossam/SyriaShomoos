@@ -63,7 +63,8 @@ namespace SyriaShomoos.Reservations
                 IdentityNum = input.MainGuest.IdentityNum,
                 IdentityType = input.MainGuest.IdentityType,
                 Nationality = input.MainGuest.Nationality,
-                CheckInDate = input.MainGuest.CheckInDate
+                CheckInDate = input.MainGuest.CheckInDate,
+                DateOfBirth = input.MainGuest.DateOfBirth
             };
 
             reservation.Escorts = input.Escorts?.Select(x => new GuestEscort
@@ -73,7 +74,8 @@ namespace SyriaShomoos.Reservations
                 IdentityNum = x.IdentityNum,
                 IdentityType = x.IdentityType,
                 Nationality = x.Nationality,
-                CheckInDate = x.CheckInDate
+                CheckInDate = x.CheckInDate,
+                DateOfBirth = x.DateOfBirth
             }).ToList() ?? new List<GuestEscort>();
             if (isReservationExist)
             {

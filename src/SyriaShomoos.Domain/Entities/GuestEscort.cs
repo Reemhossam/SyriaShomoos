@@ -17,5 +17,8 @@ namespace SyriaShomoos.Entities
     public DateTime? CheckOutDate { get; set; }
     public string Nationality { get; set; }
     public double? Rating { get; set; }
+    
+    public string DateOfBirth { get; set; }
+    
   }
 }
