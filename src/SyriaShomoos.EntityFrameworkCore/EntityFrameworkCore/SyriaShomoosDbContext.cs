@@ -61,7 +61,6 @@ public class SyriaShomoosDbContext :
     public SyriaShomoosDbContext(DbContextOptions<SyriaShomoosDbContext> options)
         : base(options)
     {
-
     }
 
     public DbSet<Reservation> Reservations { get; set; }
@@ -85,28 +84,51 @@ public class SyriaShomoosDbContext :
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
 
-    /* Configure your own tables/entities inside here */
+        /* Configure your own tables/entities inside here */
+        
+        builder.Entity<Reservation>(b =>
+        {
+            b.ToTable("Reservations");
+            b.ConfigureByConvention();
 
-    //builder.Entity<YourEntity>(b =>
-    //{
-    //    b.ToTable(SyriaShomoosConsts.DbTablePrefix + "YourEntities", SyriaShomoosConsts.DbSchema);
-    //    b.ConfigureByConvention(); //auto configure for the base class props
-    //    //...
-    //});
-    builder.Entity<Reservation>(b =>
-    {
-      b.ToTable("Reservations");
-      b.ConfigureByConvention();
+            b.HasOne(r => r.MainGuest)
+                .WithOne()
+                .HasForeignKey<Guest>("ReservationId")
+                .OnDelete(DeleteBehavior.Cascade);
 
-      b.HasOne(r => r.MainGuest)
-       .WithOne()
-       .HasForeignKey<Guest>("ReservationId")
-       .OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(r => r.Escorts)
+                .WithOne()
+                .HasForeignKey(e => e.ReservationId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-      b.HasMany(r => r.Escorts)
-       .WithOne()
-       .HasForeignKey(e => e.ReservationId)
-       .OnDelete(DeleteBehavior.Cascade);
-    });
-  }
+            b.HasIndex(x => x.Status);
+            b.HasIndex(x => x.BranchSourceId);
+            b.HasIndex(x => x.ExternalIdentifier);
+            b.HasIndex(x => x.RoomNumber);
+            b.HasIndex(x => x.CheckInDate);
+            b.HasIndex(x => x.CheckOutDate);
+            b.HasIndex(x => x.CancelDate);
+            
+        });
+        
+        builder.Entity<Guest>(b =>
+        {
+            b.HasIndex(x => x.FullName);
+            b.HasIndex(x => x.IdentityNum);
+            b.HasIndex(x => x.Nationality);
+            b.HasIndex(x => x.CheckInDate);
+            b.HasIndex(x => x.CheckOutDate);
+            b.HasIndex(x => x.VersionNumber);
+
+        });
+        
+        builder.Entity<GuestEscort>(b =>
+        {
+            b.HasIndex(x => x.FullName);
+            b.HasIndex(x => x.IdentityNum);
+            b.HasIndex(x => x.Nationality);
+            b.HasIndex(x => x.CheckInDate);
+            b.HasIndex(x => x.CheckOutDate);
+        });
+    }
 }
