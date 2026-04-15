@@ -1,0 +1,122 @@
+@page
+@model Volo.Abp.Account.Web.Pages.Account.LoginModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IHtmlLocalizer<Volo.Abp.Account.Localization.AccountResource> L
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .custom-login-container {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F3FFDC;
+        }
+
+        .login-card {
+            display: flex;
+            width: 1000px;
+            height: 550px;
+            background: white;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+
+        .card-left {
+            flex: 1;
+            background: #3F4F2C;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-right {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px;
+            background: #3F4F2C;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="custom-login-container">
+
+        <div class="login-card">
+
+            <!-- LEFT -->
+            <div class="card-left">
+                <div>
+                    <h2>SyriaShomoos</h2>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="card-right">
+
+                <div class="title">Login</div>
+
+                <form method="post">
+
+                    <input asp-for="ReturnUrl" type="hidden" />
+
+                    <label>User Name</label>
+                    <input asp-for="LoginInput.UserNameOrEmailAddress" class="input" />
+
+                    <label>Password</label>
+                    <input asp-for="LoginInput.Password" type="password" class="input" />
+
+                    <div style="margin-top:10px;">
+                        <input asp-for="LoginInput.RememberMe" />
+                        <label>Remember Me</label>
+                    </div>
+
+                    <button type="submit" class="btn">Login</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -15,7 +15,10 @@ namespace SyriaShomoos.Entities
     public DateTime CheckInDate { get; set; }
     public DateTime? CancelDate { get; set; }
     public DateTime? CheckOutDate { get; set; }
+    public DateTime? ActualCheckInTime { get; set; }
+    public DateTime? ActualCheckOutTime { get; set; }
     public string RoomNumber { get; set; }
+    public string Floor { get; set; }
     public ReservationStatus Status { get; set; }
     public Guid BranchSourceId { get; set; }
     public BranchSource BranchSource { get; set; }

@@ -12,5 +12,6 @@ namespace SyriaShomoos.Entities
     public string UserId { get; set; }
     public string BranchCode { get; set; }
     public string BranchName { get; set; }
+    public string City { get; set; }
   }
 }

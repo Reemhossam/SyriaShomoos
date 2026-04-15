@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SyriaShomoos.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SyriaShomoos.Migrations
 {
     [DbContext(typeof(SyriaShomoosDbContext))]
-    partial class SyriaShomoosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260414105112_add_new")]
+    partial class add_new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,10 +37,6 @@ namespace SyriaShomoos.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("BranchName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -97,10 +96,6 @@ namespace SyriaShomoos.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CheckInDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -124,10 +119,6 @@ namespace SyriaShomoos.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ParentName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -219,12 +210,6 @@ namespace SyriaShomoos.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("ActualCheckInTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("ActualCheckOutTime")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<Guid>("BranchSourceId")
                         .HasColumnType("uuid");
 
@@ -267,10 +252,6 @@ namespace SyriaShomoos.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("Floor")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()

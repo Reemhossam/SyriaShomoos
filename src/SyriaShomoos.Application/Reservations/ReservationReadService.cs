@@ -22,18 +22,28 @@ namespace SyriaShomoos.Reservations
     public async Task<List<ReservationGridDto>> GetListAsync()
     {
       var query = await _repository.WithDetailsAsync(
-          x => x.MainGuest,
-          x => x.Escorts,
-          x => x.BranchSource);
+                 x => x.MainGuest,
+                 x => x.Escorts,
+                 x => x.BranchSource);
 
       return await query.Select(x => new ReservationGridDto
       {
         ExternalIdentifier = x.ExternalIdentifier,
         FullName = x.MainGuest.FullName,
+        GuestNationality = x.MainGuest.Nationality,
+        GuestParentName = x.MainGuest.ParentName,
+        GuestDateOfBirth = x.MainGuest.DateOfBirth,
+        GuestAddress = x.MainGuest.Address,
+        IdentityType = x.MainGuest.IdentityType,
         IdentityNum = x.MainGuest.IdentityNum,
+        PropertyName = x.BranchSource.BranchName,
+        City = x.BranchSource.City,
+        Floor = x.Floor,
         RoomNumber = x.RoomNumber,
         CheckInDate = x.MainGuest.CheckInDate,
         CheckOutDate = x.MainGuest.CheckOutDate,
+        ActualCheckInDate = x.ActualCheckInTime,
+        ActualCheckOutDate = x.ActualCheckOutTime,
         EscortsCount = x.Escorts.Count,
         Status = x.Status.ToString(),
         BranchCode = x.BranchSource.BranchCode
