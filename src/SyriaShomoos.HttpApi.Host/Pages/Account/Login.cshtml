@@ -1,6 +1,9 @@
 @page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
 @model Volo.Abp.Account.Web.Pages.Account.LoginModel
-@inject Microsoft.AspNetCore.Mvc.Localization.IHtmlLocalizer<Volo.Abp.Account.Localization.AccountResource> L
+@inject IHtmlLocalizer<AccountResource> L
+
 @{
     Layout = null;
 }
@@ -20,57 +23,75 @@
 
         .custom-login-container {
             min-height: 100vh;
-            width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #F3FFDC;
+            background-color: #F3FFDC;
         }
 
         .login-card {
             display: flex;
             width: 1000px;
+            max-width: 95%;
             height: 550px;
             background: white;
             box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            overflow: hidden;
         }
 
         .card-left {
             flex: 1;
-            background: #3F4F2C;
+            position: relative;
+        }
+
+        .shape-overlay {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .left-content {
+            position: absolute;
+            top: 50%;
+            left: 80px;
+            transform: translateY(-50%);
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+        }
+
+        .windows-icon {
+            width: 48px;
+            margin-bottom: 20px;
         }
 
         .card-right {
             flex: 1;
-            padding: 40px;
+            padding: 4rem 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
+        .login-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: #3F4F2C;
         }
 
-        .btn {
-            margin-top: 20px;
+        .custom-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        .btn-login {
             padding: 12px;
             background: #3F4F2C;
             color: white;
             border: none;
             cursor: pointer;
-        }
-
-        .title {
-            font-size: 22px;
-            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -83,40 +104,52 @@
 
             <!-- LEFT -->
             <div class="card-left">
-                <div>
-                    <h2>SyriaShomoos</h2>
+                <img src="~/images/login/login2bg.svg" class="shape-overlay" />
+
+                <div class="left-content">
+                    <img src="~/images/login/shield-check.svg" class="windows-icon" />
+                    <h2>SecureSyria System</h2>
                 </div>
             </div>
 
             <!-- RIGHT -->
             <div class="card-right">
 
-                <div class="title">Login</div>
+                <h2 class="login-title">@L["Login"]</h2>
 
-                <form method="post">
+                @if (Model.EnableLocalLogin)
+                {
+                    <form method="post">
 
-                    <input asp-for="ReturnUrl" type="hidden" />
+                        <input asp-for="ReturnUrl" type="hidden" />
 
-                    <label>User Name</label>
-                    <input asp-for="LoginInput.UserNameOrEmailAddress" class="input" />
+                        <input asp-for="LoginInput.UserNameOrEmailAddress"
+                               placeholder="Email"
+                               class="custom-input" />
 
-                    <label>Password</label>
-                    <input asp-for="LoginInput.Password" type="password" class="input" />
+                        <input asp-for="LoginInput.Password"
+                               type="password"
+                               placeholder="Password"
+                               class="custom-input"
+                               id="passwordInput" />
 
-                    <div style="margin-top:10px;">
-                        <input asp-for="LoginInput.RememberMe" />
-                        <label>Remember Me</label>
-                    </div>
-
-                    <button type="submit" class="btn">Login</button>
-
-                </form>
+                        <button type="submit" class="btn-login">
+                            @L["Login"]
+                        </button>
+                    </form>
+                }
 
             </div>
-
         </div>
-
     </div>
+
+    <script>
+        // toggle password
+        function togglePassword() {
+            var input = document.getElementById("passwordInput");
+            input.type = input.type === "password" ? "text" : "password";
+        }
+    </script>
 
 </body>
 </html>
