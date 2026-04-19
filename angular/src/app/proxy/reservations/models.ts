@@ -19,6 +19,27 @@ export interface CheckOutReservationDto {
   rating: number;
 }
 
+export interface ConvictFilterDto {
+  guestName?: string;
+  hotelName?: string;
+  idNumber?: string;
+  reservationNumber?: string;
+  address?: string;
+  nationality?: string;
+  dateOfBirth?: string;
+}
+
+export interface ConvictGridDto {
+  fullName?: string;
+  hotelName?: string;
+  nationality?: string;
+  idNumber?: string;
+  reservationNumber?: string;
+  address?: string;
+  dateOfBirth?: string;
+  note?: string;
+}
+
 export interface CreateEscortDto {
   fullName?: string;
   identityNum?: string;
@@ -35,6 +56,25 @@ export interface CreateGuestDto {
   checkInDate?: string;
   nationality?: string;
   dateOfBirth?: string;
+}
+
+export interface DashboardSummaryDto {
+  totalReservations: number;
+  flaggedReservations: number;
+  checkedIn: number;
+  checkedOut: number;
+  cancelled: number;
+  reservationsPerDay: ReservationPerDayDto[];
+}
+
+export interface ReservationFilterDto {
+  guestName?: string;
+  property?: string;
+  identityType?: string;
+  identityNumber?: string;
+  unitNumber?: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
 export interface ReservationGridDto {
@@ -57,4 +97,9 @@ export interface ReservationGridDto {
   escortsCount: number;
   status?: string;
   branchCode?: string;
+}
+
+export interface ReservationPerDayDto {
+  day?: string;
+  count: number;
 }

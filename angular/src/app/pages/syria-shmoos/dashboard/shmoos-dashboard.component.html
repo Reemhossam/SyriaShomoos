@@ -54,8 +54,22 @@
       </div>
       <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
     </div>
-    <div class="flex-grow mt-4 chart-area">
-      <p-chart type="bar" [data]="barData" [options]="barOptions" height="250px"></p-chart>
+    <div class="flex-grow mt-4 chart-area relative">
+      <p-chart *ngIf="hasBarData && !isLoading" type="bar" [data]="barData" [options]="barOptions" height="250px"></p-chart>
+      
+      <!-- Empty State -->
+      <div *ngIf="!hasBarData && !isLoading" class="flex flex-col items-center justify-center h-[250px] text-center">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+          <i class="pi pi-chart-bar text-2xl text-gray-400"></i>
+        </div>
+        <p class="m-0 text-sm font-bold text-gray-500">No data to view</p>
+        <p class="m-0 text-xs text-gray-400 mt-1">There are no reservations for the selected period.</p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex items-center justify-center h-[250px]">
+        <i class="pi pi-spin pi-spinner text-3xl title-color"></i>
+      </div>
     </div>
   </div>
 

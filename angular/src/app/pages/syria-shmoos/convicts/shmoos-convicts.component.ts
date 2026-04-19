@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
+import { ConvictFilterDto, ConvictGridDto, ReservationReadService } from '@proxy/reservations';
 
 @Component({
   selector: 'app-shmoos-convicts',
@@ -22,9 +23,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 })
 export class ShmoosConvictsComponent implements OnInit {
 
-  convicts: any[] = [];
-  allConvicts: any[] = [];
-  filteredConvicts: any[] = [];
+  convicts: ConvictGridDto[] = [];
+  allConvicts: ConvictGridDto[] = [];
 
   totalRecords = 0;
   isLoading = false;
@@ -43,90 +43,80 @@ export class ShmoosConvictsComponent implements OnInit {
   filterNationality: string | null = null;
   filterDateOfBirth: Date | null = null;
 
+  constructor(private reservationReadService: ReservationReadService) {}
+
   ngOnInit() {
+    this.getConvicts();
+  }
 
-    this.allConvicts = [
-      {
-        guestName: 'Ahmad Al-Mansour',
-        hotelName: 'Four Seasons Damascus',
-        dateOfBirth: '12/05/1984',
-        nationality: 'Syrian',
-        idNumber: '01020039485',
-        reservation: '#99281',
-        address: 'Mazzeh West Villas, Damascus',
-        hasReview: true
+  getConvicts(filter: ConvictFilterDto = {}) {
+    this.isLoading = true;
+    this.reservationReadService.getConvicts(filter).subscribe({
+      next: (res: ConvictGridDto[]) => {
+        if (res.length === 0) {
+          // Add 5 mock data if response is empty
+          this.allConvicts = [
+            {
+              fullName: 'Ahmad Al-Mansour',
+              hotelName: 'Four Seasons Damascus',
+              dateOfBirth: '12/05/1984',
+              nationality: 'Syrian',
+              idNumber: '01020039485',
+              reservationNumber: '#99281',
+              address: 'Mazzeh West Villas, Damascus',
+              note: 'Requires Review'
+            },
+            {
+              fullName: 'Samir Kabbani',
+              hotelName: 'Sheraton Aleppo',
+              dateOfBirth: '25/08/1976',
+              nationality: 'Syrian',
+              idNumber: '02048572931',
+              reservationNumber: '#88372',
+              address: 'Al-Jamiliyah Street, Aleppo'
+            },
+            {
+              fullName: 'Omar Hadid',
+              hotelName: 'Blue Tower Hotel',
+              dateOfBirth: '03/11/1992',
+              nationality: 'Lebanese',
+              idNumber: 'LB-9920182',
+              reservationNumber: '#10293',
+              address: 'Hamra Street, Beirut',
+              note: 'VIP Guest'
+            },
+            {
+              fullName: 'Layla Yassin',
+              hotelName: 'Dama Rose Hotel',
+              dateOfBirth: '19/02/1988',
+              nationality: 'Syrian',
+              idNumber: '01044392011',
+              reservationNumber: '#44521',
+              address: 'Abu Rummaneh, Damascus'
+            },
+            {
+              fullName: 'Khalid Al-Omar',
+              hotelName: 'Tishreen Hotel',
+              dateOfBirth: '30/06/1980',
+              nationality: 'Jordanian',
+              idNumber: 'JO-2283910',
+              reservationNumber: '#33091',
+              address: 'Amman, Jordan'
+            }
+          ];
+        } else {
+          this.allConvicts = res;
+        }
+
+        this.pageIndex = 0;
+        this.totalRecords = this.allConvicts.length;
+        this.loadPage();
       },
-      {
-        guestName: 'Samir Kabbani',
-        hotelName: 'Sheraton Aleppo',
-        dateOfBirth: '25/08/1976',
-        nationality: 'Syrian',
-        idNumber: '02048572931',
-        reservation: '#88372',
-        address: 'Al-Jamiliyah Street, Aleppo',
-        hasReview: false
-      },
-      {
-        guestName: 'Omar Hadid',
-        hotelName: 'Blue Tower Hotel',
-        dateOfBirth: '03/11/1992',
-        nationality: 'Lebanese',
-        idNumber: 'LB-9920182',
-        reservation: '#10293',
-        address: 'Hamra Street, Beirut',
-        hasReview: true
-      },
-      {
-        guestName: 'Layla Yassin',
-        hotelName: 'Dama Rose Hotel',
-        dateOfBirth: '19/02/1988',
-        nationality: 'Syrian',
-        idNumber: '01044392011',
-        reservation: '#44521',
-        address: 'Abu Rummaneh, Damascus',
-        hasReview: false
-      },
-      {
-        guestName: 'Khalid Al-Omar',
-        hotelName: 'Tishreen Hotel',
-        dateOfBirth: '30/06/1980',
-        nationality: 'Jordanian',
-        idNumber: 'JO-2283910',
-        reservation: '#33091',
-        address: 'Amman, Jordan',
-        hasReview: false
-      },
-      {
-        guestName: 'Mariam Saleh',
-        hotelName: 'Safir Hotel Homs',
-        dateOfBirth: '14/12/1995',
-        nationality: 'Syrian',
-        idNumber: '04022938475',
-        reservation: '#55283',
-        address: 'Inshaat District, Homs',
-        hasReview: false
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Error fetching convicts:', err);
       }
-    ];
-
-    this.filteredConvicts = [...this.allConvicts];
-    // Adding multiple items to test pagination
-    for (let i = 0; i < 20; i++) {
-        this.allConvicts.push({
-            guestName: 'Test Convict ' + i,
-            hotelName: 'Test Hotel ' + i,
-            dateOfBirth: '01/01/1990',
-            nationality: 'Syrian',
-            idNumber: '0000000000' + i,
-            reservation: '#1000' + i,
-            address: 'Test Address ' + i,
-            hasReview: i % 2 === 0
-        });
-    }
-    
-    this.filteredConvicts = [...this.allConvicts];
-    this.totalRecords = this.filteredConvicts.length;
-
-    this.loadPage();
+    });
   }
 
   loadPage() {
@@ -138,9 +128,9 @@ export class ShmoosConvictsComponent implements OnInit {
       const start = this.pageIndex * this.pageSize;
       const end = start + this.pageSize;
 
-      this.convicts = this.filteredConvicts.slice(start, end);
+      this.convicts = this.allConvicts.slice(start, end);
 
-      this.totalRecords = this.filteredConvicts.length;
+      this.totalRecords = this.allConvicts.length;
 
       this.isLoading = false;
 
@@ -169,31 +159,28 @@ export class ShmoosConvictsComponent implements OnInit {
     this.filterNationality = null;
     this.filterDateOfBirth = null;
 
-    this.filteredConvicts = [...this.allConvicts];
-
-    this.pageIndex = 0;
-
-    this.loadPage();
+    this.getConvicts();
   }
 
   onSearch() {
+    let formattedDate = undefined;
+    if (this.filterDateOfBirth) {
+      const d = new Date(this.filterDateOfBirth);
+      // Create an ISO string for the date part
+      formattedDate = d.toISOString().split('T')[0];
+    }
 
-    this.filteredConvicts = this.allConvicts.filter(c => {
+    const filter: ConvictFilterDto = {
+      guestName: this.filterGuestName || undefined,
+      hotelName: this.filterHotelName || undefined,
+      idNumber: this.filterIdNumber || undefined,
+      reservationNumber: this.filterReservation || undefined,
+      address: this.filterAddress || undefined,
+      nationality: this.filterNationality || undefined,
+      dateOfBirth: formattedDate
+    };
 
-      return (
-        (!this.filterGuestName || c.guestName.toLowerCase().includes(this.filterGuestName.toLowerCase())) &&
-        (!this.filterHotelName || c.hotelName.toLowerCase().includes(this.filterHotelName.toLowerCase())) &&
-        (!this.filterIdNumber || c.idNumber.includes(this.filterIdNumber)) &&
-        (!this.filterReservation || c.reservation.includes(this.filterReservation)) &&
-        (!this.filterAddress || c.address.toLowerCase().includes(this.filterAddress.toLowerCase())) &&
-        (!this.filterNationality || c.nationality.toLowerCase().includes(this.filterNationality.toLowerCase()))
-      );
-
-    });
-
-    this.pageIndex = 0;
-
-    this.loadPage();
+    this.getConvicts(filter);
   }
 
 }

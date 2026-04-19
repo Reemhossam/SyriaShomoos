@@ -102,16 +102,16 @@
       
       <ng-template #body let-res let-last="last">
         <tr [ngClass]="{'border-b custom-border': !last, 'border-b': last}">
-          <td class="font-bold text-gray-800">{{ res.guestName }}</td>
+          <td class="font-bold text-gray-800">{{ res.fullName }}</td>
           <td class="text-gray-600">{{ res.hotelName }}</td>
           <td class="text-gray-600">{{ res.dateOfBirth }}</td>
           <td class="text-gray-600">{{ res.nationality }}</td>
           <td class="text-gray-600 font-medium">{{ res.idNumber }}</td>
-          <td class="text-gray-600">{{ res.reservation }}</td>
+          <td class="text-gray-600">{{ res.reservationNumber }}</td>
           <td class="text-gray-600 truncate max-w-xs">{{ res.address }}</td>
           <td class="text-center flex justify-center">
-             <button *ngIf="res.hasReview" class="btn-review">Review</button>
-             <span *ngIf="!res.hasReview" class="text-gray-400">&mdash;</span>
+             <button *ngIf="res.note" class="btn-review">Review</button>
+             <span *ngIf="!res.note" class="text-gray-400">&mdash;</span>
           </td>
         </tr>
       </ng-template>
