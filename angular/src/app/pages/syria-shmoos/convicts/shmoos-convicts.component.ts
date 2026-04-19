@@ -29,15 +29,16 @@ export class ShmoosConvictsComponent implements OnInit {
   totalRecords = 0;
   isLoading = false;
 
-  pageSize = 7;
+  pageSize = 6;
   pageIndex = 0;
 
-  showFilter = false;
+  showFilter = true; // Show filter by default as in design
 
   // Filters
   filterGuestName: string | null = null;
+  filterHotelName: string | null = null;
   filterIdNumber: string | null = null;
-  filterIdSerial: string | null = null;
+  filterReservation: string | null = null;
   filterAddress: string | null = null;
   filterNationality: string | null = null;
   filterDateOfBirth: Date | null = null;
@@ -46,97 +47,82 @@ export class ShmoosConvictsComponent implements OnInit {
 
     this.allConvicts = [
       {
-        guestName: 'Ahmed Emad',
-        dateOfBirth: '22/10/1987',
-        nationality: 'Egyptian',
-        idNumber: '24344643221',
-        idSerial: '23546431',
-        address: 'Elseddik street, Cairo',
-        isFlagged: false
+        guestName: 'Ahmad Al-Mansour',
+        hotelName: 'Four Seasons Damascus',
+        dateOfBirth: '12/05/1984',
+        nationality: 'Syrian',
+        idNumber: '01020039485',
+        reservation: '#99281',
+        address: 'Mazzeh West Villas, Damascus',
+        hasReview: true
       },
       {
-        guestName: 'Mohamed Ali',
-        dateOfBirth: '14/03/1990',
-        nationality: 'Egyptian',
-        idNumber: '24344643222',
-        idSerial: '23546432',
-        address: 'Tahrir street, Cairo',
-        isFlagged: true
+        guestName: 'Samir Kabbani',
+        hotelName: 'Sheraton Aleppo',
+        dateOfBirth: '25/08/1976',
+        nationality: 'Syrian',
+        idNumber: '02048572931',
+        reservation: '#88372',
+        address: 'Al-Jamiliyah Street, Aleppo',
+        hasReview: false
       },
       {
-        guestName: 'Hassan Mahmoud',
-        dateOfBirth: '05/07/1985',
-        nationality: 'Egyptian',
-        idNumber: '24344643223',
-        idSerial: '23546433',
-        address: 'Ramses street, Cairo',
-        isFlagged: false
+        guestName: 'Omar Hadid',
+        hotelName: 'Blue Tower Hotel',
+        dateOfBirth: '03/11/1992',
+        nationality: 'Lebanese',
+        idNumber: 'LB-9920182',
+        reservation: '#10293',
+        address: 'Hamra Street, Beirut',
+        hasReview: true
       },
       {
-        guestName: 'Mahmoud Adel',
-        dateOfBirth: '18/11/1992',
-        nationality: 'Egyptian',
-        idNumber: '24344643224',
-        idSerial: '23546434',
-        address: 'Nasr City, Cairo',
-        isFlagged: true
+        guestName: 'Layla Yassin',
+        hotelName: 'Dama Rose Hotel',
+        dateOfBirth: '19/02/1988',
+        nationality: 'Syrian',
+        idNumber: '01044392011',
+        reservation: '#44521',
+        address: 'Abu Rummaneh, Damascus',
+        hasReview: false
       },
       {
-        guestName: 'Omar Khaled',
-        dateOfBirth: '02/01/1988',
-        nationality: 'Egyptian',
-        idNumber: '24344643225',
-        idSerial: '23546435',
-        address: 'Heliopolis, Cairo',
-        isFlagged: false
+        guestName: 'Khalid Al-Omar',
+        hotelName: 'Tishreen Hotel',
+        dateOfBirth: '30/06/1980',
+        nationality: 'Jordanian',
+        idNumber: 'JO-2283910',
+        reservation: '#33091',
+        address: 'Amman, Jordan',
+        hasReview: false
       },
       {
-        guestName: 'Karim Samy',
-        dateOfBirth: '30/09/1991',
-        nationality: 'Egyptian',
-        idNumber: '24344643226',
-        idSerial: '23546436',
-        address: 'Maadi, Cairo',
-        isFlagged: false
-      },
-      {
-        guestName: 'Youssef Nader',
-        dateOfBirth: '12/12/1986',
-        nationality: 'Egyptian',
-        idNumber: '24344643227',
-        idSerial: '23546437',
-        address: 'Dokki, Giza',
-        isFlagged: true
-      },
-      {
-        guestName: 'Tarek Ibrahim',
-        dateOfBirth: '08/06/1989',
-        nationality: 'Egyptian',
-        idNumber: '24344643228',
-        idSerial: '23546438',
-        address: 'Mohandessin, Giza',
-        isFlagged: false
-      },
-      {
-        guestName: 'Mostafa Hany',
-        dateOfBirth: '19/04/1993',
-        nationality: 'Egyptian',
-        idNumber: '24344643229',
-        idSerial: '23546439',
-        address: 'Faisal street, Giza',
-        isFlagged: false
-      },
-      {
-        guestName: 'Ali Fathy',
-        dateOfBirth: '27/08/1984',
-        nationality: 'Egyptian',
-        idNumber: '24344643230',
-        idSerial: '23546440',
-        address: 'Haram street, Giza',
-        isFlagged: true
+        guestName: 'Mariam Saleh',
+        hotelName: 'Safir Hotel Homs',
+        dateOfBirth: '14/12/1995',
+        nationality: 'Syrian',
+        idNumber: '04022938475',
+        reservation: '#55283',
+        address: 'Inshaat District, Homs',
+        hasReview: false
       }
     ];
 
+    this.filteredConvicts = [...this.allConvicts];
+    // Adding multiple items to test pagination
+    for (let i = 0; i < 20; i++) {
+        this.allConvicts.push({
+            guestName: 'Test Convict ' + i,
+            hotelName: 'Test Hotel ' + i,
+            dateOfBirth: '01/01/1990',
+            nationality: 'Syrian',
+            idNumber: '0000000000' + i,
+            reservation: '#1000' + i,
+            address: 'Test Address ' + i,
+            hasReview: i % 2 === 0
+        });
+    }
+    
     this.filteredConvicts = [...this.allConvicts];
     this.totalRecords = this.filteredConvicts.length;
 
@@ -176,8 +162,9 @@ export class ShmoosConvictsComponent implements OnInit {
   clearFilters() {
 
     this.filterGuestName = null;
+    this.filterHotelName = null;
     this.filterIdNumber = null;
-    this.filterIdSerial = null;
+    this.filterReservation = null;
     this.filterAddress = null;
     this.filterNationality = null;
     this.filterDateOfBirth = null;
@@ -195,8 +182,9 @@ export class ShmoosConvictsComponent implements OnInit {
 
       return (
         (!this.filterGuestName || c.guestName.toLowerCase().includes(this.filterGuestName.toLowerCase())) &&
+        (!this.filterHotelName || c.hotelName.toLowerCase().includes(this.filterHotelName.toLowerCase())) &&
         (!this.filterIdNumber || c.idNumber.includes(this.filterIdNumber)) &&
-        (!this.filterIdSerial || c.idSerial.includes(this.filterIdSerial)) &&
+        (!this.filterReservation || c.reservation.includes(this.filterReservation)) &&
         (!this.filterAddress || c.address.toLowerCase().includes(this.filterAddress.toLowerCase())) &&
         (!this.filterNationality || c.nationality.toLowerCase().includes(this.filterNationality.toLowerCase()))
       );

@@ -1,104 +1,135 @@
 <div>
   <!-- Toolbar Actions -->
-  <div class="flex justify-between items-center mb-4">
+  <div class="header-container flex justify-between items-end mb-6">
+    <div class="page-title-section">
+      <div class="breadcrumb mb-1">
+        <span class="text-primary">Operations </span> <i class="pi pi-angle-right" style="font-size: 0.7rem;"></i> <span class="text-primary font-bold">RECORDS</span>
+      </div>
+      <h1 class="page-title">Guest & reservation records</h1>
+    </div>
     <div class="filter-actions flex gap-3 ml-auto">
       <button pButton label="Export To Excel" icon="pi pi-file-excel" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg"></button>
-      <button pButton label="Filter" icon="pi pi-filter" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg" (click)="toggleFilter()"></button>
+      <button [ngClass]="{'bg-primary': showFilter}" pButton label="Filter" icon="pi pi-filter" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg" (click)="toggleFilter()"></button>
     </div>
   </div>
 
   <!-- Filter Grid -->
   <div *ngIf="showFilter" class="filter-panel bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">Guest Name</label>
-        <input pInputText type="text" placeholder="Guest Name" class="w-full" [(ngModel)]="filterGuestName" />
+        <input pInputText type="text" placeholder="Guest Name" class="w-full custom-input" [(ngModel)]="filterGuestName" />
       </div>
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">Property Name</label>
-        <input pInputText type="text" placeholder="Property" class="w-full" [(ngModel)]="filterPropertyName" />
+        <input pInputText type="text" placeholder="Property" class="w-full custom-input" [(ngModel)]="filterPropertyName" />
       </div>
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">Guest ID Type</label>
-        <p-select [options]="idTypesList" placeholder="Guest ID Type" styleClass="w-full" [(ngModel)]="filterGuestIdType"></p-select>
+        <p-select [options]="idTypesList" placeholder="Guest ID Type" styleClass="w-full custom-input" [(ngModel)]="filterGuestIdType"></p-select>
       </div>
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">Unit Number</label>
-        <input pInputText type="text" placeholder="Unit Number" class="w-full" [(ngModel)]="filterUnitNumber" />
+        <input pInputText type="text" placeholder="Unit Number" class="w-full custom-input" [(ngModel)]="filterUnitNumber" />
       </div>
+
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">ID Number</label>
-        <input pInputText type="text" placeholder="ID Number" class="w-full" [(ngModel)]="filterIdNumber" />
+        <input pInputText type="text" placeholder="ID Number" class="w-full custom-input" [(ngModel)]="filterIdNumber" />
       </div>
 
-      <div class="flex gap-2 min-w-0 md:col-start-3 md:col-span-2">
-        <div class="flex flex-col gap-2 w-1/2">
+        <div class="flex flex-col gap-2">
           <label class="text-sm font-semibold text-gray-600">From</label>
-          <p-datepicker styleClass="w-full" [iconDisplay]="'input'" [showIcon]="true" inputId="from-date" [(ngModel)]="filterDateFrom"></p-datepicker>
+          <p-datepicker styleClass="w-full custom-input" [iconDisplay]="'input'" [showIcon]="true" inputId="from-date" [(ngModel)]="filterDateFrom"></p-datepicker>
         </div>
-        <div class="flex flex-col gap-2 w-1/2">
+        <div class="flex flex-col gap-2">
           <label class="text-sm font-semibold text-gray-600">To</label>
-          <p-datepicker styleClass="w-full" [iconDisplay]="'input'" [showIcon]="true" inputId="to-date" [(ngModel)]="filterDateTo"></p-datepicker>
+          <p-datepicker styleClass="w-full custom-input" [iconDisplay]="'input'" [showIcon]="true" inputId="to-date" [(ngModel)]="filterDateTo"></p-datepicker>
         </div>
-      </div>
 
-      <div class="col-span-1 md:col-span-4 flex items-end justify-end gap-2 mt-2">
-        <button pButton label="" icon="pi pi-times" class="p-button-outlined border-gray-300 text-gray-500 bg-white px-4" (click)="clearFilters()"></button>
-        <button pButton label="Search" icon="pi pi-search" class="p-button-outlined border-gray-300 text-gray-700 bg-white px-6" (click)="onSearch()"></button>
-      </div>
+        <div class="flex items-end justify-end gap-2">
+          <button pButton label="Clear" icon="pi pi-times" class="p-button-outlined border-gray-300 text-gray-500 bg-white px-4" (click)="clearFilters()"></button>
+          <button pButton label="Search" icon="pi pi-search" class="p-button-outlined border-gray-300 text-gray-700 bg-white px-6 serch-btn" (click)="onSearch()"></button>
+       </div>
     </div>
   </div>
 
   <!-- Data Table -->
-  <p-table
-    [value]="reservations"
-    [paginator]="true"
-    [lazy]="true"
-    [rows]="pageSize"
-    [totalRecords]="totalRecords"
-    [loading]="isLoading"
-    (onLazyLoad)="onPageChange($event)"
-    [rowsPerPageOptions]="[7, 14, 21]"
-    styleClass="p-datatable-sm"
-    class="custom-table w-full">
-
-    <ng-template #header>
-      <tr>
-        <th class="text-xs text-gray-500 font-medium">Guest name</th>
-        <th class="text-xs text-gray-500 font-medium whitespace-nowrap">ID Type</th>
-        <th class="text-xs text-gray-500 font-medium whitespace-nowrap">ID No.</th>
-        <th class="text-xs text-gray-500 font-medium">Property</th>
-        <th class="text-xs text-gray-500 font-medium">Floor</th>
-        <th class="text-xs text-gray-500 font-medium whitespace-nowrap">Unit No.</th>
-        <th class="text-xs text-gray-500 font-medium">Check-in date time</th>
-        <th class="text-xs text-gray-500 font-medium">Check-out date time</th>
-        <th class="text-xs text-gray-500 font-medium">Actual Check-in date time</th>
-        <th class="text-xs text-gray-500 font-medium">Actual Check-out date time</th>
-      </tr>
-    </ng-template>
-    
-    <ng-template #body let-res>
-      <tr class="border-b border-gray-100 font-semibold text-sm" [ngClass]="{'text-red-500': res.isConvictFlagged, 'text-gray-800': !res.isConvictFlagged}">
-        <td class="py-5 whitespace-nowrap">{{ res.guestName }}</td>
-        <td class="whitespace-nowrap">{{ getGuestIdTypeName(res.guestIdType) }}</td>
-        <td class="whitespace-nowrap">{{ res.idNumber }}</td>
-        <td>{{ res.propertyName }}</td>
-        <td>{{ res.floor }}</td>
-        <td>{{ res.unitNo }}</td>
-        <td class="text-xs whitespace-pre-line">
-          <ng-container *ngIf="res.checkInDateTime">{{ res.checkInDateTime | date:'dd MMM yyyy' }}<br>{{ res.checkInDateTime | date:'hh:mm a' }}</ng-container>
-        </td>
-        <td class="text-xs whitespace-pre-line">
-          <ng-container *ngIf="res.checkOutDateTime">{{ res.checkOutDateTime | date:'dd MMM yyyy' }}<br>{{ res.checkOutDateTime | date:'hh:mm a' }}</ng-container>
-        </td>
-        <td class="text-xs whitespace-pre-line">
-          <ng-container *ngIf="res.actualCheckInDateTime">{{ res.actualCheckInDateTime | date:'dd MMM yyyy' }}<br>{{ res.actualCheckInDateTime | date:'hh:mm a' }}</ng-container>
-        </td>
-        <td class="text-xs whitespace-pre-line">
-          <ng-container *ngIf="res.actualCheckOutDateTime">{{ res.actualCheckOutDateTime | date:'dd MMM yyyy' }}<br>{{ res.actualCheckOutDateTime | date:'hh:mm a' }}</ng-container>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <div class="table-container bg-white shadow-sm border border-gray-200">
+    <p-table
+      [value]="reservations"
+      [paginator]="true"
+      [lazy]="true"
+      [rows]="pageSize"
+      [totalRecords]="totalRecords"
+      [loading]="isLoading"
+      (onLazyLoad)="onPageChange($event)"
+      [rowsPerPageOptions]="[5, 10, 20, 50]"
+      styleClass="p-datatable-sm custom-table"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
+      paginatorTemplate="CurrentPageReport RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+      class="w-full">
+  
+      <ng-template #header>
+        <tr>
+          <th class="whitespace-nowrap text-center">GUEST NAME</th>
+          <th class="whitespace-nowrap text-center">NATIONALITY</th>
+          <th class="whitespace-nowrap text-center">PARENT NAME</th>
+          <th class="whitespace-nowrap text-center">DATE OF BIRTH</th>
+          <th class="whitespace-nowrap text-center">ADDRESS</th>
+          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">GUEST ID TYPE</th>
+          <th class="whitespace-nowrap text-center">ID NO.</th>
+          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">PROPERTY</th>
+          <th class="whitespace-nowrap text-center">CITY</th>
+          <th class="whitespace-nowrap text-center">FLOOR</th>
+          <th class="whitespace-nowrap text-center">UNIT</th>
+          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">CHECK-IN</th>
+          <th class="whitespace-nowrap text-center">CHECK-OUT</th>
+          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">ACTUAL IN</th>
+          <th class="whitespace-nowrap text-center">ACTUAL OUT</th>
+        </tr>
+      </ng-template>
+      
+      <ng-template #body let-res let-last="last">
+        <tr [ngClass]="{'border-b custom-border': !last, 'border-b border-gray-200': last}">
+          <td class="font-bold text-primary">{{ res.fullName || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.guestNationality || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.guestParentName || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.guestDateOfBirth || '-' }}</td>
+          <td class="text-gray-600 max-w-[120px] truncate" [title]="res.guestAddress || ''">{{ res.guestAddress || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ getGuestIdTypeName(res.identityType) }}</td>
+          <td class="text-gray-600 font-medium text-center">{{ res.identityNum || '-' }}</td>
+          <td class="text-gray-600 max-w-[100px] truncate text-center" [title]="res.propertyName || ''">{{ res.propertyName || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.city || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.floor || '-' }}</td>
+          <td class="text-gray-800 font-bold text-center">{{ res.roomNumber || '-' }}</td>
+          <td class="text-xs text-gray-500 whitespace-nowrap text-center">
+            <ng-container *ngIf="res.checkInDate">
+              {{ res.checkInDate | date:'yyyy-MM-dd' }}<br/>{{ res.checkInDate | date:'HH:mm' }}
+            </ng-container>
+            <span *ngIf="!res.checkInDate">-</span>
+          </td>
+          <td class="text-xs text-gray-500 whitespace-nowrap text-center">
+            <ng-container *ngIf="res.checkOutDate">
+               {{ res.checkOutDate | date:'yyyy-MM-dd' }}<br/>{{ res.checkOutDate | date:'HH:mm' }}
+            </ng-container>
+            <span *ngIf="!res.checkOutDate">-</span>
+          </td>
+          <td class="text-xs font-semibold text-primary whitespace-nowrap text-center">
+            <ng-container *ngIf="res.actualCheckInDate">
+               {{ res.actualCheckInDate | date:'yyyy-MM-dd' }}<br/>{{ res.actualCheckInDate | date:'HH:mm' }}
+            </ng-container>
+            <span *ngIf="!res.actualCheckInDate">-</span>
+          </td>
+          <td class="text-xs font-semibold text-primary whitespace-nowrap text-center">
+            <ng-container *ngIf="res.actualCheckOutDate">
+               {{ res.actualCheckOutDate | date:'yyyy-MM-dd' }}<br/>{{ res.actualCheckOutDate | date:'HH:mm' }}
+            </ng-container>
+            <span *ngIf="!res.actualCheckOutDate">-</span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

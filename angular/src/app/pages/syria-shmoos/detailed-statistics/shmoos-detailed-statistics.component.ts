@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import { ReservationReadService } from '@proxy/reservations';
+import { ReservationGridDto, ReservationReadService } from '@proxy/reservations';
 
 export enum GuestIdType {
   NationalId = 1,
@@ -27,8 +27,8 @@ export enum GuestIdType {
 export class ShmoosDetailedStatisticsComponent implements OnInit {
   reservationReadService = inject(ReservationReadService);
 
-  showFilter = false;
-  reservations: any[] = [];
+  showFilter = true;
+  reservations: ReservationGridDto[] = [];
   totalRecords = 0;
   isLoading = false;
 
@@ -83,10 +83,36 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
 // payload to get with filters and pagination
 
     this.reservationReadService.getList().subscribe({
-      next: (res: any) => {
+      next: (res: ReservationGridDto[]) => {
         // console.log('Real Shomoos API Data:', res);
-        this.reservations = res.data?.result || [];
-        this.totalRecords = res.data?.paging?.totalCount ?? this.reservations.length;
+        this.reservations = res || [];
+        
+        if (this.reservations.length === 0) {
+          const mockItems: any[] = [];
+          for (let i = 1; i <= 5; i++) {
+            mockItems.push({
+              fullName: `Mock Guest ${i}`,
+              guestNationality: 'Syrian',
+              guestParentName: `Parent ${i}`,
+              guestDateOfBirth: '1990-01-01',
+              guestAddress: 'Damascus, Syria',
+              identityType: 1,
+              identityNum: `9876543210${i}`,
+              propertyName: `Mock Hotel ${i}`,
+              city: 'Damascus',
+              floor: `0${i}`,
+              roomNumber: `${i}0${i}`,
+              checkInDate: new Date().toISOString(),
+              checkOutDate: new Date().toISOString(),
+              actualCheckInDate: new Date().toISOString(),
+              actualCheckOutDate: new Date().toISOString(),
+              escortsCount: 0
+            });
+          }
+          this.reservations = mockItems as ReservationGridDto[];
+        }
+
+        this.totalRecords = this.reservations.length;
         this.isLoading = false;
       },
       error: (err: any) => {
@@ -130,7 +156,9 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     return `${y}-${m}-${d}`;
   }
 
-  getGuestIdTypeName(id: number): string {
-    return this.idTypesList.find(t => t.value === id)?.label || id?.toString();
+  getGuestIdTypeName(id: any): string {
+    if (!id) return '-';
+    // Handle both numbers and strings for safety
+    return this.idTypesList.find(t => t.value === Number(id))?.label || id?.toString();
   }
 }

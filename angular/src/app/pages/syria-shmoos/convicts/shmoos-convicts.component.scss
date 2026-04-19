@@ -1,40 +1,275 @@
+@import '../../../../styles/variables';
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+
+
+.breadcrumb {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: $color-primary;
+  
+  
+  .text-primary {
+    color: $color-primary;
+  }
+}
+
+.page-title {
+  color: $color-primary;
+  font-size: 30px; /* 36px */
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.btn-filter {
+  color: $color-primary !important;
+  border-color: $color-primary !important;
+  font-weight: 700;
+  padding: 0.5rem 1.5rem !important;
+  border-radius: 8px;
+  background-color: transparent !important;
+  
+  &:hover {
+    background-color: rgba($color-primary, 0.05) !important;
+  }
+}
+
+.filter-card {
+  border-radius: 12px;
+  background: white;
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: $color-gray;
+  letter-spacing: 0.05em;
+}
+
+.custom-input, ::ng-deep .custom-datepicker .p-inputtext {
+  border-radius: 8px;
+  border: 1px solid $color-border;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: $color-gray;
+  background: $color-light-2;
+  transition: all 0.2s;
+  
+  &::placeholder {
+    color: $color-placeholder;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 1px $color-primary;
+  }
+}
+
+.btn-clear {
+  color: $color-gray;
+  font-weight: 700;
+  background: transparent;
+  padding: 0.75rem 1rem;
+  border: none;
+  cursor: pointer;
+  
+  i {
+    font-size: 1.1rem;
+  }
+  
+  &:hover {
+    color: $color-dark;
+  }
+}
+
+.btn-search {
+  background-color: $color-primary !important;
+  border-color: $color-primary !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 0.75rem 2rem !important;
+  border-radius: 8px;
+  
+  &:hover {
+    background-color: darken($color-primary, 5%) !important;
+  }
+}
+
+.table-container {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 ::ng-deep .custom-table {
   .p-datatable-header, .p-datatable-wrapper {
     border: none;
   }
   
   .p-datatable-thead > tr > th {
-    background-color: transparent;
-    padding: 1.5rem 0.5rem;
-    border-bottom: 2px solid #f8fafc;
+    background-color: $color-primary;
+    color: $color-light;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 1.25rem 1rem;
+    border: none;
+    text-transform: uppercase;
   }
   
-  .p-datatable-tbody > tr > td {
-    padding: 1.5rem 0.5rem;
-    border-bottom: 1px solid #f8fafc;
+  .p-datatable-tbody > tr {
+    background: transparent;
+    
+    &.custom-border > td {
+      border-bottom: 2px solid $table-border-color;
+    }
+    
+    > td {
+      padding: 1.5rem 1rem;
+      font-size: 0.95rem;
+      border: none;
+      
+      &.font-bold {
+        font-weight: 700;
+        color: $color-dark;
+      }
+    }
+    
+    // &:last-child > td {
+    //   border-bottom: 1px solid #e2e8f0;
+    // }
   }
 
   .p-paginator {
-    margin-top: 1rem;
-    background-color: transparent;
+    background-color: #fbf9f3;
     border: none;
+    padding: 1rem;
+    border-top: 1px solid #e2e8f0;
+    margin: 0;
+    justify-content: center;
+
+    .p-paginator-current {
+        color: $color-gray;
+        font-size: 0.9rem;
+    }
+
+    .p-dropdown {
+        border-radius: 6px;
+        .p-dropdown-label {
+            padding: 0.25rem 0.5rem;
+        }
+    }
+    .p-paginator-page.p-paginator-page-selected{
+      background: $color-primary !important;
+      color: $color-white !important;
+    }
+
     .p-paginator-pages .p-paginator-page.p-highlight {
-      background: #3F4F2C;
+      background: $color-primary;
       color: white;
-      border-radius: 4px;
+      border-radius: 6px;
     }
     .p-paginator-page, .p-paginator-next, .p-paginator-prev, .p-paginator-first, .p-paginator-last {
-      color: #85A95D;
+      color: $color-gray;
+      border-radius: 6px;
+      min-width: 2rem;
+      height: 2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      
       &:hover {
-        background: #f1f5f9;
-        border-radius: 4px;
+        background: #e2e8f0;
+      }
+      &.p-disabled {
+        opacity: 0.5;
       }
     }
   }
 }
 
+.btn-review {
+  border: 1px solid $color-secondary;
+  color: $color-gray;
+  background: $color-light-2;
+  border-radius: 20px;
+  padding: 0.25rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: $color-secondary;
+    color: white;
+  }
+}
 
-::ng-deep .p-button-outlined{
-    color: #3f4f2c !important;
-    border-color: #3f4f2c !important;
+/* Adjust layout structure inline for small screens to ensure wrapping works correctly */
+/* and handle rows per page dropdown */
+::ng-deep .p-paginator-bottom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 1rem;
+  background-color: $color-bg !important; /* light beige background from 2nd image */
+  border-top: none !important; /* 2nd image doesn't seem to have a top border */
+  padding: 1rem 1.5rem !important;
+
+  .p-paginator-current {
+      margin-right: 1rem;
+      margin-left: 0;
+      color: $color-gray;
+      font-weight: 600;
+  }
+
+  .p-paginator-rpp-options {
+      margin-right: auto; /* Push page links to the right */
+      margin-left: 0;
+      display: flex;
+      align-items: center;
+
+      &::before {
+          color: $color-gray;
+          font-weight: 600;
+          font-size: 0.9rem;
+          margin-right: 0.5rem;
+          white-space: nowrap;
+      }
+      
+      .p-dropdown {
+          border: none;
+          background: transparent;
+          font-weight: 700;
+          
+          .p-dropdown-label {
+              padding: 0.25rem 0.5rem;
+              color: $color-dark;
+          }
+          
+          &:not(.p-disabled):hover {
+              border-color: transparent;
+          }
+          
+          .p-dropdown-trigger {
+              width: 1.5rem;
+              color: $color-gray;
+          }
+      }
+  }
+
+  /* Paginator icons */
+  .p-paginator-first, .p-paginator-prev, .p-paginator-next, .p-paginator-last {
+    color: $color-dark; /* Darker color for arrows in 2nd image */
+    min-width: 2rem;
+    height: 2rem;
+  }
 }
