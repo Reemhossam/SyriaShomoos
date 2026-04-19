@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace SyriaShomoos.Reservations
 {
-  public class CreateGuestDto
+  public class ConvictGridDto
   {
     public string FullName { get; set; }
-    public string IdentityNum { get; set; }
-    public string IdentityType { get; set; }
-    public DateTime CheckInDate { get; set; }
+    public string HotelName { get; set; }
     public string Nationality { get; set; }
-    
+    public string IdNumber { get; set; }
+    public string ReservationNumber { get; set; }
+    public string Address { get; set; }
     public DateTime DateOfBirth { get; set; }
-    
+    public string Note { get; set; }
   }
 }

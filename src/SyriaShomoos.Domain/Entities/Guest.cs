@@ -21,7 +21,7 @@ namespace SyriaShomoos.Entities
     public int? VersionNumber { get; set; }
     public double? Rating { get; set; }
     
-    public string DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     
   }
 }
