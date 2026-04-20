@@ -38,13 +38,7 @@ export class ShmoosDashboardComponent implements OnInit {
   hasTodayData = true;
   hasBarData = true;
   
-  recentLogs: any[] = [
-    { timestamp: '2026-05-12 14:32:01', action: 'Database Export', user: 'Admin_S_Al-Masri', status: 'SUCCESS' },
-    { timestamp: '2026-05-12 14:15:44', action: 'Profile Update', user: 'User_K_Haddad', status: 'SUCCESS' },
-    { timestamp: '2026-05-12 13:58:12', action: 'Login Attempt', user: 'Unknown_IP_82.x', status: 'BLOCKED' },
-    { timestamp: '2026-05-12 13:40:05', action: 'Policy Override', user: 'System_Kernel', status: 'SUCCESS' },
-    { timestamp: '2026-05-12 13:15:22', action: 'Settings Change', user: 'Admin_S_Al-Masri', status: 'SUCCESS' }
-  ];
+  recentLogs: any[] = [];
 
 
   ngOnInit() {

@@ -1,336 +1,80 @@
-
-<div class="bg-red-500 my-2 text-white p-4">
-  Tailwind is working 🚀
-</div>
-<button pButton label="Test"></button>
-
-
-<div class="row mb-3">
-  <div class="col-xl-6 col-12 d-flex">
-    <div class="card h-lg-100 w-100 overflow-hidden">
-      <div class="card-body">
-        <div class="starting-content pe-5">
-          @if(!hasLoggedIn){
-          <h3>Welcome</h3>
-          <p class="lead text-muted mb-2">
-            {{ '::LongWelcomeMessage' | abpLocalization }}
-          </p>
-          <a (click)="login()" class="px-4 btn btn-primary mb-4" role="button">
-            <i class="fa fa-sign-in"></i> 
-            {{ 'AbpAccount::Login' | abpLocalization }}
-          </a>
-          }
-
-          <h4>Getting Started</h4>
-          <p class="lead text-muted mb-2">
-            Learn how to create and run a new web application using the application startup
-            template.
-          </p>
-          <a
-            href="https://abp.io/docs/latest/getting-started"
-            class="btn btn-brand mb-4"
-            target="_blank"
-          >
-            Getting Started
-          </a>
-
-          <h4>Web Application Development Tutorial</h4>
-          <p class="lead text-muted mb-2">
-            Learn how to build an ABP based web application named Acme.BookStore.
-          </p>
-          <a
-            href="https://abp.io/docs/latest/tutorials/book-store/part-01?UI=NG&DB=EF"
-            class="btn btn-brand mb-4"
-            target="_blank"
-          >
-            Explore Tutorial
-          </a>
-
-          <h4>Customize Lepton Theme</h4>
-          <p class="text-muted mb-2">Learn how to customize LeptonX Theme as you wish.</p>
-          <a
-            href="https://abp.io/docs/commercial/latest/themes/lepton-x/index"
-            class="btn btn-primary soft mb-5 mb-xl-0"
-            target="_blank"
-          >
-            Customize Lepton
-          </a>
-        </div>
-        <img class="card-bg-image" src="assets/images/getting-started/bg-01.png" />
-      </div>
-    </div>
+<div class="relative w-full h-screen overflow-hidden bg-[#F5F3ED] font-montserrat flex items-center justify-center selection:bg-[#194E45] selection:text-white">
+  
+  <!-- Abstract Base Background -->
+  <div class="absolute w-full h-full inset-0 z-0 pointer-events-none">
+    <!-- Ambient Gradients -->
+    <div class="absolute w-[800px] h-[800px] bg-[#194E45] opacity-[0.04] rounded-full blur-[100px] -top-[300px] -right-[200px]"></div>
+    <div class="absolute w-[600px] h-[600px] bg-[#b9a779] opacity-[0.15] rounded-full blur-[120px] -bottom-[200px] -left-[100px]"></div>
+    <!-- Grid overlay (optional ultra modern touch) -->
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(25,78,69,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(25,78,69,0.02)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
   </div>
-  <div class="col-xl-3 col-md-6 d-flex">
-    <div class="row">
-      <div class="col-12 d-flex">
-        <div class="card overflow-hidden mb-3">
-          <div class="card-body d-flex flex-column">
-            <div class="abp-support abp-logo mb-2"></div>
-            <p class="text-muted mb-2">
-              You can check for similar problems and solutions, or open a new topic to discuss your
-              specific issue.
-            </p>
-            <a
-              class="btn btn-brand soft w-50"
-              href="https://abp.io/support/questions"
-              target="_blank"
-            >
-              Visit Support
-            </a>
-            <img
-              style="margin-bottom: -24px"
-              class="w-100 mt-auto"
-              src="assets/images/getting-started/img-support.png"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="col-12 d-flex">
-        <div class="card h-md-100 overflow-hidden">
-          <div class="card-body d-flex flex-column">
-            <div class="abp-blog abp-logo mb-2"></div>
-            <p class="text-muted mb-2">
-              You can find content on .NET development, cross-platform, ASP.NET application
-              templates, ABP-related news, and more.
-            </p>
-            <a
-              class="btn btn-brand soft w-50"              
-              href="https://abp.io/blog" 
-              target="_blank"
-            >
-              Visit Blog
-            </a>
-            <img
-              style="margin-bottom: -24px"
-              class="w-100 mt-auto"
-              src="assets/images/getting-started/img-blog.png"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-3 col-md-6 d-flex">
-    <div class="card h-100 overflow-hidden">
-      <div class="card-body">
-        <div class="abp-community abp-logo mb-2"></div>
-        <p class="lead text-muted">
-          A unique community platform for <span class="fw-bold">ABP Lovers!</span>
+
+  <!-- Main Application Card -->
+  <div class="relative z-10 flex flex-col md:flex-row w-[92%] max-w-[1200px] h-[85vh] min-h-[550px] max-h-[800px] bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(25,78,69,0.15)] border border-white/60 overflow-hidden">
+    
+    <!-- Left Interaction Area -->
+    <div class="w-full md:w-[45%] lg:w-[40%] flex flex-col justify-between p-10 lg:p-14 bg-white/60">
+      
+      <!-- Top Logo area -->
+      <div>
+        
+        <h1 class="text-4xl lg:text-5xl font-black text-[#1B1C18] leading-[1.1] mb-5 tracking-tight">
+          Welcome to <br>
+          <span class="text-[#194E45]">Syria Shomoos.</span>
+        </h1>
+        <div class="w-12 h-1 bg-[#b9a779] rounded-full mb-6"></div>
+        <p class="text-[#404946] text-sm md:text-base font-medium leading-relaxed max-w-sm">
+          The National Tourism & Security Management platform. Please authenticate yourself to access your configured dashboard and registry operations.
         </p>
-        <p class="text-muted mb-2">
-          Explore all ABP users' experiences with the ABP Framework, discover articles and videos on
-          how to use ABP, and join raffles for a chance to win surprise gifts!
-        </p>
-        <a 
-          class="btn btn-brand soft mb-3" 
-          href="https://abp.io/community/"
-          target="_blank"
-        >
-          Join ABP Community
-        </a>
       </div>
-      <img class="mt-3 w-100" src="assets/images/getting-started/img-community.png" />
-    </div>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-xl-3 col-lg-4">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title text-body">More from ABP.IO</div>
-      </div>
-      <div class="card-body pt-0">
-        <div>
-          <table class="table mb-0">
-            <tbody>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <div
-                    class="rounded-circle me-2 flex-center bg-brand soft"
-                    style="width: 20px; height: 20px"
-                  >
-                    <i class="bi bi-check fs-4"></i>
-                  </div>
-                  <div>Latest Release Logs</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://github.com/abpframework/abp/releases" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <div
-                    class="rounded-circle me-2 flex-center bg-brand soft"
-                    style="width: 20px; height: 20px"
-                  >
-                    <i class="bi bi-check fs-4"></i>
-                  </div>
-                  <div>Video Courses</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://abp.io/video-courses/essentials" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <div
-                    class="rounded-circle me-2 flex-center bg-brand soft"
-                    style="width: 20px; height: 20px"
-                  >
-                    <i class="bi bi-check fs-4"></i>
-                  </div>
-                  <div>Samples</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://abp.io/docs/latest/Samples/Index" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <div
-                    class="rounded-circle me-2 flex-center bg-brand soft"
-                    style="width: 20px; height: 20px"
-                  >
-                    <i class="bi bi-check fs-4"></i>
-                  </div>
-                  <div>Books</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://abp.io/books" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex border-bottom-0">
-                  <div
-                    class="rounded-circle me-2 flex-center bg-brand soft"
-                    style="width: 20px; height: 20px"
-                  >
-                    <i class="bi bi-check fs-4"></i>
-                  </div>
-                  <div>FAQ</div>
-                </td>
-                <td class="text-end pe-0 opacity-25 border-bottom-0">
-                  <a href="https://abp.io/faq" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-6 col-lg-8 d-flex">
-    <div class="card">
-      <div class="card-body d-flex">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <p class="text-muted mb-0">THE OFFICIAL GUIDE</p>
-            <h3>Mastering ABP Framework</h3>
-            <p class="text-muted">
-              Written by the creator of the ABP Framework, this book will help you gain a complete
-              understanding of the framework and modern web application development techniques.
-            </p>
-            <div class="d-md-flex mb-2 mb-md-0">
-              <a
-                href="https://www.amazon.com/gp/product/B097Z2DM8Q"
-                target="_blank"
-                class="btn btn-primary soft me-md-2 mb-2 mb-md-0"
-              >
-                Buy on Amazon US
-              </a>
-              <a
-                href="https://www.packtpub.com/product/mastering-abp-framework/9781801079242"
-                target="_blank"
-                class="btn btn-primary soft mb-2 mb-md-0"
-              >
-                Buy on PACKT
-              </a>
-            </div>
+      <!-- Bottom Interactive Area -->
+      <div class="w-full mt-10">
+        <!-- Custom stylized login button -->
+        <button *ngIf="!hasLoggedIn" (click)="login()" class="w-full bg-[#194E45] hover:bg-[#123831] text-white rounded-[1.25rem] p-4 flex items-center justify-between transition-all duration-300 shadow-[0_15px_30px_-10px_rgba(25,78,69,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(25,78,69,0.5)] transform hover:-translate-y-[2px] group">
+          <span class="font-extrabold text-[1.05rem] tracking-wide ml-2">Login to Portal</span>
+          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-colors group-hover:bg-white/20">
+            <i class="pi pi-arrow-right text-sm"></i>
           </div>
-          <div class="col">
-            <img class="w-100" src="assets/images/getting-started/book.png" />
+        </button>
+
+        <button *ngIf="hasLoggedIn" (click)="goToDashboard()" class="w-full bg-[#194E45] hover:bg-[#123831] text-white rounded-[1.25rem] p-4 flex items-center justify-between transition-all duration-300 shadow-[0_15px_30px_-10px_rgba(25,78,69,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(25,78,69,0.5)] transform hover:-translate-y-[2px] group">
+          <span class="font-extrabold text-[1.05rem] tracking-wide ml-2">Enter Dashboard</span>
+          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-colors group-hover:bg-white/20">
+            <i class="pi pi-home text-sm"></i>
           </div>
+        </button>
+
+        <div class="mt-8 flex items-center gap-2 text-xs font-bold text-[#194E45]/40 uppercase tracking-[0.15em]">
+          <i class="pi pi-lock text-[10px]"></i> Secure End-to-End Environment
         </div>
       </div>
     </div>
+
+    <!-- Right Graphic/Imagery Area -->
+    <div class="hidden md:flex flex-1 relative bg-[#194E45] overflow-hidden items-center justify-center shadow-inner">
+      <!-- Textured pattern background -->
+      <div class="absolute inset-0 opacity-20 mix-blend-overlay" style="background-image: url('assets/images/login/login-bg-img-light.svg'); background-size: cover; background-position: center;"></div>
+      
+      <!-- Gradient overlaps -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[#194E45]/40 via-transparent to-[#123831]/80"></div>
+      
+      <!-- Main Brand Graphic -->
+      <div class="relative z-10 flex flex-col items-center">
+        <img src="assets/images/logo/icon.svg" class="h-64 lg:h-80 drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] filter brightness-110 mb-8 transform transition-transform duration-700 hover:scale-105" alt="Syria Shomoos Emblem">
+        
+        <div class="inline-flex backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-6 py-2 shadow-xl">
+           <span class="text-white/90 text-sm font-bold tracking-[0.2em] uppercase">Operations Center</span>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div class="col-xl-3 col-lg-4">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title text-body">Follow us on Social Media</div>
-      </div>
-      <div class="card-body pt-0">
-        <div>
-          <table class="table mb-0">
-            <tbody>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <div class="logo-x me-2"></div>
-                  <div>X.com</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <i class="bi bi-box-arrow-up-right text-dark"></i>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <img src="assets/images/getting-started/discord.svg" class="me-2" />
-                  <div>Discord</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://abp.io/community/discord" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <img src="assets/images/getting-started/stack-overflow.svg" class="me-2" />
-                  <div>Stack Overflow</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://stackoverflow.com/questions/tagged/abp" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex">
-                  <img src="assets/images/getting-started/youtube.svg" class="me-2" />
-                  <div>YouTube</div>
-                </td>
-                <td class="text-end pe-0 opacity-25">
-                  <a href="https://www.youtube.com/@Volosoft" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td class="ps-0 d-flex border-bottom-0">
-                  <img src="assets/images/getting-started/instagram.svg" class="me-2" />
-                  <div>Instagram</div>
-                </td>
-                <td class="text-end pe-0 opacity-25 border-bottom-0">
-                  <a href="https://www.instagram.com/abpframework/" target="_blank">
-                    <i class="bi bi-box-arrow-up-right text-dark"></i>                    
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+
+  <!-- Global Footer -->
+  <div class="absolute bottom-6 w-full flex justify-center pointer-events-none z-0">
+    <span class="text-[10px] font-bold text-[#194E45]/30 uppercase tracking-[0.2em]">
+      © 2026 Syria Shomoos Platform. Created for Ministry of Tourism.
+    </span>
   </div>
 </div>

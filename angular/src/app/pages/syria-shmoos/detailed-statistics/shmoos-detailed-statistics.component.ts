@@ -64,32 +64,6 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     this.reservationReadService.getDetailedStatistics(payload).subscribe({
       next: (res: ReservationGridDto[]) => {
         let results = res || [];
-        
-        if (results.length === 0) {
-          const mockItems: any[] = [];
-          for (let i = 1; i <= 5; i++) {
-            mockItems.push({
-              fullName: `Mock Guest ${i}`,
-              guestNationality: 'Syrian',
-              guestParentName: `Parent ${i}`,
-              guestDateOfBirth: '1990-01-01',
-              guestAddress: 'Damascus, Syria',
-              identityType: 1,
-              identityNum: `9876543210${i}`,
-              propertyName: `Mock Hotel ${i}`,
-              city: 'Damascus',
-              floor: `0${i}`,
-              roomNumber: `${i}0${i}`,
-              checkInDate: new Date().toISOString(),
-              checkOutDate: new Date().toISOString(),
-              actualCheckInDate: new Date().toISOString(),
-              actualCheckOutDate: new Date().toISOString(),
-              escortsCount: 0
-            });
-          }
-          results = mockItems as ReservationGridDto[];
-        }
-
         this.allReservations = results;
         this.pageIndex = 0;
         this.totalRecords = this.allReservations.length;

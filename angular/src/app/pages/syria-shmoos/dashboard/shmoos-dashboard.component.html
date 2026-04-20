@@ -35,7 +35,8 @@
   <div class="card-flagged p-5">
     <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">FLAGGED</p>
     <p *ngIf="isLoading" class="text-4xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
-    <p *ngIf="!isLoading" class="text-4xl font-extrabold m-0">{{ statsData.flagged }}</p>
+    <p *ngIf="!isLoading && statsData.flagged!=0" class="text-4xl font-extrabold m-0">{{ statsData.flagged }}</p>
+    <p *ngIf="!isLoading&&statsData.flagged==0" class="text-4xl font-extrabold m-0">null</p>
     <p class="text-xs m-0 mt-1 card-sub">Requires review</p>
     <span class="card-icon">
       <img src="assets/images/warn.png" alt="">
