@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace SyriaShomoos.Migrations
 {
     [DbContext(typeof(SyriaShomoosDbContext))]
-    [Migration("20260414083940_ChangeSchemaAndIndecies")]
-    partial class ChangeSchemaAndIndecies
+    [Migration("20260420115724_addallscripts")]
+    partial class addallscripts
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,10 @@ namespace SyriaShomoos.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("BranchName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -96,10 +100,17 @@ namespace SyriaShomoos.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CheckInDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("CheckOutDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("FullName")
@@ -115,6 +126,10 @@ namespace SyriaShomoos.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ParentName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -157,6 +172,10 @@ namespace SyriaShomoos.Migrations
 
                     b.Property<DateTime?>("CheckOutDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DateOfBirth")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -202,6 +221,12 @@ namespace SyriaShomoos.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("ActualCheckInTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("ActualCheckOutTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<Guid>("BranchSourceId")
                         .HasColumnType("uuid");
 
@@ -244,6 +269,10 @@ namespace SyriaShomoos.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("Floor")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()

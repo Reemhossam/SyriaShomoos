@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SyriaShomoos.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class addallscripts : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -428,6 +428,30 @@ namespace SyriaShomoos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BranchSources",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    BranchCode = table.Column<string>(type: "text", nullable: false),
+                    BranchName = table.Column<string>(type: "text", nullable: false),
+                    City = table.Column<string>(type: "text", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "text", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BranchSources", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -746,6 +770,42 @@ namespace SyriaShomoos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExternalIdentifier = table.Column<long>(type: "bigint", nullable: false),
+                    CheckInDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CancelDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CheckOutDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ActualCheckInTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ActualCheckOutTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    RoomNumber = table.Column<string>(type: "text", nullable: false),
+                    Floor = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    BranchSourceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExtraProperties = table.Column<string>(type: "text", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uuid", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_BranchSources_BranchSourceId",
+                        column: x => x.BranchSourceId,
+                        principalTable: "BranchSources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictAuthorizations",
                 columns: table => new
                 {
@@ -789,6 +849,61 @@ namespace SyriaShomoos.Migrations
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GuestEscorts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReservationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    IdentityNum = table.Column<string>(type: "text", nullable: false),
+                    IdentityType = table.Column<string>(type: "text", nullable: false),
+                    CheckInDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CheckOutDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Nationality = table.Column<string>(type: "text", nullable: false),
+                    Rating = table.Column<double>(type: "double precision", nullable: true),
+                    DateOfBirth = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuestEscorts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GuestEscorts_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Guests",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReservationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    ParentName = table.Column<string>(type: "text", nullable: false),
+                    IdentityNum = table.Column<string>(type: "text", nullable: false),
+                    IdentityType = table.Column<string>(type: "text", nullable: false),
+                    CheckInDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CheckOutDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Nationality = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    VersionNumber = table.Column<int>(type: "integer", nullable: true),
+                    Rating = table.Column<double>(type: "double precision", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Guests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Guests_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1057,6 +1172,72 @@ namespace SyriaShomoos.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GuestEscorts_CheckInDate",
+                table: "GuestEscorts",
+                column: "CheckInDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestEscorts_CheckOutDate",
+                table: "GuestEscorts",
+                column: "CheckOutDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestEscorts_FullName",
+                table: "GuestEscorts",
+                column: "FullName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestEscorts_IdentityNum",
+                table: "GuestEscorts",
+                column: "IdentityNum");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestEscorts_Nationality",
+                table: "GuestEscorts",
+                column: "Nationality");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestEscorts_ReservationId",
+                table: "GuestEscorts",
+                column: "ReservationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_CheckInDate",
+                table: "Guests",
+                column: "CheckInDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_CheckOutDate",
+                table: "Guests",
+                column: "CheckOutDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_FullName",
+                table: "Guests",
+                column: "FullName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_IdentityNum",
+                table: "Guests",
+                column: "IdentityNum");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_Nationality",
+                table: "Guests",
+                column: "Nationality");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_ReservationId",
+                table: "Guests",
+                column: "ReservationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guests_VersionNumber",
+                table: "Guests",
+                column: "VersionNumber");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -1085,6 +1266,41 @@ namespace SyriaShomoos.Migrations
                 name: "IX_OpenIddictTokens_ReferenceId",
                 table: "OpenIddictTokens",
                 column: "ReferenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_BranchSourceId",
+                table: "Reservations",
+                column: "BranchSourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_CancelDate",
+                table: "Reservations",
+                column: "CancelDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_CheckInDate",
+                table: "Reservations",
+                column: "CheckInDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_CheckOutDate",
+                table: "Reservations",
+                column: "CheckOutDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_ExternalIdentifier",
+                table: "Reservations",
+                column: "ExternalIdentifier");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_RoomNumber",
+                table: "Reservations",
+                column: "RoomNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_Status",
+                table: "Reservations",
+                column: "Status");
         }
 
         /// <inheritdoc />
@@ -1166,6 +1382,12 @@ namespace SyriaShomoos.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GuestEscorts");
+
+            migrationBuilder.DropTable(
+                name: "Guests");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
             migrationBuilder.DropTable(
@@ -1190,10 +1412,16 @@ namespace SyriaShomoos.Migrations
                 name: "AbpUsers");
 
             migrationBuilder.DropTable(
+                name: "Reservations");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "BranchSources");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
