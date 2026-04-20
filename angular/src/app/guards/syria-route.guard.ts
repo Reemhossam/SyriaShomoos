@@ -3,7 +3,7 @@ import { CanActivateFn, Router, ActivatedRouteSnapshot, RouterStateSnapshot } fr
 
 const ALLOWED_PATHS = [
   /^\/auth\/login-page(\/.*)?$/, // matches /auth/login-page/:id
-  /^\/syria-stats(\/.*)?$/,        // matches /syria-stats and any sub-paths
+  /^\/syria-shmoos(\/.*)?$/,        // matches /syria-shmoos and any sub-paths
 ];
 
 export const syriaRouteGuard: CanActivateFn = (

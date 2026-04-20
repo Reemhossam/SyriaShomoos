@@ -1,5 +1,6 @@
 import { AuthService } from '@abp/ng.core';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: false,
@@ -9,12 +10,22 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   get hasLoggedIn(): boolean {
-    return this.authService.isAuthenticated
+    return this.authService.isAuthenticated;
   }
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, public router: Router) {
+    if (this.authService.isAuthenticated) {
+      setTimeout(() => {
+        this.router.navigate(['/syria-shmoos']);
+      }, 1500);
+    }
+  }
 
   login() {
     this.authService.navigateToLogin();
+  }
+
+  goToDashboard() {
+    this.router.navigate(['/syria-shmoos']);
   }
 }

@@ -25,8 +25,7 @@ const routes: Routes = [
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
     {
-        path: 'syria-shomoos',
-        canActivate: [syriaRouteGuard],
+        path: 'syria-shmoos',
         loadComponent: () => import('./pages/syria-shmoos/syria-shmoos-system.component').then(m => m.SyriaShmoosSystemComponent)
   },
   {

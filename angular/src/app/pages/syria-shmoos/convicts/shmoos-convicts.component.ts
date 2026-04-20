@@ -53,61 +53,7 @@ export class ShmoosConvictsComponent implements OnInit {
     this.isLoading = true;
     this.reservationReadService.getConvicts(filter).subscribe({
       next: (res: ConvictGridDto[]) => {
-        if (res.length === 0) {
-          // Add 5 mock data if response is empty
-          this.allConvicts = [
-            {
-              fullName: 'Ahmad Al-Mansour',
-              hotelName: 'Four Seasons Damascus',
-              dateOfBirth: '12/05/1984',
-              nationality: 'Syrian',
-              idNumber: '01020039485',
-              reservationNumber: '#99281',
-              address: 'Mazzeh West Villas, Damascus',
-              note: 'Requires Review'
-            },
-            {
-              fullName: 'Samir Kabbani',
-              hotelName: 'Sheraton Aleppo',
-              dateOfBirth: '25/08/1976',
-              nationality: 'Syrian',
-              idNumber: '02048572931',
-              reservationNumber: '#88372',
-              address: 'Al-Jamiliyah Street, Aleppo'
-            },
-            {
-              fullName: 'Omar Hadid',
-              hotelName: 'Blue Tower Hotel',
-              dateOfBirth: '03/11/1992',
-              nationality: 'Lebanese',
-              idNumber: 'LB-9920182',
-              reservationNumber: '#10293',
-              address: 'Hamra Street, Beirut',
-              note: 'VIP Guest'
-            },
-            {
-              fullName: 'Layla Yassin',
-              hotelName: 'Dama Rose Hotel',
-              dateOfBirth: '19/02/1988',
-              nationality: 'Syrian',
-              idNumber: '01044392011',
-              reservationNumber: '#44521',
-              address: 'Abu Rummaneh, Damascus'
-            },
-            {
-              fullName: 'Khalid Al-Omar',
-              hotelName: 'Tishreen Hotel',
-              dateOfBirth: '30/06/1980',
-              nationality: 'Jordanian',
-              idNumber: 'JO-2283910',
-              reservationNumber: '#33091',
-              address: 'Amman, Jordan'
-            }
-          ];
-        } else {
-          this.allConvicts = res;
-        }
-
+        this.allConvicts = res;
         this.pageIndex = 0;
         this.totalRecords = this.allConvicts.length;
         this.loadPage();
