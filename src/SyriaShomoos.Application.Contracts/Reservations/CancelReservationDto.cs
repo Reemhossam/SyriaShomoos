@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SyriaShomoos.Reservations
 {
-  public class CancelReservationDto
-  {
-    public long ExternalIdentifier { get; set; }
-  }
+    public class CancelReservationDto
+    {
+        public long ExternalIdentifier { get; set; }
+    }
 }
