@@ -2,12 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import { ButtonModule } from 'primeng/button';
-import { ReservationReadService } from '@proxy/reservations';
+import { CalendarModule } from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
+import { DashboardSummaryDto, ReservationReadService } from '@proxy/reservations';
 
 @Component({
   selector: 'app-shmoos-dashboard',
   standalone: true,
-  imports: [CommonModule, ChartModule, ButtonModule],
+  imports: [CommonModule, ChartModule, ButtonModule, CalendarModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './shmoos-dashboard.component.html',
   styleUrl: './shmoos-dashboard.component.scss'
@@ -15,8 +17,8 @@ import { ReservationReadService } from '@proxy/reservations';
 export class ShmoosDashboardComponent implements OnInit {
   reservationReadService = inject(ReservationReadService);
 
-  lineData: any;
-  lineOptions: any;
+  barData: any;
+  barOptions: any;
   doughnutData: any;
   doughnutOptions: any;
 
@@ -25,15 +27,25 @@ export class ShmoosDashboardComponent implements OnInit {
     flagged: 0
   };
 
-  percentages = {
+  rawCounts = {
     checkedIn: 0,
     checkedOut: 0,
     cancelled: 0
   };
 
-  todayDate: Date = new Date();
+  selectedDate: Date = new Date();
   isLoading = false;
-  hasTodayData = false;
+  hasTodayData = true;
+  hasBarData = true;
+  
+  recentLogs: any[] = [
+    { timestamp: '2026-05-12 14:32:01', action: 'Database Export', user: 'Admin_S_Al-Masri', status: 'SUCCESS' },
+    { timestamp: '2026-05-12 14:15:44', action: 'Profile Update', user: 'User_K_Haddad', status: 'SUCCESS' },
+    { timestamp: '2026-05-12 13:58:12', action: 'Login Attempt', user: 'Unknown_IP_82.x', status: 'BLOCKED' },
+    { timestamp: '2026-05-12 13:40:05', action: 'Policy Override', user: 'System_Kernel', status: 'SUCCESS' },
+    { timestamp: '2026-05-12 13:15:22', action: 'Settings Change', user: 'Admin_S_Al-Masri', status: 'SUCCESS' }
+  ];
+
 
   ngOnInit() {
     this.initCharts();
@@ -42,8 +54,8 @@ export class ShmoosDashboardComponent implements OnInit {
 
   fetchStats() {
     this.isLoading = true;
-    this.reservationReadService.getList().subscribe({
-      next: (res) => {
+    this.reservationReadService.getDashboard().subscribe({
+      next: (res:DashboardSummaryDto) => {
         this.isLoading = false;
         this.updateCharts(res);
       },
@@ -54,107 +66,95 @@ export class ShmoosDashboardComponent implements OnInit {
     });
   }
 
-  updateCharts(res: any) {
-    if (!res || !res.data) return;
-    const data = res.data;
+  onDateChange(event: any) {
+    // When user changes date from the top right p-calendar
+    this.fetchStats();
+  }
 
-    this.statsData.reservations = data.totalCountWeekly ?? 0;
+  updateCharts(res: DashboardSummaryDto) {
+    if (!res) return;
+
+    if (res.totalReservations !== undefined) {
+      this.statsData.reservations = res.totalReservations;
+    }
+    if (res.flaggedReservations !== undefined) {
+      this.statsData.flagged = res.flaggedReservations;
+    }
     
-    // Line Chart Update
-    if (data.weeklyReservationCounts && Array.isArray(data.weeklyReservationCounts)) {
-      const labels = data.weeklyReservationCounts.map((item: any) => item.dayName);
-      const resData = data.weeklyReservationCounts.map((item: any) => item.count);
+    // Bar Chart Update
+    if (res.reservationsPerDay && Array.isArray(res.reservationsPerDay) && res.reservationsPerDay.length > 0) {
+      this.hasBarData = true;
+      const labels = res.reservationsPerDay.map((item: any) => item.day);
+      const resData = res.reservationsPerDay.map((item: any) => item.count);
       
-      // Mock Flagged data based on Reservations Data
-      const flaggedData = resData.map((count: number) => count > 0 ? Math.floor(Math.random() * count) : 0);
-      
-      // Calculate total flagged
-      this.statsData.flagged = flaggedData.reduce((a: number, b: number) => a + b, 0);
+      const primaryColor = '#194E45';
+      const secondaryColor = '#b9a779';
+      const bgColors = resData.map((_, i) => (i % 2 === 0 ? primaryColor : secondaryColor));
 
-      this.lineData = {
-        ...this.lineData,
+      this.barData = {
+        ...this.barData,
         labels: labels,
         datasets: [
           {
-            ...this.lineData.datasets[0],
-            data: resData
-          },
-          {
-            ...this.lineData.datasets[1],
-            data: flaggedData
+            ...this.barData.datasets[0],
+            data: resData,
+            backgroundColor: bgColors
           }
         ]
       };
+    } else {
+      this.hasBarData = false;
     }
 
     // Doughnut Chart Update
-    if (data.todayReservationStatusCount) {
-      const checkedIn = data.todayReservationStatusCount.checkInStatusCount || 0;
-      const checkedOut = data.todayReservationStatusCount.checkOutStatusCount || 0;
-      const cancelled = data.todayReservationStatusCount.canceledStatusCount || 0;
-      
-      const totalToday = checkedIn + checkedOut + cancelled;
-      
-      if (totalToday > 0) {
-        this.percentages.checkedIn = Math.round((checkedIn / totalToday) * 100);
-        this.percentages.checkedOut = Math.round((checkedOut / totalToday) * 100);
-        this.percentages.cancelled = Math.round((cancelled / totalToday) * 100);
-        this.hasTodayData = true;
-      } else {
-        this.percentages = { checkedIn: 0, checkedOut: 0, cancelled: 0 };
-        this.hasTodayData = false;
-      }
+    const checkedIn = res.checkedIn || 0;
+    const checkedOut = res.checkedOut || 0;
+    const cancelled = res.cancelled || 0;
+    
+    this.rawCounts.checkedIn = checkedIn;
+    this.rawCounts.checkedOut = checkedOut;
+    this.rawCounts.cancelled = cancelled;
 
-      this.doughnutData = {
-        ...this.doughnutData,
-        datasets: [
-          {
-            ...this.doughnutData.datasets[0],
-            data: [checkedIn, checkedOut, cancelled]
-          }
-        ]
-      };
+    const totalToday = checkedIn + checkedOut + cancelled;
+    
+    if (totalToday > 0) {
+      this.hasTodayData = true;
+    } else {
+      this.hasTodayData = false;
     }
+
+    this.doughnutData = {
+      ...this.doughnutData,
+      datasets: [
+        {
+          ...this.doughnutData.datasets[0],
+          data: [checkedIn, checkedOut, cancelled]
+        }
+      ]
+    };
   }
 
   initCharts() {
-    const documentStyle = getComputedStyle(document.documentElement);
+    // Theme colors from variables
+    const primaryColor = '#194E45';
+    const secondaryColor = '#b9a779';
+    const dangerColor = '#BA1A1A';
 
-    // Theme 2 colors
-    const primaryColor = '#85A95D'; // light green line & area
-    const darkColor = '#3F4F2C';    // dark green
-    const lightestGreen = '#E5F2D0'; // flagged background
-
-    this.lineData = {
-      labels: ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    this.barData = {
+      labels: [],
       datasets: [
         {
           label: 'Reservations',
-          data: [68, 96, 30, 90, 10, 60, 50],
-          fill: true,
-          borderColor: primaryColor,
-          backgroundColor: 'rgba(133, 169, 93, 0.2)', // Light primary color for fill
-          tension: 0.4,
-          pointBackgroundColor: 'transparent',
-          pointBorderColor: 'transparent',
-          pointHoverBackgroundColor: primaryColor
-        },
-        {
-          label: 'Flagged',
-          data: [30, 50, 10, 20, 10, 20, 10],
-          fill: false,
-          borderColor: primaryColor,
-          borderDash: [5, 5],
-          tension: 0.4,
-          pointBackgroundColor: darkColor,
-          pointBorderColor: darkColor,
-          pointRadius: 4,
-          pointHoverRadius: 6
+          data: [],
+          backgroundColor: [],
+          borderRadius: 4,
+          borderWidth: 0,
+          barPercentage: 0.6
         }
       ]
     };
 
-    this.lineOptions = {
+    this.barOptions = {
       maintainAspectRatio: false,
       plugins: {
         legend: {
@@ -164,18 +164,15 @@ export class ShmoosDashboardComponent implements OnInit {
       scales: {
         x: {
           grid: {
-            color: '#f1f5f9',
+            display: false,
             drawBorder: false
           },
-          ticks: { color: '#94a3b8' }
+          ticks: { color: '#6B7280', font: { weight: 'bold', size: 10 } }
         },
         y: {
+          display: false,
           grid: {
-            color: '#f1f5f9',
-            drawBorder: false
-          },
-          ticks: {
-            color: '#94a3b8'
+            display: false,
           },
           min: 0
         }
@@ -186,24 +183,25 @@ export class ShmoosDashboardComponent implements OnInit {
       labels: ['Checked In', 'Checked Out', 'Cancelled'],
       datasets: [
         {
-          data: [36, 42, 22],
+          data: [],
           backgroundColor: [
-            darkColor,       // Checked In: dark green #3F4F2C
-            primaryColor,    // Checked Out: normal green #85A95D
-            lightestGreen    // Cancelled: faintest green #E5F2D0
+            primaryColor,    // Checked In
+            secondaryColor,  // Checked Out
+            dangerColor      // Cancelled
           ],
           hoverBackgroundColor: [
-            darkColor,
             primaryColor,
-            lightestGreen
+            secondaryColor,
+            dangerColor
           ],
-          borderWidth: 0
+          borderWidth: 5,
+          borderColor: '#ffffff'
         }
       ]
     };
 
     this.doughnutOptions = {
-      cutout: '65%',
+      cutout: '75%',
       plugins: {
         legend: {
           display: false
@@ -211,4 +209,10 @@ export class ShmoosDashboardComponent implements OnInit {
       }
     };
   }
+
+  getTotalDoughnutSum(): number {
+    if (!this.doughnutData?.datasets?.[0]?.data) return 0;
+    return this.doughnutData.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
+  }
 }
+

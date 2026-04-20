@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ShmoosDetailedStatisticsComponent } from './detailed-statistics/shmoos-detailed-statistics.component';
 import { ShmoosDashboardComponent } from './dashboard/shmoos-dashboard.component';
 import { ShmoosConvictsComponent } from './convicts/shmoos-convicts.component';
+import { AuthService } from '@abp/ng.core';
 
 @Component({
   selector: 'app-syria-shmoos-system',
@@ -16,6 +17,7 @@ import { ShmoosConvictsComponent } from './convicts/shmoos-convicts.component';
 export class SyriaShmoosSystemComponent implements OnInit {
   viewOptions: any[] = [];
   selectedView: string = 'Detailed Statistics';
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.viewOptions = [
@@ -23,5 +25,10 @@ export class SyriaShmoosSystemComponent implements OnInit {
       { label: 'Dashboard', value: 'Dashboard' },
       { label: 'Convicts', value: 'Convicts' }
     ];
+  }
+
+  logout() {
+    this.authService.logout();
+    this.authService.navigateToLogin()
   }
 }

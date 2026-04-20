@@ -1,71 +1,171 @@
-<!-- <div class="flex justify-between items-center mb-4">
-  <div class="filter-actions flex ml-auto">
-    <button pButton label="Filter" icon="pi pi-filter" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg"></button>
+<!-- Dashboard Header -->
+<div class="flex justify-between items-start mb-6">
+  <div>
+    <h1 class="text-3xl font-extrabold m-0 title-color">Dashboard</h1>
+    <p class="text-sm m-0 mt-1 subtitle-color">Summary metrics and trends. Values are dummy data for layout review.</p>
   </div>
-</div> -->
+  <div class="p-calendar-pill">
+    <p-calendar
+      [(ngModel)]="selectedDate"
+      [showIcon]="true"
+      [iconDisplay]="'input'"
+      dateFormat="DD, MM dd, yy"
+      [readonlyInput]="true"
+      (onSelect)="onDateChange($event)"
+      [appendTo]="'body'"
+      inputStyleClass="text-sm"
+    ></p-calendar>
+  </div>
+</div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-  
-  <!-- Trend Chart -->
-  <div class="col-span-1 lg:col-span-2 bg-white rounded-lg border border-gray-100 p-6 flex flex-col justify-between shadow-sm">
-    <div class="mb-6">
-      <h3 class="text-lg font-bold m-0 mb-4" style="color: #3F4F2C;">Reservations</h3>
+<!-- Stat Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+  <!-- Reservations Card -->
+  <div class="card-reservations p-5">
+    <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">RESERVATIONS</p>
+    <p *ngIf="isLoading" class="text-4xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
+    <p *ngIf="!isLoading" class="text-4xl font-extrabold m-0">{{ statsData.reservations }}</p>
+    <p class="text-xs m-0 mt-1 card-sub">All properties</p>
+    <span class="card-icon">
+      <img src="assets/images/bed.svg" alt="">
+    </span>
+  </div>
+
+  <!-- Flagged Card -->
+  <div class="card-flagged p-5">
+    <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">FLAGGED</p>
+    <p *ngIf="isLoading" class="text-4xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
+    <p *ngIf="!isLoading" class="text-4xl font-extrabold m-0">{{ statsData.flagged }}</p>
+    <p class="text-xs m-0 mt-1 card-sub">Requires review</p>
+    <span class="card-icon">
+      <img src="assets/images/warn.png" alt="">
+    </span>
+  </div>
+</div>
+
+<!-- Charts Row -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+  <!-- Reservations per day - Bar Chart -->
+  <div class="chart-card p-6 flex flex-col">
+    <div class="flex justify-between items-start mb-1">
+      <div>
+        <h3 class="text-lg font-bold m-0 title-color">Reservations per day</h3>
+        <p class="text-xs m-0 mt-1 subtitle-color">Last 7 days</p>
+      </div>
+      <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
+    </div>
+    <div class="flex-grow mt-4 chart-area relative">
+      <p-chart *ngIf="hasBarData && !isLoading" type="bar" [data]="barData" [options]="barOptions" height="250px"></p-chart>
       
-      <div class="flex gap-3">
-        <!-- Reservations Card -->
-        <div class="px-5 py-3 rounded text-center" style="background-color: #85A95D; color: #3F4F2C;">
-          <p class="text-sm font-bold m-0 mb-1">Reservations</p>
-          <p *ngIf="isLoading" class="text-3xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
-          <p *ngIf="!isLoading" class="text-3xl font-extrabold m-0">{{ statsData.reservations }}</p>
+      <!-- Empty State -->
+      <div *ngIf="!hasBarData && !isLoading" class="flex flex-col items-center justify-center h-[250px] text-center">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+          <i class="pi pi-chart-bar text-2xl text-gray-400"></i>
         </div>
+        <p class="m-0 text-sm font-bold text-gray-500">No data to view</p>
+        <p class="m-0 text-xs text-gray-400 mt-1">There are no reservations for the selected period.</p>
+      </div>
 
-        <!-- Flagged Reservations Card -->
-        <div class="px-5 py-3 rounded text-center border-l-4" style="background-color: #E5F2D0; color: #3F4F2C; border-left-color: #E5F2D0;">
-          <p class="text-sm font-bold m-0 mb-1">Flagged <span class="text-xs font-semibold">Reservations</span></p>
-          <p *ngIf="isLoading" class="text-3xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
-          <p *ngIf="!isLoading" class="text-3xl font-extrabold m-0 text-gray-700">{{ statsData.flagged }}</p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="w-full flex-grow mt-4">
-      <p-chart type="line" [data]="lineData" [options]="lineOptions" height="300px"></p-chart>
-    </div>
-  </div>
-
-  <!-- Distribution Chart -->
-  <div class="col-span-1 bg-white rounded-lg border border-gray-100 p-6 flex flex-col shadow-sm">
-    <div class="mb-4">
-      <h3 class="text-lg font-bold m-0" style="color: #3F4F2C;">Reservations</h3>
-      <p class="text-sm font-semibold m-0 mt-1" style="color: #3F4F2C;">Today {{ todayDate | date:'dd MMM' }}</p>
-    </div>
-    
-    <div class="flex-grow flex justify-center items-center py-6">
-      <p-chart *ngIf="hasTodayData && !isLoading" type="doughnut" [data]="doughnutData" [options]="doughnutOptions" width="220px"></p-chart>
-      <div *ngIf="!hasTodayData && !isLoading" class="flex flex-col items-center justify-center text-center p-6 bg-gray-50 rounded-lg w-full h-full border border-dashed border-gray-300">
-        <i class="pi pi-inbox text-4xl text-gray-400 mb-3"></i>
-        <p class="text-sm font-medium text-gray-500 m-0">No reservations for the current day</p>
-      </div>
-      <div *ngIf="isLoading" class="flex justify-center items-center h-full">
-        <i class="pi pi-spin pi-spinner text-3xl" style="color: #3F4F2C;"></i>
-      </div>
-    </div>
-
-    <!-- Stats grid below doughnut -->
-    <div class="flex gap-2 mt-4">
-      <div class="flex-1 text-white rounded p-3 flex flex-col items-center justify-center text-center h-20" style="background-color: #3F4F2C;">
-        <span class="font-bold text-sm mb-1">{{ percentages.checkedIn }}%</span>
-        <span class="text-xs">Checked In</span>
-      </div>
-      <div class="flex-1 text-white rounded p-3 flex flex-col items-center justify-center text-center h-20" style="background-color: #85A95D;">
-        <span class="font-bold text-sm mb-1">{{ percentages.checkedOut }}%</span>
-        <span class="text-xs leading-tight">Checked Out</span>
-      </div>
-      <div class="flex-1 rounded p-3 flex flex-col items-center justify-center text-center h-20" style="background-color: #E5F2D0; color: #3F4F2C;">
-        <span class="font-bold text-sm mb-1">{{ percentages.cancelled }}%</span>
-        <span class="text-xs">Cancelled</span>
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="flex items-center justify-center h-[250px]">
+        <i class="pi pi-spin pi-spinner text-3xl title-color"></i>
       </div>
     </div>
   </div>
 
+  <!-- Today's status mix - Doughnut Chart -->
+  <div class="chart-card p-6 flex flex-col">
+    <div class="flex justify-between items-start mb-1">
+      <div>
+        <h3 class="text-lg font-bold m-0 title-color">Today's status mix</h3>
+        <p class="text-xs m-0 mt-1 subtitle-color">Distribution of daily reservation outcomes</p>
+      </div>
+      <button pButton type="button" icon="pi pi-refresh" class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
+    </div>
+
+    <div class="flex items-center gap-6 flex-grow mt-4">
+      <!-- Doughnut -->
+      <div class="flex justify-center items-center doughnut-wrapper">
+        <p-chart *ngIf="hasTodayData && !isLoading" type="doughnut" [data]="doughnutData" [options]="doughnutOptions" width="160px" height="160px"></p-chart>
+        <div *ngIf="!isLoading" class="doughnut-center">
+          <span class="text-2xl font-extrabold title-color">{{ getTotalDoughnutSum() }}</span>
+          <br>
+          <span class="text-xs subtitle-color font-semibold">TOTAL</span>
+        </div>
+        <div *ngIf="isLoading" class="flex justify-center items-center doughnut-loader">
+          <i class="pi pi-spin pi-spinner text-3xl title-color"></i>
+        </div>
+      </div>
+
+      <!-- Legend with progress bars -->
+      <div class="flex flex-col gap-4 flex-grow">
+        <!-- Checked In -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-sm font-bold text-dark">Checked in</span>
+            <span class="text-sm font-bold text-dark">{{ rawCounts.checkedIn }}</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-fill progress-fill-primary" [style.width.%]="(rawCounts.checkedIn / getTotalDoughnutSum()) * 100"></div>
+          </div>
+        </div>
+
+        <!-- Checked Out -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-sm font-bold text-dark">Checked out</span>
+            <span class="text-sm font-bold text-dark">{{ rawCounts.checkedOut }}</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-fill progress-fill-secondary" [style.width.%]="(rawCounts.checkedOut / getTotalDoughnutSum()) * 100"></div>
+          </div>
+        </div>
+
+        <!-- Cancelled -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-sm font-bold text-dark">Cancelled</span>
+            <span class="text-sm font-bold text-dark">{{ rawCounts.cancelled }}</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-fill progress-fill-danger" [style.width.%]="(rawCounts.cancelled / getTotalDoughnutSum()) * 100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent System Logs Table -->
+<div class="chart-card overflow-hidden">
+  <!-- Table Header -->
+  <div class="table-header-bg flex justify-between items-center px-6 py-4">
+    <div class="flex items-center gap-2">
+      <i class="pi pi-history text-lg"></i>
+      <span class="font-bold text-base">Recent System Logs</span>
+    </div>
+    <a class="text-sm font-semibold cursor-pointer view-all-link">View All Logs</a>
+  </div>
+
+  <!-- Table -->
+  <table class="logs-table">
+    <thead>
+      <tr>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">Timestamp</th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">Action</th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">User</th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of recentLogs">
+        <td class="px-6 py-4 text-sm td-timestamp">{{ log.timestamp }}</td>
+        <td class="px-6 py-4 text-sm font-semibold td-action">{{ log.action }}</td>
+        <td class="px-6 py-4 text-sm subtitle-color">{{ log.user }}</td>
+        <td class="px-6 py-4">
+          <span [class]="log.status === 'SUCCESS' ? 'badge-success' : 'badge-danger'">{{ log.status }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

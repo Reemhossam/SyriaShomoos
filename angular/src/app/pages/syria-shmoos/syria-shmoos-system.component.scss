@@ -1,17 +1,51 @@
+@import "../../../styles/variables";
+
 .theme-2-bg {
-  background-color: #F3FFDC;
+  background-color: $color-bg;
+}
+.logout-btn{
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.theme-2-text {
-  color: #3F4F2C !important;
+.text-gold{
+  color: $color-secondary;
 }
+
+.navbar{
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+
+.profile-info{
+  background-color: #22574E;
+  padding: 10px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 
 .theme-2-btn {
   background-color: #3F4F2C !important;
   color: white !important;
 }
 
+
+
+::ng-deep .p-ripple.theme-2-select-btn.p-togglebutton{
+  background-color: transparent !important;
+  color: $color-white !important;
+  border:none !important;
+  .p-togglebutton-checked{
+    background-color: $color-secondary !important;
+    
+  }
+}
+
+
 ::ng-deep .theme-2-select-btn {
+
   .p-button {
     background-color: transparent;
     color: #64748b;
@@ -35,11 +69,15 @@
 ::ng-deep .p-togglebutton-checked
 {
 
-  background-color: #3f4f2c !important;
-  color: white !important;
+  background-color: $color-secondary !important;
+  color: $color-primary !important;
+  padding: 10px !important;
+  border-radius: 25px !important;
 }
 
 ::ng-deep .p-togglebutton-content{
-  background-color: white !important;
-  color: #3f4f2c !important;
+  background-color: transparent !important;
+  color: $color-white !important;
+  border-radius: 25px !important;
+
 }

@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import { ReservationReadService } from '@proxy/reservations';
+import { ReservationFilterDto, ReservationGridDto, ReservationReadService } from '@proxy/reservations';
 
 export enum GuestIdType {
   NationalId = 1,
@@ -27,8 +27,9 @@ export enum GuestIdType {
 export class ShmoosDetailedStatisticsComponent implements OnInit {
   reservationReadService = inject(ReservationReadService);
 
-  showFilter = false;
-  reservations: any[] = [];
+  showFilter = true;
+  reservations: ReservationGridDto[] = [];
+  allReservations: ReservationGridDto[] = [];
   totalRecords = 0;
   isLoading = false;
 
@@ -40,7 +41,7 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
   // API Filters
   filterGuestName: string | null = null;
   filterPropertyName: string | null = null;
-  filterGuestIdType: number | null = null;
+  filterGuestIdType: string | null = null;
   filterUnitNumber: string | null = null;
   filterIdNumber: string | null = null;
   filterDateFrom: Date | null = null;
@@ -57,37 +58,42 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     this.fetchReservations();
   }
 
-  fetchReservations() {
+  fetchReservations(payload: ReservationFilterDto = {}) {
     this.isLoading = true;
 
-    const payload = {
-      paging: {
-        pagingEnabled: true,
-        pageIndex: this.pageIndex,
-        pageSize: this.pageSize,
-        totalCount: 0,
-        subTotalCount: 0,
-        skip: this.pageIndex * this.pageSize
-      },
-      orderByDirection: 1,
-      orderByCultureMode: 1,
-      // Attached to Search UI
-      guestName: this.filterGuestName || null,
-      propertyName: this.filterPropertyName || null,
-      guestIdType: this.filterGuestIdType || null,
-      unitNumber: this.filterUnitNumber || null,
-      idNumber: this.filterIdNumber || null,
-      dateFrom: this.filterDateFrom ? this.formatDate(this.filterDateFrom) : null,
-      dateTo: this.filterDateTo ? this.formatDate(this.filterDateTo) : null
-    };
-// payload to get with filters and pagination
+    this.reservationReadService.getDetailedStatistics(payload).subscribe({
+      next: (res: ReservationGridDto[]) => {
+        let results = res || [];
+        
+        if (results.length === 0) {
+          const mockItems: any[] = [];
+          for (let i = 1; i <= 5; i++) {
+            mockItems.push({
+              fullName: `Mock Guest ${i}`,
+              guestNationality: 'Syrian',
+              guestParentName: `Parent ${i}`,
+              guestDateOfBirth: '1990-01-01',
+              guestAddress: 'Damascus, Syria',
+              identityType: 1,
+              identityNum: `9876543210${i}`,
+              propertyName: `Mock Hotel ${i}`,
+              city: 'Damascus',
+              floor: `0${i}`,
+              roomNumber: `${i}0${i}`,
+              checkInDate: new Date().toISOString(),
+              checkOutDate: new Date().toISOString(),
+              actualCheckInDate: new Date().toISOString(),
+              actualCheckOutDate: new Date().toISOString(),
+              escortsCount: 0
+            });
+          }
+          results = mockItems as ReservationGridDto[];
+        }
 
-    this.reservationReadService.getList().subscribe({
-      next: (res: any) => {
-        // console.log('Real Shomoos API Data:', res);
-        this.reservations = res.data?.result || [];
-        this.totalRecords = res.data?.paging?.totalCount ?? this.reservations.length;
-        this.isLoading = false;
+        this.allReservations = results;
+        this.pageIndex = 0;
+        this.totalRecords = this.allReservations.length;
+        this.loadPage();
       },
       error: (err: any) => {
         console.error('Error fetching shomoos reservations:', err);
@@ -96,10 +102,23 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     });
   }
 
+  loadPage() {
+    this.isLoading = true;
+
+    setTimeout(() => {
+      const start = this.pageIndex * this.pageSize;
+      const end = start + this.pageSize;
+
+      this.reservations = this.allReservations.slice(start, end);
+      this.totalRecords = this.allReservations.length;
+      this.isLoading = false;
+    }, 400);
+  }
+
   onPageChange(event: any) {
     this.pageIndex = event.first / event.rows;
     this.pageSize = event.rows;
-    this.fetchReservations();
+    this.loadPage();
   }
 
   toggleFilter() {
@@ -107,8 +126,17 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
   }
 
   onSearch() {
-    this.pageIndex = 0;
-    this.fetchReservations();
+    const payload: ReservationFilterDto = {
+      guestName: this.filterGuestName || undefined,
+      property: this.filterPropertyName || undefined,
+      identityType: this.filterGuestIdType || undefined,
+      unitNumber: this.filterUnitNumber || undefined,
+      identityNumber: this.filterIdNumber || undefined,
+      fromDate: this.filterDateFrom ? this.formatDate(this.filterDateFrom) : undefined,
+      toDate: this.filterDateTo ? this.formatDate(this.filterDateTo) : undefined
+    };
+
+    this.fetchReservations(payload);
   }
 
   clearFilters() {
@@ -119,7 +147,7 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     this.filterIdNumber = null;
     this.filterDateFrom = null;
     this.filterDateTo = null;
-    this.pageIndex = 0;
+    
     this.fetchReservations();
   }
 
@@ -130,7 +158,9 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     return `${y}-${m}-${d}`;
   }
 
-  getGuestIdTypeName(id: number): string {
-    return this.idTypesList.find(t => t.value === id)?.label || id?.toString();
+  getGuestIdTypeName(id: any): string {
+    if (!id) return '-';
+    // Handle both numbers and strings for safety
+    return this.idTypesList.find(t => t.value === Number(id))?.label || id?.toString();
   }
 }

@@ -1,1 +1,206 @@
-/* Shmoos Dashboard Styles */
+@import '../../../../styles/variables';
+
+.dashboard-container {
+  background-color: $color-light;
+  min-height: 100vh;
+}
+
+.title-color {
+  color: $color-primary;
+}
+
+.subtitle-color {
+  color: $color-gray;
+}
+
+.text-dark {
+  color: $color-dark;
+}
+
+// ── Calendar Pill ──
+.p-calendar-pill {
+  position: relative;
+}
+
+::ng-deep .p-calendar-pill {
+  .p-inputtext {
+    border-radius: 20px;
+    background-color: $color-light;
+    border: none;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    font-weight: 600;
+    color: $color-primary;
+    box-shadow: none;
+    outline: none;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .p-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 20px 0 0 20px;
+    background-color: transparent;
+    color: $color-primary;
+    border: none;
+    opacity: 0.8;
+    &:enabled:hover {
+      background-color: transparent;
+      color: $color-primary;
+    }
+  }
+}
+
+// ── Stat Cards ──
+.card-reservations,
+.card-flagged {
+  border-radius: 8px;
+  position: relative;
+  min-height: 120px;
+
+  .card-icon {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+  }
+
+  .card-label {
+    opacity: 0.85;
+  }
+
+  .card-sub {
+    opacity: 0.7;
+  }
+}
+
+.card-reservations {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+.card-flagged {
+  background-color: $color-secondary;
+  color: $color-dark;
+}
+
+// ── Chart Cards ──
+.chart-card {
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+}
+
+.chart-area {
+  min-height: 250px;
+}
+
+.btn-icon-muted {
+  color: $color-placeholder;
+}
+
+// ── Doughnut Section ──
+.doughnut-wrapper {
+  position: relative;
+  min-width: 160px;
+  min-height: 160px;
+}
+
+.doughnut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.doughnut-loader {
+  width: 160px;
+  height: 160px;
+}
+
+// ── Progress Bars ──
+.progress-bar-container {
+  height: 6px;
+  background-color: $color-light;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+}
+
+.progress-fill-primary {
+  background-color: $color-primary;
+}
+
+.progress-fill-secondary {
+  background-color: $color-secondary;
+}
+
+.progress-fill-danger {
+  background-color: $color-danger;
+}
+
+// ── Logs Table ──
+.table-header-bg {
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: 8px 8px 0 0;
+}
+
+.view-all-link {
+  color: $color-light;
+  text-decoration: none;
+}
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    border-bottom: 1px solid $color-border;
+  }
+
+  th {
+    width: 25%;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $color-light;
+  }
+}
+
+.td-timestamp {
+  color: $color-dark;
+  border-left: 3px solid $color-secondary;
+}
+
+.td-action {
+  color: $color-primary;
+}
+
+// ── Badges ──
+.badge-success {
+  background-color: rgba(133, 169, 93, 0.2);
+  color: $color-primary;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.badge-danger {
+  background-color: rgba(186, 26, 26, 0.1);
+  color: $color-danger;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
