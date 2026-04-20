@@ -11,6 +11,8 @@ import { ThemeBasicModule, provideThemeBasicConfig } from '@abp/ng.theme.basic';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeuix/themes/lara';
@@ -30,8 +32,10 @@ import { SharedModule } from './shared/shared.module';
     ThemeSharedModule,
     CoreModule,
     ThemeBasicModule,
+    TranslateModule.forRoot(),
   ],
   providers: [
+    provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
     APP_ROUTE_PROVIDER,
 
     provideAbpCore(

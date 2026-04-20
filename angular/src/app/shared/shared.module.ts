@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { PRIME_NG_MODULES } from './primeng-modules';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [],
@@ -12,6 +13,7 @@ import { PRIME_NG_MODULES } from './primeng-modules';
     ThemeSharedModule,
     NgbDropdownModule,
     NgxValidateCoreModule,
+    TranslateModule,
     ...PRIME_NG_MODULES
   ],
   exports: [
@@ -19,6 +21,7 @@ import { PRIME_NG_MODULES } from './primeng-modules';
     ThemeSharedModule,
     NgbDropdownModule,
     NgxValidateCoreModule,
+    TranslateModule,
     ...PRIME_NG_MODULES
   ],
   providers: []

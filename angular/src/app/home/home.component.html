@@ -3,8 +3,8 @@
   <!-- Abstract Base Background -->
   <div class="absolute w-full h-full inset-0 z-0 pointer-events-none">
     <!-- Ambient Gradients -->
-    <div class="absolute w-[800px] h-[800px] bg-[#194E45] opacity-[0.04] rounded-full blur-[100px] -top-[300px] -right-[200px]"></div>
-    <div class="absolute w-[600px] h-[600px] bg-[#b9a779] opacity-[0.15] rounded-full blur-[120px] -bottom-[200px] -left-[100px]"></div>
+    <div class="absolute w-[800px] h-[800px] bg-[#194E45] opacity-[0.04] rounded-full blur-[100px] -top-[300px] -end-[200px]"></div>
+    <div class="absolute w-[600px] h-[600px] bg-[#b9a779] opacity-[0.15] rounded-full blur-[120px] -bottom-[200px] -start-[100px]"></div>
     <!-- Grid overlay (optional ultra modern touch) -->
     <div class="absolute inset-0 bg-[linear-gradient(rgba(25,78,69,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(25,78,69,0.02)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
   </div>
@@ -19,12 +19,12 @@
       <div>
         
         <h1 class="text-4xl lg:text-5xl font-black text-[#1B1C18] leading-[1.1] mb-5 tracking-tight">
-          Welcome to <br>
-          <span class="text-[#194E45]">Syria Shomoos.</span>
+          {{ 'HOME.WELCOME' | translate }} <br>
+          <span class="text-[#194E45]">{{ 'HOME.BRAND' | translate }}</span>
         </h1>
         <div class="w-12 h-1 bg-[#b9a779] rounded-full mb-6"></div>
         <p class="text-[#404946] text-sm md:text-base font-medium leading-relaxed max-w-sm">
-          The National Tourism & Security Management platform. Please authenticate yourself to access your configured dashboard and registry operations.
+          {{ 'HOME.DESCRIPTION' | translate }}
         </p>
       </div>
 
@@ -32,21 +32,21 @@
       <div class="w-full mt-10">
         <!-- Custom stylized login button -->
         <button *ngIf="!hasLoggedIn" (click)="login()" class="w-full bg-[#194E45] hover:bg-[#123831] text-white rounded-[1.25rem] p-4 flex items-center justify-between transition-all duration-300 shadow-[0_15px_30px_-10px_rgba(25,78,69,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(25,78,69,0.5)] transform hover:-translate-y-[2px] group">
-          <span class="font-extrabold text-[1.05rem] tracking-wide ml-2">Login to Portal</span>
+          <span class="font-extrabold text-[1.05rem] tracking-wide ms-2">{{ 'HOME.LOGIN_BTN' | translate }}</span>
           <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-colors group-hover:bg-white/20">
-            <i class="pi pi-arrow-right text-sm"></i>
+            <i class="pi pi-arrow-right text-sm rtl:rotate-180"></i>
           </div>
         </button>
 
         <button *ngIf="hasLoggedIn" (click)="goToDashboard()" class="w-full bg-[#194E45] hover:bg-[#123831] text-white rounded-[1.25rem] p-4 flex items-center justify-between transition-all duration-300 shadow-[0_15px_30px_-10px_rgba(25,78,69,0.4)] hover:shadow-[0_20px_40px_-10px_rgba(25,78,69,0.5)] transform hover:-translate-y-[2px] group">
-          <span class="font-extrabold text-[1.05rem] tracking-wide ml-2">Enter Dashboard</span>
+          <span class="font-extrabold text-[1.05rem] tracking-wide ms-2">{{ 'HOME.ENTER_DASHBOARD_BTN' | translate }}</span>
           <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-colors group-hover:bg-white/20">
             <i class="pi pi-home text-sm"></i>
           </div>
         </button>
 
         <div class="mt-8 flex items-center gap-2 text-xs font-bold text-[#194E45]/40 uppercase tracking-[0.15em]">
-          <i class="pi pi-lock text-[10px]"></i> Secure End-to-End Environment
+          <i class="pi pi-lock text-[10px]"></i> {{ 'HOME.SECURE_ENV' | translate }}
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
         <img src="assets/images/logo/icon.svg" class="h-64 lg:h-80 drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] filter brightness-110 mb-8 transform transition-transform duration-700 hover:scale-105" alt="Syria Shomoos Emblem">
         
         <div class="inline-flex backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-6 py-2 shadow-xl">
-           <span class="text-white/90 text-sm font-bold tracking-[0.2em] uppercase">Operations Center</span>
+           <span class="text-white/90 text-sm font-bold tracking-[0.2em] uppercase">{{ 'HOME.OPS_CENTER' | translate }}</span>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@
   <!-- Global Footer -->
   <div class="absolute bottom-6 w-full flex justify-center pointer-events-none z-0">
     <span class="text-[10px] font-bold text-[#194E45]/30 uppercase tracking-[0.2em]">
-      © 2026 Syria Shomoos Platform. Created for Ministry of Tourism.
+      {{ 'HOME.FOOTER' | translate }}
     </span>
   </div>
 </div>

@@ -1,0 +1,23 @@
+{
+  "HOME": {
+    "WELCOME": "Welcome to",
+    "BRAND": "Syria Shomoos",
+    "DESCRIPTION": "The National Tourism & Security Management platform. Please authenticate yourself to access your configured dashboard and registry operations.",
+    "LOGIN_BTN": "Login to Portal",
+    "ENTER_DASHBOARD_BTN": "Enter Dashboard",
+    "SECURE_ENV": "Secure End-to-End Environment",
+    "OPS_CENTER": "Operations Center",
+    "FOOTER": "© 2026 Syria Shomoos Platform. Created for Ministry of Tourism."
+  },
+  "SYSTEM": {
+    "TITLE": "SecureSyria System",
+    "SUBTITLE": "INTERIOR OPERATIONS — PROTOTYPE",
+    "DETAILED_STATS": "Detailed Statistics",
+    "DASHBOARD": "Dashboard",
+    "CONVICTS": "Convicts",
+    "PREMIUM_ACCOUNT": "Premium Account",
+    "LOGOUT": "Logout",
+    "LANG_EN": "English",
+    "LANG_AR": "العربية"
+  }
+}
