@@ -61,6 +61,8 @@ namespace SyriaShomoos.Reservations
             reservation.Status = ReservationStatus.CheckedIn;
             reservation.CheckInDate = DateTime.UtcNow;
             reservation.Floor = input.Floor;
+            reservation.ActualCheckInTime = input.ActualCheckInTime;
+            reservation.ActualCheckOutTime = input.ActualCheckOutTime;
             
             var guest = new Guest
             {
@@ -70,9 +72,16 @@ namespace SyriaShomoos.Reservations
                 IdentityType = input.MainGuest.IdentityType,
                 Nationality = input.MainGuest.Nationality,
                 CheckInDate = input.MainGuest.CheckInDate,
+                CheckOutDate = input.MainGuest.CheckOutDate,
                 DateOfBirth = input.MainGuest.DateOfBirth,
                 Address = input.MainGuest.Address,
-                ParentName = input.MainGuest.ParentName
+                ParentName = input.MainGuest.ParentName,
+                VersionNumber = input.MainGuest.VersionNumber,
+                Profession = input.MainGuest.Profession,
+                MotherName = input.MainGuest.MotherName,
+                PlaceOfBirth = input.MainGuest.PlaceOfBirth,
+                CurrentResidenceCountry = input.MainGuest.CurrentResidenceCountry,
+                IssueCountry = input.MainGuest.IssueCountry
             };
 
             if (reservation.Id == Guid.Empty)
@@ -89,6 +98,14 @@ namespace SyriaShomoos.Reservations
                 reservation.MainGuest.IdentityType = guest.IdentityType;
                 reservation.MainGuest.Nationality = guest.Nationality;
                 reservation.MainGuest.ParentName = guest.ParentName;
+                
+                reservation.MainGuest.VersionNumber = guest.VersionNumber;
+                reservation.MainGuest.Profession = guest.Profession;
+                reservation.MainGuest.MotherName = guest.MotherName;
+                reservation.MainGuest.PlaceOfBirth = guest.PlaceOfBirth;
+                reservation.MainGuest.CurrentResidenceCountry = guest.CurrentResidenceCountry;
+                reservation.MainGuest.IssueCountry = guest.IssueCountry;
+                reservation.MainGuest.CheckOutDate = guest.CheckOutDate;
             }
             reservation.Escorts = input.Escorts?.Select(x => new GuestEscort
             {

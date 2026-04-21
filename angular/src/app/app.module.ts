@@ -2,7 +2,7 @@ import { CoreModule, provideAbpCore, withOptions } from '@abp/ng.core';
 import { provideAbpOAuth } from '@abp/ng.oauth';
 import { provideSettingManagementConfig } from '@abp/ng.setting-management/config';
 import { provideFeatureManagementConfig } from '@abp/ng.feature-management';
-import { ThemeSharedModule, provideAbpThemeShared } from '@abp/ng.theme.shared';
+import { ThemeSharedModule, provideAbpThemeShared, HTTP_ERROR_HANDLER } from '@abp/ng.theme.shared';
 import { provideIdentityConfig } from '@abp/ng.identity/config';
 import { provideAccountConfig } from '@abp/ng.account/config';
 import { registerLocale } from '@abp/ng.core/locale';
@@ -21,6 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 import { SharedModule } from './shared/shared.module';
+import { SErrorHandlerService } from './shared/services/s-error-handler';
 
 @NgModule({
   declarations: [AppComponent],
@@ -57,7 +58,12 @@ import { SharedModule } from './shared/shared.module';
       theme: {
         preset: Lara
       }
-    })
+    }),
+    {
+      provide: HTTP_ERROR_HANDLER,
+      useClass: SErrorHandlerService,
+      multi: true, // Multi is required as there can be multiple handlers
+    },
   ],
   bootstrap: [AppComponent],
 })

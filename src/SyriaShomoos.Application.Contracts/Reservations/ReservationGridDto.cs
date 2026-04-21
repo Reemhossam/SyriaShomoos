@@ -27,5 +27,10 @@ namespace SyriaShomoos.Reservations
     public int EscortsCount { get; set; }
     public string Status { get; set; }
     public string BranchCode { get; set; }
+    public string? Profession { get; set; }
+    public string? MotherName { get; set; }
+    public string? PlaceOfBirth { get; set; }
+    public string? CurrentResidenceCountry { get; set; }
+    public string? IssueCountry { get; set; }
   }
 }

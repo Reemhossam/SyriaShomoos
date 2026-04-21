@@ -107,6 +107,33 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 logoUri: "/images/clients/angular.svg"
             );
         }
+        
+        var localDev = configurationSection["SyriaShomoos_App_Local:ClientId"];
+        if (!localDev.IsNullOrWhiteSpace())
+        {
+            var consoleAndAngularClientRootUrl = configurationSection["SyriaShomoos_App_Local:RootUrl"]?.TrimEnd('/');
+            await CreateApplicationAsync(
+                applicationType: OpenIddictConstants.ApplicationTypes.Web,
+                name: localDev!,
+                type: OpenIddictConstants.ClientTypes.Public,
+                consentType: OpenIddictConstants.ConsentTypes.Implicit,
+                displayName: "Console Test / Angular Application",
+                secret: null,
+                grantTypes: new List<string> {
+                    OpenIddictConstants.GrantTypes.AuthorizationCode,
+                    OpenIddictConstants.GrantTypes.Password,
+                    OpenIddictConstants.GrantTypes.ClientCredentials,
+                    OpenIddictConstants.GrantTypes.RefreshToken,
+                    "LinkLogin",
+                    "Impersonation"
+                },
+                scopes: commonScopes,
+                redirectUri: consoleAndAngularClientRootUrl,
+                postLogoutRedirectUri: consoleAndAngularClientRootUrl,
+                clientUri: consoleAndAngularClientRootUrl,
+                logoUri: "/images/clients/angular.svg"
+            );
+        }
 
         // Swagger Client
         var swaggerClientId = configurationSection["SyriaShomoos_Swagger:ClientId"];

@@ -17,5 +17,8 @@ namespace SyriaShomoos.Reservations
         public List<CreateEscortDto>? Escorts { get; set; }
         public string City { get; set; }
         public string Floor { get; set; }
+        
+        public DateTime? ActualCheckInTime { get; set; }
+        public DateTime? ActualCheckOutTime { get; set; }
     }
 }

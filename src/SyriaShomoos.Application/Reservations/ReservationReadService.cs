@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
@@ -20,7 +21,7 @@ namespace SyriaShomoos.Reservations
       _repository = repository;
     }
 
-    public async Task<List<ReservationGridDto>> GetDetailedStatisticsAsync(ReservationFilterDto input)
+    public async Task<PagedResultDto<ReservationGridDto>> GetDetailedStatisticsAsync(ReservationFilterDto input)
     {
       var query = await _repository.WithDetailsAsync(
                  x => x.MainGuest,
@@ -39,29 +40,52 @@ namespace SyriaShomoos.Reservations
         query = query.Where(x => x.CheckInDate >= input.FromDate.Value);
       if (input.ToDate.HasValue)
         query = query.Where(x => x.CheckOutDate <= input.ToDate.Value);
+      
+      
+      var sortedQueryable = query.OrderByDescending(x => x.Id); // or searchCriteria.Sorting
+      var data = sortedQueryable
+        .Skip(input.SkipCount)
+        .Take(input.MaxResultCount)
+        .Select(x => new ReservationGridDto
+        {
+          ExternalIdentifier = x.ExternalIdentifier,
+          FullName = x.MainGuest.FullName,
+          GuestNationality = x.MainGuest.Nationality,
+          GuestParentName = x.MainGuest.ParentName,
+          GuestDateOfBirth = x.MainGuest.DateOfBirth,
+          GuestAddress = x.MainGuest.Address,
+          IdentityType = x.MainGuest.IdentityType,
+          IdentityNum = x.MainGuest.IdentityNum,
+          PropertyName = x.BranchSource.BranchName,
+          City = x.BranchSource.City,
+          Floor = x.Floor,
+          RoomNumber = x.RoomNumber,
+          CheckInDate = x.MainGuest.CheckInDate,
+          CheckOutDate = x.MainGuest.CheckOutDate,
+          ActualCheckInDate = x.ActualCheckInTime,
+          ActualCheckOutDate = x.ActualCheckOutTime,
+          EscortsCount = x.Escorts.Count,
+          Status = x.Status.ToString(),
+          BranchCode = x.BranchSource.BranchCode,
+          CurrentResidenceCountry = x.MainGuest.CurrentResidenceCountry,
+          IssueCountry = x.MainGuest.IssueCountry,
+          Profession = x.MainGuest.Profession,
+          MotherName = x.MainGuest.MotherName,
+          PlaceOfBirth = x.MainGuest.PlaceOfBirth
+        })
+        .ToList();
 
-      return await query.Select(x => new ReservationGridDto
+
+      var count = await AsyncExecuter.CountAsync(query); // Count before paging
+
+      var result = new PagedResultDto<ReservationGridDto>
       {
-        ExternalIdentifier = x.ExternalIdentifier,
-        FullName = x.MainGuest.FullName,
-        GuestNationality = x.MainGuest.Nationality,
-        GuestParentName = x.MainGuest.ParentName,
-        GuestDateOfBirth = x.MainGuest.DateOfBirth,
-        GuestAddress = x.MainGuest.Address,
-        IdentityType = x.MainGuest.IdentityType,
-        IdentityNum = x.MainGuest.IdentityNum,
-        PropertyName = x.BranchSource.BranchName,
-        City = x.BranchSource.City,
-        Floor = x.Floor,
-        RoomNumber = x.RoomNumber,
-        CheckInDate = x.MainGuest.CheckInDate,
-        CheckOutDate = x.MainGuest.CheckOutDate,
-        ActualCheckInDate = x.ActualCheckInTime,
-        ActualCheckOutDate = x.ActualCheckOutTime,
-        EscortsCount = x.Escorts.Count,
-        Status = x.Status.ToString(),
-        BranchCode = x.BranchSource.BranchCode
-      }).ToListAsync();
+        Items = data,
+        TotalCount = count
+      };
+
+      return result;
+      
     }
 
     public async Task<DashboardSummaryDto> GetDashboardAsync()

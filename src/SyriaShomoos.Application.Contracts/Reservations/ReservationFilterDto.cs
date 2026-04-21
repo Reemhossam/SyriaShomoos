@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 
 namespace SyriaShomoos.Reservations
 {
-  public class ReservationFilterDto
+  public class ReservationFilterDto : PagedAndSortedResultRequestDto
   {
     public string? GuestName { get; set; }
     public string? Property { get; set; }

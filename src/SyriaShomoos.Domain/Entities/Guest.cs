@@ -23,5 +23,11 @@ namespace SyriaShomoos.Entities
     
     public DateTime DateOfBirth { get; set; }
     
+    public string? Profession { get; set; }
+    public string? MotherName { get; set; }
+    public string? PlaceOfBirth { get; set; }
+    public string? CurrentResidenceCountry { get; set; }
+    public string? IssueCountry { get; set; }
+    
   }
 }

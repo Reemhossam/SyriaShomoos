@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReservationFilterDto, ReservationGridDto, ReservationReadService } from '@proxy/reservations';
+import type { PagedResultDto } from '@abp/ng.core';
+import { ScrollerOptions } from 'primeng/api';
 
 export enum GuestIdType {
   NationalId = 1,
@@ -47,6 +49,7 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
   filterDateFrom: Date | null = null;
   filterDateTo: Date | null = null;
 
+
   ngOnInit() {
     this.idTypesList = Object.keys(GuestIdType)
       .filter(key => isNaN(Number(key)))
@@ -55,19 +58,18 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
         value: GuestIdType[key as keyof typeof GuestIdType]
       }));
 
-    this.fetchReservations();
+    this.onSearch();
   }
 
-  fetchReservations(payload: ReservationFilterDto = {}) {
+  fetchReservations(payload: ReservationFilterDto | null = null) {
     this.isLoading = true;
 
     this.reservationReadService.getDetailedStatistics(payload).subscribe({
-      next: (res: ReservationGridDto[]) => {
-        let results = res || [];
-        this.allReservations = results;
+      next: (res: PagedResultDto<ReservationGridDto>) => {
+        this.reservations = res.items;
         this.pageIndex = 0;
-        this.totalRecords = this.allReservations.length;
-        this.loadPage();
+        this.totalRecords = res.totalCount;
+        this.isLoading = false;
       },
       error: (err: any) => {
         console.error('Error fetching shomoos reservations:', err);
@@ -76,23 +78,11 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     });
   }
 
-  loadPage() {
-    this.isLoading = true;
-
-    setTimeout(() => {
-      const start = this.pageIndex * this.pageSize;
-      const end = start + this.pageSize;
-
-      this.reservations = this.allReservations.slice(start, end);
-      this.totalRecords = this.allReservations.length;
-      this.isLoading = false;
-    }, 400);
-  }
 
   onPageChange(event: any) {
     this.pageIndex = event.first / event.rows;
     this.pageSize = event.rows;
-    this.loadPage();
+    this.onSearch();
   }
 
   toggleFilter() {
@@ -101,6 +91,8 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
 
   onSearch() {
     const payload: ReservationFilterDto = {
+      skipCount: this.pageIndex * this.pageSize,
+      maxResultCount: this.pageSize,
       guestName: this.filterGuestName || undefined,
       property: this.filterPropertyName || undefined,
       identityType: this.filterGuestIdType || undefined,
@@ -121,8 +113,8 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     this.filterIdNumber = null;
     this.filterDateFrom = null;
     this.filterDateTo = null;
-    
-    this.fetchReservations();
+
+    this.onSearch();
   }
 
   formatDate(date: Date): string {

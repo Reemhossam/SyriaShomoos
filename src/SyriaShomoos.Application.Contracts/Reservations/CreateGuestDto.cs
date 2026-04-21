@@ -12,10 +12,18 @@ namespace SyriaShomoos.Reservations
     public string IdentityNum { get; set; }
     public string IdentityType { get; set; }
     public DateTime CheckInDate { get; set; }
+    public DateTime CheckOutDate { get; set; }
+
     public string Nationality { get; set; }
     
     public DateTime DateOfBirth { get; set; }
     public string Address { get; set; }
     public string ParentName { get; set; }
+    public int? VersionNumber { get; set; }
+    public string? Profession { get; set; }
+    public string? MotherName { get; set; }
+    public string? PlaceOfBirth { get; set; }
+    public string? CurrentResidenceCountry { get; set; }
+    public string? IssueCountry { get; set; }
   }
 }

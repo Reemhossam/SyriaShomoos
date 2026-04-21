@@ -5,7 +5,7 @@ const baseUrl = 'http://localhost:4200';
 const oAuthConfig = {
   issuer: 'https://localhost:44388/',
   redirectUri: baseUrl,
-  clientId: 'SyriaShomoos_App',
+  clientId: 'SyriaShomoos_App_Local',
   responseType: 'code',
   scope: 'offline_access SyriaShomoos',
   requireHttps: true,

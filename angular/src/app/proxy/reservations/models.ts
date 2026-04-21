@@ -1,3 +1,4 @@
+import type { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CancelReservationDto {
   externalIdentifier: number;
@@ -11,6 +12,10 @@ export interface CheckInReservationDto {
   userId?: string;
   mainGuest: CreateGuestDto;
   escorts: CreateEscortDto[];
+  city?: string;
+  floor?: string;
+  actualCheckInTime?: string;
+  actualCheckOutTime?: string;
 }
 
 export interface CheckOutReservationDto {
@@ -54,8 +59,17 @@ export interface CreateGuestDto {
   identityNum?: string;
   identityType?: string;
   checkInDate?: string;
+  checkOutDate?: string;
   nationality?: string;
   dateOfBirth?: string;
+  address?: string;
+  parentName?: string;
+  versionNumber?: number;
+  profession?: string;
+  motherName?: string;
+  placeOfBirth?: string;
+  currentResidenceCountry?: string;
+  issueCountry?: string;
 }
 
 export interface DashboardSummaryDto {
@@ -67,7 +81,7 @@ export interface DashboardSummaryDto {
   reservationsPerDay: ReservationPerDayDto[];
 }
 
-export interface ReservationFilterDto {
+export interface ReservationFilterDto extends PagedAndSortedResultRequestDto {
   guestName?: string;
   property?: string;
   identityType?: string;
@@ -97,6 +111,11 @@ export interface ReservationGridDto {
   escortsCount: number;
   status?: string;
   branchCode?: string;
+  profession?: string;
+  motherName?: string;
+  placeOfBirth?: string;
+  currentResidenceCountry?: string;
+  issueCountry?: string;
 }
 
 export interface ReservationPerDayDto {

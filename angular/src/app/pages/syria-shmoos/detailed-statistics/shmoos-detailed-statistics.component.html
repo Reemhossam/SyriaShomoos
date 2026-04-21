@@ -60,7 +60,9 @@
       [value]="reservations"
       [paginator]="true"
       [lazy]="true"
+      [scrollable]="true"
       [rows]="pageSize"
+      scrollDirection="horizontal"
       [totalRecords]="totalRecords"
       [loading]="isLoading"
       (onLazyLoad)="onPageChange($event)"
@@ -70,32 +72,47 @@
       currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
       paginatorTemplate="CurrentPageReport RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
       class="w-full">
-  
+
       <ng-template #header>
         <tr>
-          <th class="whitespace-nowrap text-center">GUEST NAME</th>
-          <th class="whitespace-nowrap text-center">NATIONALITY</th>
-          <th class="whitespace-nowrap text-center">PARENT NAME</th>
-          <th class="whitespace-nowrap text-center">DATE OF BIRTH</th>
-          <th class="whitespace-nowrap text-center">ADDRESS</th>
-          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">GUEST ID TYPE</th>
-          <th class="whitespace-nowrap text-center">ID NO.</th>
-          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">PROPERTY</th>
-          <th class="whitespace-nowrap text-center">CITY</th>
-          <th class="whitespace-nowrap text-center">FLOOR</th>
-          <th class="whitespace-nowrap text-center">UNIT</th>
-          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">CHECK-IN</th>
-          <th class="whitespace-nowrap text-center">CHECK-OUT</th>
-          <th class="whitespace-nowrap text-center border-l border-white/20 pl-2">ACTUAL IN</th>
-          <th class="whitespace-nowrap text-center">ACTUAL OUT</th>
+          <th class="col-lg whitespace-nowrap text-center justify-center">GUEST NAME</th>
+          <th class="col-md whitespace-nowrap text-center">NATIONALITY</th>
+          <th class="col-md whitespace-nowrap text-center">PARENT NAME</th>
+
+          <th class="col-md whitespace-nowrap text-center">MOTHER NAME</th>
+          <th class="col-md whitespace-nowrap text-center">Profession</th>
+          <th class="col-md whitespace-nowrap text-center">Current Residence Country</th>
+          <th class="col-md whitespace-nowrap text-center">Issue Country</th>
+          <th class="col-md whitespace-nowrap text-center">Place OF BIRTH</th>
+
+          <th class="col-md whitespace-nowrap text-center">DATE OF BIRTH</th>
+          <th class="col-lg whitespace-nowrap text-center">ADDRESS</th>
+          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">GUEST ID TYPE</th>
+          <th class="col-md whitespace-nowrap text-center">ID NO.</th>
+          <th class="col-lg whitespace-nowrap text-center border-l border-white/20 pl-2">PROPERTY</th>
+          <th class="col-md whitespace-nowrap text-center">CITY</th>
+          <th class="col-sm whitespace-nowrap text-center">FLOOR</th>
+          <th class="col-sm whitespace-nowrap text-center">UNIT</th>
+          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">CHECK-IN</th>
+          <th class="col-md whitespace-nowrap text-center">CHECK-OUT</th>
+          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">ACTUAL IN</th>
+          <th class="col-md whitespace-nowrap text-center">ACTUAL OUT</th>
         </tr>
       </ng-template>
-      
+
       <ng-template #body let-res let-last="last">
         <tr [ngClass]="{'border-b custom-border': !last, 'border-b border-gray-200': last}">
           <td class="font-bold text-primary">{{ res.fullName || '-' }}</td>
           <td class="text-gray-600 text-center">{{ res.guestNationality || '-' }}</td>
           <td class="text-gray-600 text-center">{{ res.guestParentName || '-' }}</td>
+
+          <td class="text-gray-600 text-center">{{ res.motherName || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.profession || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.currentResidenceCountry || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.issueCountry || '-' }}</td>
+          <td class="text-gray-600 text-center">{{ res.placeOfBirth || '-' }}</td>
+
+
           <td class="text-gray-600 text-center">{{ res.guestDateOfBirth || '-' }}</td>
           <td class="text-gray-600 max-w-[120px] truncate" [title]="res.guestAddress || ''">{{ res.guestAddress || '-' }}</td>
           <td class="text-gray-600 text-center">{{ getGuestIdTypeName(res.identityType) }}</td>
