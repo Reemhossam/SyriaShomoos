@@ -1,9 +1,9 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'https://ssf.marhaba-syria.sy';
 
 const oAuthConfig = {
-  issuer: 'https://localhost:44388/',
+  issuer: 'https://ssb.marhaba-syria.sy/',
   redirectUri: baseUrl,
   clientId: 'SyriaShomoos_App',
   responseType: 'code',
@@ -20,7 +20,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44388',
+      url: 'https://ssb.marhaba-syria.sy',
       rootNamespace: 'SyriaShomoos',
     },
     AbpAccountPublic: {

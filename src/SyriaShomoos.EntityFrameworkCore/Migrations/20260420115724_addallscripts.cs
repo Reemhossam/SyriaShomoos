@@ -1229,8 +1229,7 @@ namespace SyriaShomoos.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Guests_ReservationId",
                 table: "Guests",
-                column: "ReservationId",
-                unique: true);
+                column: "ReservationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guests_VersionNumber",

@@ -14,6 +14,8 @@ namespace SyriaShomoos.Reservations
         public string BranchName { get; set; }
         public string UserId { get; set; }
         public CreateGuestDto MainGuest { get; set; }
-        public List<CreateEscortDto> Escorts { get; set; }
+        public List<CreateEscortDto>? Escorts { get; set; }
+        public string City { get; set; }
+        public string Floor { get; set; }
     }
 }

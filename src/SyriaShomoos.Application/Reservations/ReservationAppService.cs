@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 
 namespace SyriaShomoos.Reservations
 {
@@ -14,18 +15,21 @@ namespace SyriaShomoos.Reservations
     {
         private readonly IRepository<Reservation, Guid> _repository;
         private readonly IRepository<BranchSource, Guid> _branchRepository;
-
+        private readonly UnitOfWorkManager _unitOfWorkManager;
+        
         public ReservationAppService(IRepository<Reservation, Guid> repository,
-            IRepository<BranchSource, Guid> branchRepository)
+            IRepository<BranchSource, Guid> branchRepository, UnitOfWorkManager unitOfWorkManager)
         {
             _repository = repository;
             _branchRepository = branchRepository;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         // CHECK-IN
         public async Task CheckInAsync(CheckInReservationDto input)
         {
-            var reservation = await _repository.FirstOrDefaultAsync(x => x.ExternalIdentifier == input.ExternalIdentifier);
+            var reservation = (await _repository.WithDetailsAsync(x=> x.MainGuest)).FirstOrDefault(x => x.ExternalIdentifier == input.ExternalIdentifier);
+            
             var isReservationExist = reservation != null;
             var branch = await _branchRepository.FirstOrDefaultAsync(x => x.BranchCode == input.BranchCode);
 
@@ -36,7 +40,8 @@ namespace SyriaShomoos.Reservations
                 {
                     BranchCode = input.BranchCode,
                     BranchName = input.BranchName,
-                    UserId = input.UserId
+                    UserId = input.UserId,
+                    City = input.City
                 };
 
                 await _branchRepository.InsertAsync(branch);
@@ -55,8 +60,9 @@ namespace SyriaShomoos.Reservations
             reservation.RoomNumber = input.RoomNumber;
             reservation.Status = ReservationStatus.CheckedIn;
             reservation.CheckInDate = DateTime.UtcNow;
-
-            reservation.MainGuest = new Guest
+            reservation.Floor = input.Floor;
+            
+            var guest = new Guest
             {
                 ReservationId = reservation.Id,
                 FullName = input.MainGuest.FullName,
@@ -64,9 +70,26 @@ namespace SyriaShomoos.Reservations
                 IdentityType = input.MainGuest.IdentityType,
                 Nationality = input.MainGuest.Nationality,
                 CheckInDate = input.MainGuest.CheckInDate,
-                DateOfBirth = input.MainGuest.DateOfBirth
+                DateOfBirth = input.MainGuest.DateOfBirth,
+                Address = input.MainGuest.Address,
+                ParentName = input.MainGuest.ParentName
             };
 
+            if (reservation.Id == Guid.Empty)
+            {
+                reservation.MainGuest = guest;
+            }
+            else
+            {
+                reservation.MainGuest.Address = guest.Address;
+                reservation.MainGuest.CheckInDate = guest.CheckInDate;
+                reservation.MainGuest.DateOfBirth = guest.DateOfBirth;
+                reservation.MainGuest.FullName = guest.FullName;
+                reservation.MainGuest.IdentityNum = guest.IdentityNum;
+                reservation.MainGuest.IdentityType = guest.IdentityType;
+                reservation.MainGuest.Nationality = guest.Nationality;
+                reservation.MainGuest.ParentName = guest.ParentName;
+            }
             reservation.Escorts = input.Escorts?.Select(x => new GuestEscort
             {
                 ReservationId = reservation.Id,
@@ -85,6 +108,7 @@ namespace SyriaShomoos.Reservations
             {
                 await _repository.InsertAsync(reservation);
             }
+            await _unitOfWorkManager.Current!.SaveChangesAsync();
         }
 
         public async Task CheckOutAsync(CheckOutReservationDto input)
@@ -114,6 +138,8 @@ namespace SyriaShomoos.Reservations
             }
 
             await _repository.UpdateAsync(reservation);
+            await _unitOfWorkManager.Current!.SaveChangesAsync();
+            
         }
 
         public async Task CancelAsync(CancelReservationDto input)
@@ -130,6 +156,8 @@ namespace SyriaShomoos.Reservations
             reservation.Status = ReservationStatus.Cancelled;
 
             await _repository.UpdateAsync(reservation);
+            await _unitOfWorkManager.Current!.SaveChangesAsync();
+            
         }
     }
 }
