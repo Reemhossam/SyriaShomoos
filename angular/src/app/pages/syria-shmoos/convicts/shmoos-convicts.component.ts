@@ -6,6 +6,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ConvictFilterDto, ConvictGridDto, ReservationReadService } from '@proxy/reservations';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from 'src/app/shared/services/translation.service';
 
 @Component({
   selector: 'app-shmoos-convicts',
@@ -16,7 +18,8 @@ import { ConvictFilterDto, ConvictGridDto, ReservationReadService } from '@proxy
     ButtonModule,
     InputTextModule,
     FormsModule,
-    DatePickerModule
+    DatePickerModule,
+    TranslateModule
   ],
   templateUrl: './shmoos-convicts.component.html',
   styleUrl: './shmoos-convicts.component.scss'
@@ -43,10 +46,16 @@ export class ShmoosConvictsComponent implements OnInit {
   filterNationality: string | null = null;
   filterDateOfBirth: Date | null = null;
 
-  constructor(private reservationReadService: ReservationReadService) {}
+  constructor(
+    private reservationReadService: ReservationReadService,
+    private translationService: TranslationService) { }
 
   ngOnInit() {
     this.getConvicts();
+  }
+
+  get isAr(): boolean {
+    return this.translationService.currentLanguage() === 'ar';
   }
 
   getConvicts(filter: ConvictFilterDto = {}) {

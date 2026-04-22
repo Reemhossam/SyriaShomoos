@@ -32,10 +32,12 @@
     color: $color-primary;
     box-shadow: none;
     outline: none;
+
     &:focus {
       box-shadow: none;
     }
   }
+
   .p-button {
     position: absolute;
     left: 0;
@@ -46,6 +48,7 @@
     color: $color-primary;
     border: none;
     opacity: 0.8;
+
     &:enabled:hover {
       background-color: transparent;
       color: $color-primary;
@@ -60,9 +63,17 @@
   position: relative;
   min-height: 120px;
 
-  .card-icon {
+  .card-icon-en {
     position: absolute;
     right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+  }
+
+  .card-icon-ar {
+    position: absolute;
+    left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.8;

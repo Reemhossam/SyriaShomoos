@@ -3,13 +3,17 @@
   <div class="header-container flex justify-between items-end mb-6">
     <div class="page-title-section">
       <div class="breadcrumb mb-1">
-        <span class="text-primary">Operations </span> <i class="pi pi-angle-right" style="font-size: 0.7rem;"></i> <span class="text-primary font-bold">RECORDS</span>
+        <span class="text-primary">{{ 'RECORDS.OPERATIONS' | translate }} </span> <i class="pi pi-angle-right"
+          [ngStyle]="{ transform: isAr ? 'rotate(180deg)' : 'rotate(0deg)' }" style="font-size: 0.7rem;"></i> <span
+          class="text-primary font-bold">{{ 'RECORDS.BREADCRUMB' | translate }}</span>
       </div>
-      <h1 class="page-title">Guest & reservation records</h1>
+      <h1 class="page-title">{{ 'RECORDS.PAGE_TITLE' | translate }}</h1>
     </div>
     <div class="filter-actions flex gap-3 ">
-      <button pButton label="Export To Excel" icon="pi pi-file-excel" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg"></button>
-      <button [ngClass]="{'bg-primary': showFilter}" pButton label="Filter" icon="pi pi-filter" class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg" (click)="toggleFilter()"></button>
+      <button pButton [label]="'RECORDS.EXPORT_EXCEL' | translate" icon="pi pi-file-excel"
+        class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg"></button>
+      <button [ngClass]="{'bg-primary': showFilter}" pButton [label]="'RECORDS.FILTER' | translate" icon="pi pi-filter"
+        class="p-button-outlined text-gray-700 bg-white border-gray-300 rounded-lg" (click)="toggleFilter()"></button>
     </div>
   </div>
 
@@ -17,86 +21,91 @@
   <div *ngIf="showFilter" class="filter-panel bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
       <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-gray-600">Guest Name</label>
-        <input pInputText type="text" placeholder="Guest Name" class="w-full custom-input" [(ngModel)]="filterGuestName" />
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.GUEST_NAME' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.GUEST_NAME' | translate" class="w-full custom-input"
+          [(ngModel)]="filterGuestName" />
       </div>
       <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-gray-600">Property Name</label>
-        <input pInputText type="text" placeholder="Property" class="w-full custom-input" [(ngModel)]="filterPropertyName" />
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.PROPERTY_NAME' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.PROPERTY_PLACEHOLDER' | translate"
+          class="w-full custom-input" [(ngModel)]="filterPropertyName" />
       </div>
       <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-gray-600">Guest ID Type</label>
-        <p-select [options]="idTypesList" placeholder="Guest ID Type" styleClass="w-full custom-input" [(ngModel)]="filterGuestIdType"></p-select>
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.GUEST_ID_TYPE' | translate }}</label>
+        <p-select [options]="idTypesList" [placeholder]="'RECORDS.GUEST_ID_TYPE' | translate"
+          styleClass="w-full custom-input" [(ngModel)]="filterGuestIdType"></p-select>
       </div>
       <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-gray-600">Unit Number</label>
-        <input pInputText type="text" placeholder="Unit Number" class="w-full custom-input" [(ngModel)]="filterUnitNumber" />
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.UNIT_NUMBER' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.UNIT_NUMBER' | translate" class="w-full custom-input"
+          [(ngModel)]="filterUnitNumber" />
       </div>
 
       <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-gray-600">ID Number</label>
-        <input pInputText type="text" placeholder="ID Number" class="w-full custom-input" [(ngModel)]="filterIdNumber" />
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.ID_NUMBER' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.ID_NUMBER' | translate" class="w-full custom-input"
+          [(ngModel)]="filterIdNumber" />
       </div>
 
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-semibold text-gray-600">From</label>
-          <p-datepicker styleClass="w-full custom-input" [iconDisplay]="'input'" [showIcon]="true" inputId="from-date" [(ngModel)]="filterDateFrom"></p-datepicker>
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-semibold text-gray-600">To</label>
-          <p-datepicker styleClass="w-full custom-input" [iconDisplay]="'input'" [showIcon]="true" inputId="to-date" [(ngModel)]="filterDateTo"></p-datepicker>
-        </div>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.FROM_DATE' | translate }}</label>
+        <p-datepicker styleClass="w-full custom-input" [iconDisplay]="'input'" [showIcon]="true" inputId="from-date"
+          [(ngModel)]="filterDateFrom"></p-datepicker>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.TO_DATE' | translate }}</label>
+        <p-datepicker styleClass="w-full custom-input" [iconDisplay]="'input'" [showIcon]="true" inputId="to-date"
+          [(ngModel)]="filterDateTo"></p-datepicker>
+      </div>
 
-        <div class="flex items-end justify-end gap-2">
-          <button pButton label="Clear" icon="pi pi-times" class="p-button-outlined border-gray-300 text-gray-500 bg-white px-4" (click)="clearFilters()"></button>
-          <button pButton label="Search" icon="pi pi-search" class="p-button-outlined border-gray-300 text-gray-700 bg-white px-6 serch-btn" (click)="onSearch()"></button>
-       </div>
+      <div class="flex items-end justify-end gap-2">
+        <button pButton [label]="'RECORDS.CLEAR' | translate" icon="pi pi-times"
+          class="p-button-outlined border-gray-300 text-gray-500 bg-white px-4" (click)="clearFilters()"></button>
+        <button pButton [label]="'RECORDS.SEARCH' | translate" icon="pi pi-search"
+          class="p-button-outlined border-gray-300 text-gray-700 bg-white px-6 serch-btn" (click)="onSearch()"></button>
+      </div>
     </div>
   </div>
 
   <!-- Data Table -->
   <div class="table-container bg-white shadow-sm border border-gray-200">
-    <p-table
-      [value]="reservations"
-      [paginator]="true"
-      [lazy]="true"
-      [scrollable]="true"
-      [rows]="pageSize"
-      scrollDirection="horizontal"
-      [totalRecords]="totalRecords"
-      [loading]="isLoading"
-      (onLazyLoad)="onPageChange($event)"
-      [rowsPerPageOptions]="[5, 10, 20, 50]"
-      styleClass="p-datatable-sm custom-table"
-      [showCurrentPageReport]="true"
+    <p-table [value]="reservations" [paginator]="true" [lazy]="true" [scrollable]="true" [rows]="pageSize"
+      scrollDirection="horizontal" [totalRecords]="totalRecords" [loading]="isLoading"
+      (onLazyLoad)="onPageChange($event)" [rowsPerPageOptions]="[5, 10, 20, 50]"
+      styleClass="p-datatable-sm custom-table" [showCurrentPageReport]="true"
       currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
       paginatorTemplate="CurrentPageReport RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
       class="w-full">
 
       <ng-template #header>
         <tr>
-          <th class="col-lg whitespace-nowrap text-center justify-center">GUEST NAME</th>
-          <th class="col-md whitespace-nowrap text-center">NATIONALITY</th>
-          <th class="col-md whitespace-nowrap text-center">PARENT NAME</th>
+          <th class="col-lg whitespace-nowrap text-center justify-center">{{ 'RECORDS.COL_GUEST_NAME' | translate }}
+          </th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_NATIONALITY' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_PARENT_NAME' | translate }}</th>
 
-          <th class="col-md whitespace-nowrap text-center">MOTHER NAME</th>
-          <th class="col-md whitespace-nowrap text-center">Profession</th>
-          <th class="col-md whitespace-nowrap text-center">Current Residence Country</th>
-          <th class="col-md whitespace-nowrap text-center">Issue Country</th>
-          <th class="col-md whitespace-nowrap text-center">Place OF BIRTH</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_MOTHER_NAME' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_PROFESSION' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_CURRENT_RESIDENCE' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_ISSUE_COUNTRY' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_PLACE_OF_BIRTH' | translate }}</th>
 
-          <th class="col-md whitespace-nowrap text-center">DATE OF BIRTH</th>
-          <th class="col-lg whitespace-nowrap text-center">ADDRESS</th>
-          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">GUEST ID TYPE</th>
-          <th class="col-md whitespace-nowrap text-center">ID NO.</th>
-          <th class="col-lg whitespace-nowrap text-center border-l border-white/20 pl-2">PROPERTY</th>
-          <th class="col-md whitespace-nowrap text-center">CITY</th>
-          <th class="col-sm whitespace-nowrap text-center">FLOOR</th>
-          <th class="col-sm whitespace-nowrap text-center">UNIT</th>
-          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">CHECK-IN</th>
-          <th class="col-md whitespace-nowrap text-center">CHECK-OUT</th>
-          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">ACTUAL IN</th>
-          <th class="col-md whitespace-nowrap text-center">ACTUAL OUT</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_DATE_OF_BIRTH' | translate }}</th>
+          <th class="col-lg whitespace-nowrap text-center">{{ 'RECORDS.COL_ADDRESS' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">{{ 'RECORDS.COL_GUEST_ID_TYPE'
+            | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_ID_NO' | translate }}</th>
+          <th class="col-lg whitespace-nowrap text-center border-l border-white/20 pl-2">{{ 'RECORDS.COL_PROPERTY' |
+            translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_CITY' | translate }}</th>
+          <th class="col-sm whitespace-nowrap text-center">{{ 'RECORDS.COL_FLOOR' | translate }}</th>
+          <th class="col-sm whitespace-nowrap text-center">{{ 'RECORDS.COL_UNIT' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">{{ 'RECORDS.COL_CHECK_IN' |
+            translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_CHECK_OUT' | translate }}</th>
+          <th class="col-md whitespace-nowrap text-center border-l border-white/20 pl-2">{{ 'RECORDS.COL_ACTUAL_IN' |
+            translate }}</th>
+          <th class="col-md whitespace-nowrap text-center">{{ 'RECORDS.COL_ACTUAL_OUT' | translate }}</th>
         </tr>
       </ng-template>
 
@@ -114,34 +123,36 @@
 
 
           <td class="text-gray-600 text-center">{{ res.guestDateOfBirth || '-' }}</td>
-          <td class="text-gray-600 max-w-[120px] truncate" [title]="res.guestAddress || ''">{{ res.guestAddress || '-' }}</td>
+          <td class="text-gray-600 max-w-[120px] truncate" [title]="res.guestAddress || ''">{{ res.guestAddress || '-'
+            }}</td>
           <td class="text-gray-600 text-center">{{ getGuestIdTypeName(res.identityType) }}</td>
           <td class="text-gray-600 font-medium text-center">{{ res.identityNum || '-' }}</td>
-          <td class="text-gray-600 max-w-[100px] truncate text-center" [title]="res.propertyName || ''">{{ res.propertyName || '-' }}</td>
+          <td class="text-gray-600 max-w-[100px] truncate text-center" [title]="res.propertyName || ''">{{
+            res.propertyName || '-' }}</td>
           <td class="text-gray-600 text-center">{{ res.city || '-' }}</td>
           <td class="text-gray-600 text-center">{{ res.floor || '-' }}</td>
           <td class="text-gray-800 font-bold text-center">{{ res.roomNumber || '-' }}</td>
           <td class="text-xs text-gray-500 whitespace-nowrap text-center">
             <ng-container *ngIf="res.checkInDate">
-              {{ res.checkInDate | date:'yyyy-MM-dd' }}<br/>{{ res.checkInDate | date:'HH:mm' }}
+              {{ res.checkInDate | date:'yyyy-MM-dd' }}<br />{{ res.checkInDate | date:'HH:mm' }}
             </ng-container>
             <span *ngIf="!res.checkInDate">-</span>
           </td>
           <td class="text-xs text-gray-500 whitespace-nowrap text-center">
             <ng-container *ngIf="res.checkOutDate">
-               {{ res.checkOutDate | date:'yyyy-MM-dd' }}<br/>{{ res.checkOutDate | date:'HH:mm' }}
+              {{ res.checkOutDate | date:'yyyy-MM-dd' }}<br />{{ res.checkOutDate | date:'HH:mm' }}
             </ng-container>
             <span *ngIf="!res.checkOutDate">-</span>
           </td>
           <td class="text-xs font-semibold text-primary whitespace-nowrap text-center">
             <ng-container *ngIf="res.actualCheckInDate">
-               {{ res.actualCheckInDate | date:'yyyy-MM-dd' }}<br/>{{ res.actualCheckInDate | date:'HH:mm' }}
+              {{ res.actualCheckInDate | date:'yyyy-MM-dd' }}<br />{{ res.actualCheckInDate | date:'HH:mm' }}
             </ng-container>
             <span *ngIf="!res.actualCheckInDate">-</span>
           </td>
           <td class="text-xs font-semibold text-primary whitespace-nowrap text-center">
             <ng-container *ngIf="res.actualCheckOutDate">
-               {{ res.actualCheckOutDate | date:'yyyy-MM-dd' }}<br/>{{ res.actualCheckOutDate | date:'HH:mm' }}
+              {{ res.actualCheckOutDate | date:'yyyy-MM-dd' }}<br />{{ res.actualCheckOutDate | date:'HH:mm' }}
             </ng-container>
             <span *ngIf="!res.actualCheckOutDate">-</span>
           </td>

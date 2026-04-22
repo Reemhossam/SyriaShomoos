@@ -3,15 +3,18 @@
   <div class="header-container flex justify-between items-end mb-6">
     <div class="page-title-section">
       <div class="breadcrumb mb-1">
-        <span class="text-primary">Operations Command</span> <i class="pi pi-angle-right" style="font-size: 0.7rem;"></i> <span class="text-primary font-bold">Convicts Register</span>
+        <span class="text-primary">{{ 'RECORDS.OPERATIONS' | translate }}</span>
+        <i class="pi pi-angle-right" [ngStyle]="{ transform: isAr ? 'rotate(180deg)' : 'rotate(0deg)' }"
+          style="font-size: 0.7rem;"></i>
+        <span class="text-primary font-bold">{{ 'RECORDS.CONVICTS' | translate }}</span>
       </div>
-      <h1 class="page-title">Convicts register</h1>
+      <h1 class="page-title">{{ 'RECORDS.CONVICTS' | translate }}</h1>
     </div>
-    
-    <div class="filter-actions flex gap-3">
-      <button pButton label="Filter" class="p-button-outlined btn-filter" (click)="toggleFilter()">
-             <img src="assets/images/filter.png" alt=""> 
 
+    <div class="filter-actions flex gap-3">
+      <button pButton [label]="'RECORDS.FILTER' | translate" class="p-button-outlined btn-filter"
+        (click)="toggleFilter()">
+        <img src="assets/images/filter.png" alt="">
       </button>
     </div>
   </div>
@@ -19,87 +22,88 @@
   <!-- Filter Grid -->
   <div *ngIf="showFilter" class="filter-card bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
     <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-      
+
       <!-- Row 1 -->
       <div class="flex flex-col gap-1">
-        <label class="filter-label">GUEST NAME</label>
-        <input pInputText type="text" placeholder="Enter full name" class="w-full custom-input" [(ngModel)]="filterGuestName" />
-      </div>
-      
-      <div class="flex flex-col gap-1">
-        <label class="filter-label">HOTEL NAME</label>
-        <input pInputText type="text" placeholder="Search hotels" class="w-full custom-input" [(ngModel)]="filterHotelName" />
+        <label class="filter-label">{{ 'RECORDS.GUEST_NAME' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.GUEST_NAME' | translate" class="w-full custom-input"
+          [(ngModel)]="filterGuestName" />
       </div>
 
       <div class="flex flex-col gap-1">
-        <label class="filter-label">ID NUMBER</label>
-        <input pInputText type="text" placeholder="National ID" class="w-full custom-input" [(ngModel)]="filterIdNumber" />
+        <label class="filter-label">{{ 'RECORDS.PROPERTY_NAME' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.PROPERTY_PLACEHOLDER' | translate"
+          class="w-full custom-input" [(ngModel)]="filterHotelName" />
       </div>
-      
+
       <div class="flex flex-col gap-1">
-        <label class="filter-label">RESERVATION NUMBER</label>
-        <input pInputText type="text" placeholder="RES-XXXXX" class="w-full custom-input" [(ngModel)]="filterReservation" />
+        <label class="filter-label">{{ 'RECORDS.ID_NUMBER' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.ID_NUMBER' | translate" class="w-full custom-input"
+          [(ngModel)]="filterIdNumber" />
       </div>
-      
+
       <div class="flex flex-col gap-1">
-        <label class="filter-label">ADDRESS</label>
-        <input pInputText type="text" placeholder="Full residential address" class="w-full custom-input" [(ngModel)]="filterAddress" />
+        <label class="filter-label">{{ 'RECORDS.RESERVATION_NO' | translate }}</label>
+        <input pInputText type="text" placeholder="RES-XXXXX" class="w-full custom-input"
+          [(ngModel)]="filterReservation" />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="filter-label">{{ 'RECORDS.COL_ADDRESS' | translate }}</label>
+        <input pInputText type="text" [placeholder]="'RECORDS.COL_ADDRESS' | translate" class="w-full custom-input"
+          [(ngModel)]="filterAddress" />
       </div>
 
       <!-- Row 2 -->
       <div class="flex flex-col gap-1 md:col-span-2 relative">
-        <label class="filter-label">NATIONALITY</label>
+        <label class="filter-label">{{ 'RECORDS.COL_NATIONALITY' | translate }}</label>
         <div class="relative w-full">
-          <input pInputText type="text" placeholder="Syrian Arab Republic" class="w-full custom-input" [(ngModel)]="filterNationality" />
+          <input pInputText type="text" [placeholder]="'RECORDS.COL_NATIONALITY' | translate"
+            class="w-full custom-input" [(ngModel)]="filterNationality" />
           <i class="pi pi-angle-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
         </div>
       </div>
 
       <div class="flex flex-col gap-1 md:col-span-2">
-        <label class="filter-label">DATE OF BIRTH</label>
-        <p-datepicker styleClass="w-full custom-datepicker" inputStyleClass="custom-input" [showIcon]="false" placeholder="mm/dd/yyyy" [(ngModel)]="filterDateOfBirth"></p-datepicker>
+        <label class="filter-label">{{ 'RECORDS.COL_DATE_OF_BIRTH' | translate }}</label>
+        <p-datepicker styleClass="w-full custom-datepicker" inputStyleClass="custom-input" [showIcon]="false"
+          placeholder="mm/dd/yyyy" [(ngModel)]="filterDateOfBirth"></p-datepicker>
       </div>
 
       <!-- Actions -->
       <div class="flex items-end justify-end gap-6 md:col-start-5">
         <button class="btn-clear flex items-center gap-2 whitespace-nowrap" (click)="clearFilters()">
-          <img src="assets/images/clear.png" alt=""> Clear
+          <img src="assets/images/clear.png" alt="">
+          {{ 'RECORDS.CLEAR' | translate }}
         </button>
-        <button pButton label="Search" icon="pi pi-search" class="p-button-primary btn-search whitespace-nowrap" (click)="onSearch()"></button>
+        <button pButton [label]="'RECORDS.SEARCH' | translate" icon="pi pi-search"
+          class="p-button-primary btn-search whitespace-nowrap" (click)="onSearch()"></button>
       </div>
     </div>
   </div>
 
   <!-- Data Table -->
   <div class="table-container bg-white shadow-sm border border-gray-200">
-    <p-table
-      [value]="convicts"
-      [paginator]="true"
-      [lazy]="true"
-      [rows]="pageSize"
-      [totalRecords]="totalRecords"
-      [loading]="isLoading"
-      (onLazyLoad)="onPageChange($event)"
-      [rowsPerPageOptions]="[6,10, 20, 50]"
-      styleClass="p-datatable-sm custom-table"
-      [showCurrentPageReport]="true"
-      currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
+    <p-table [value]="convicts" [paginator]="true" [lazy]="true" [rows]="pageSize" [totalRecords]="totalRecords"
+      [loading]="isLoading" (onLazyLoad)="onPageChange($event)" [rowsPerPageOptions]="[6,10, 20, 50]"
+      styleClass="p-datatable-sm custom-table" [showCurrentPageReport]="true"
+      [currentPageReportTemplate]="'RECORDS.SHOWING' | translate"
       paginatorTemplate="CurrentPageReport RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
       class="w-full">
-  
+
       <ng-template #header>
         <tr>
-          <th class="whitespace-nowrap">GUEST NAME</th>
-          <th class="whitespace-nowrap">HOTEL NAME</th>
-          <th class="whitespace-nowrap">DATE OF BIRTH</th>
-          <th class="whitespace-nowrap">NATIONALITY</th>
-          <th class="whitespace-nowrap">ID NUMBER</th>
-          <th class="whitespace-nowrap">RESERVATION</th>
-          <th class="whitespace-nowrap">ADDRESS</th>
-          <th class="whitespace-nowrap text-center flex justify-center">NOTE</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.COL_GUEST_NAME' | translate }}</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.COL_PROPERTY' | translate }}</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.COL_DATE_OF_BIRTH' | translate }}</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.COL_NATIONALITY' | translate }}</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.COL_ID_NO' | translate }}</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.RESERVATION_NO' | translate }}</th>
+          <th class="whitespace-nowrap">{{ 'RECORDS.COL_ADDRESS' | translate }}</th>
+          <th class="whitespace-nowrap text-center flex justify-center">{{ 'RECORDS.NOTE' | translate }}</th>
         </tr>
       </ng-template>
-      
+
       <ng-template #body let-res let-last="last">
         <tr [ngClass]="{'border-b custom-border': !last, 'border-b': last}">
           <td class="font-bold text-gray-800">{{ res.fullName }}</td>
@@ -110,13 +114,14 @@
           <td class="text-gray-600">{{ res.reservationNumber }}</td>
           <td class="text-gray-600 truncate max-w-xs">{{ res.address }}</td>
           <td class="text-center flex justify-center">
-             <button *ngIf="res.note" class="btn-review">Review</button>
-             <span *ngIf="!res.note" class="text-gray-400">&mdash;</span>
+            <button *ngIf="res.note" class="btn-review">
+              {{ 'RECORDS.REVIEW' | translate }}
+            </button>
+            <span *ngIf="!res.note" class="text-gray-400">&mdash;</span>
           </td>
         </tr>
       </ng-template>
 
-      <!-- Custom paginator logic overriden in SCSS -->
     </p-table>
   </div>
 </div>

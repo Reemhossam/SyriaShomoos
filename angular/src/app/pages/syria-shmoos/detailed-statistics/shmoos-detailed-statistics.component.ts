@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -8,7 +8,8 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReservationFilterDto, ReservationGridDto, ReservationReadService } from '@proxy/reservations';
 import type { PagedResultDto } from '@abp/ng.core';
-import { ScrollerOptions } from 'primeng/api';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from 'src/app/shared/services/translation.service';
 
 export enum GuestIdType {
   NationalId = 1,
@@ -22,13 +23,11 @@ export enum GuestIdType {
 @Component({
   selector: 'app-shmoos-detailed-statistics',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, InputTextModule, FormsModule, SelectModule, DatePickerModule],
+  imports: [CommonModule, TableModule, ButtonModule, InputTextModule, FormsModule, SelectModule, DatePickerModule, TranslateModule],
   templateUrl: './shmoos-detailed-statistics.component.html',
   styleUrl: './shmoos-detailed-statistics.component.scss'
 })
 export class ShmoosDetailedStatisticsComponent implements OnInit {
-  reservationReadService = inject(ReservationReadService);
-
   showFilter = true;
   reservations: ReservationGridDto[] = [];
   allReservations: ReservationGridDto[] = [];
@@ -50,7 +49,15 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
   filterDateTo: Date | null = null;
 
 
+  constructor(
+    private reservationReadService: ReservationReadService,
+    private translationService: TranslationService
+  ) { }
+
+
+
   ngOnInit() {
+
     this.idTypesList = Object.keys(GuestIdType)
       .filter(key => isNaN(Number(key)))
       .map(key => ({
@@ -59,6 +66,10 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
       }));
 
     this.onSearch();
+  }
+
+  get isAr(): boolean {
+    return this.translationService.currentLanguage() === 'ar';
   }
 
   fetchReservations(payload: ReservationFilterDto | null = null) {

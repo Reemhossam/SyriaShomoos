@@ -5,17 +5,18 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DashboardSummaryDto, ReservationReadService } from '@proxy/reservations';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from 'src/app/shared/services/translation.service';
 
 @Component({
   selector: 'app-shmoos-dashboard',
   standalone: true,
-  imports: [CommonModule, ChartModule, ButtonModule, CalendarModule, FormsModule],
+  imports: [CommonModule, ChartModule, ButtonModule, CalendarModule, FormsModule, TranslateModule],
   providers: [DatePipe],
   templateUrl: './shmoos-dashboard.component.html',
   styleUrl: './shmoos-dashboard.component.scss'
 })
 export class ShmoosDashboardComponent implements OnInit {
-  reservationReadService = inject(ReservationReadService);
 
   barData: any;
   barOptions: any;
@@ -37,8 +38,13 @@ export class ShmoosDashboardComponent implements OnInit {
   isLoading = false;
   hasTodayData = true;
   hasBarData = true;
-  
+
   recentLogs: any[] = [];
+
+  constructor(
+    private translationService: TranslationService,
+    private reservationReadService: ReservationReadService
+  ) { }
 
 
   ngOnInit() {
@@ -46,10 +52,13 @@ export class ShmoosDashboardComponent implements OnInit {
     this.fetchStats();
   }
 
+  get isAr(): boolean {
+    return this.translationService.currentLanguage() === 'ar';
+  }
   fetchStats() {
     this.isLoading = true;
     this.reservationReadService.getDashboard().subscribe({
-      next: (res:DashboardSummaryDto) => {
+      next: (res: DashboardSummaryDto) => {
         this.isLoading = false;
         this.updateCharts(res);
       },
@@ -74,13 +83,13 @@ export class ShmoosDashboardComponent implements OnInit {
     if (res.flaggedReservations !== undefined) {
       this.statsData.flagged = res.flaggedReservations;
     }
-    
+
     // Bar Chart Update
     if (res.reservationsPerDay && Array.isArray(res.reservationsPerDay) && res.reservationsPerDay.length > 0) {
       this.hasBarData = true;
       const labels = res.reservationsPerDay.map((item: any) => item.day);
       const resData = res.reservationsPerDay.map((item: any) => item.count);
-      
+
       const primaryColor = '#194E45';
       const secondaryColor = '#b9a779';
       const bgColors = resData.map((_, i) => (i % 2 === 0 ? primaryColor : secondaryColor));
@@ -104,13 +113,13 @@ export class ShmoosDashboardComponent implements OnInit {
     const checkedIn = res.checkedIn || 0;
     const checkedOut = res.checkedOut || 0;
     const cancelled = res.cancelled || 0;
-    
+
     this.rawCounts.checkedIn = checkedIn;
     this.rawCounts.checkedOut = checkedOut;
     this.rawCounts.cancelled = cancelled;
 
     const totalToday = checkedIn + checkedOut + cancelled;
-    
+
     if (totalToday > 0) {
       this.hasTodayData = true;
     } else {

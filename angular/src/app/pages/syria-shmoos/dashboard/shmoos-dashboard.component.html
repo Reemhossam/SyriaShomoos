@@ -1,20 +1,17 @@
 <!-- Dashboard Header -->
 <div class="flex justify-between items-start mb-6">
   <div>
-    <h1 class="text-3xl font-extrabold m-0 title-color">Dashboard</h1>
-    <p class="text-sm m-0 mt-1 subtitle-color">Summary metrics and trends. Values are dummy data for layout review.</p>
+    <h1 class="text-3xl font-extrabold m-0 title-color">
+      {{ 'SYSTEM.DASHBOARD' | translate }}
+    </h1>
+    <p class="text-sm m-0 mt-1 subtitle-color">
+      {{ 'DASHBOARD.DESCRIPTION' | translate }}
+    </p>
   </div>
   <div class="p-calendar-pill">
-    <p-calendar
-      [(ngModel)]="selectedDate"
-      [showIcon]="true"
-      [iconDisplay]="'input'"
-      dateFormat="DD, MM dd, yy"
-      [readonlyInput]="true"
-      (onSelect)="onDateChange($event)"
-      [appendTo]="'body'"
-      inputStyleClass="text-sm"
-    ></p-calendar>
+    <p-calendar [(ngModel)]="selectedDate" [showIcon]="true" [iconDisplay]="'input'" dateFormat="DD, MM dd, yy"
+      [readonlyInput]="true" (onSelect)="onDateChange($event)" [appendTo]="'body'"
+      inputStyleClass="text-sm"></p-calendar>
   </div>
 </div>
 
@@ -22,23 +19,33 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
   <!-- Reservations Card -->
   <div class="card-reservations p-5">
-    <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">RESERVATIONS</p>
+    <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">
+      {{ 'DASHBOARD.RESERVATIONS' | translate }}
+    </p>
     <p *ngIf="isLoading" class="text-4xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
     <p *ngIf="!isLoading" class="text-4xl font-extrabold m-0">{{ statsData.reservations }}</p>
-    <p class="text-xs m-0 mt-1 card-sub">All properties</p>
-    <span class="card-icon">
+    <p class="text-xs m-0 mt-1 card-sub">
+      {{ 'DASHBOARD.ALL_PROPERTIES' | translate }}
+    </p>
+    <span [ngClass]="isAr ? 'card-icon-ar' : 'card-icon-en'">
       <img src="assets/images/bed.svg" alt="">
     </span>
   </div>
 
   <!-- Flagged Card -->
   <div class="card-flagged p-5">
-    <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">FLAGGED</p>
+    <p class="text-xs font-bold m-0 mb-1 tracking-widest uppercase card-label">
+      {{ 'DASHBOARD.FLAGGED' | translate }}
+    </p>
     <p *ngIf="isLoading" class="text-4xl font-extrabold m-0"><i class="pi pi-spin pi-spinner"></i></p>
     <p *ngIf="!isLoading && statsData.flagged!=0" class="text-4xl font-extrabold m-0">{{ statsData.flagged }}</p>
-    <p *ngIf="!isLoading&&statsData.flagged==0" class="text-4xl font-extrabold m-0">null</p>
-    <p class="text-xs m-0 mt-1 card-sub">Requires review</p>
-    <span class="card-icon">
+    <p *ngIf="!isLoading&&statsData.flagged==0" class="text-4xl font-extrabold m-0">
+      {{ 'DASHBOARD.NULL' | translate }}
+    </p>
+    <p class="text-xs m-0 mt-1 card-sub">
+      {{ 'DASHBOARD.REQUIRES_REVIEW' | translate }}
+    </p>
+    <span [ngClass]="isAr ? 'card-icon-ar' : 'card-icon-en'">
       <img src="assets/images/warn.png" alt="">
     </span>
   </div>
@@ -50,21 +57,31 @@
   <div class="chart-card p-6 flex flex-col">
     <div class="flex justify-between items-start mb-1">
       <div>
-        <h3 class="text-lg font-bold m-0 title-color">Reservations per day</h3>
-        <p class="text-xs m-0 mt-1 subtitle-color">Last 7 days</p>
+        <h3 class="text-lg font-bold m-0 title-color">
+          {{ 'DASHBOARD.RESERVATIONS_PER_DAY' | translate }}
+        </h3>
+        <p class="text-xs m-0 mt-1 subtitle-color">
+          {{ 'DASHBOARD.LAST_7_DAYS' | translate }}
+        </p>
       </div>
-      <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
+      <button pButton type="button" icon="pi pi-ellipsis-v"
+        class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
     </div>
     <div class="flex-grow mt-4 chart-area relative">
-      <p-chart *ngIf="hasBarData && !isLoading" type="bar" [data]="barData" [options]="barOptions" height="250px"></p-chart>
-      
+      <p-chart *ngIf="hasBarData && !isLoading" type="bar" [data]="barData" [options]="barOptions"
+        height="250px"></p-chart>
+
       <!-- Empty State -->
       <div *ngIf="!hasBarData && !isLoading" class="flex flex-col items-center justify-center h-[250px] text-center">
         <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
           <i class="pi pi-chart-bar text-2xl text-gray-400"></i>
         </div>
-        <p class="m-0 text-sm font-bold text-gray-500">No data to view</p>
-        <p class="m-0 text-xs text-gray-400 mt-1">There are no reservations for the selected period.</p>
+        <p class="m-0 text-sm font-bold text-gray-500">
+          {{ 'DASHBOARD.NO_DATA' | translate }}
+        </p>
+        <p class="m-0 text-xs text-gray-400 mt-1">
+          {{ 'DASHBOARD.NO_RESERVATIONS' | translate }}
+        </p>
       </div>
 
       <!-- Loading State -->
@@ -78,58 +95,72 @@
   <div class="chart-card p-6 flex flex-col">
     <div class="flex justify-between items-start mb-1">
       <div>
-        <h3 class="text-lg font-bold m-0 title-color">Today's status mix</h3>
-        <p class="text-xs m-0 mt-1 subtitle-color">Distribution of daily reservation outcomes</p>
+        <h3 class="text-lg font-bold m-0 title-color">
+          {{ 'DASHBOARD.STATUS_MIX' | translate }}
+        </h3>
+        <p class="text-xs m-0 mt-1 subtitle-color">
+          {{ 'DASHBOARD.STATUS_DESC' | translate }}
+        </p>
       </div>
-      <button pButton type="button" icon="pi pi-refresh" class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
+      <button pButton type="button" icon="pi pi-refresh"
+        class="p-button-text p-button-rounded p-button-sm btn-icon-muted"></button>
     </div>
 
     <div class="flex items-center gap-6 flex-grow mt-4">
       <!-- Doughnut -->
       <div class="flex justify-center items-center doughnut-wrapper">
-        <p-chart *ngIf="hasTodayData && !isLoading" type="doughnut" [data]="doughnutData" [options]="doughnutOptions" width="160px" height="160px"></p-chart>
+        <p-chart *ngIf="hasTodayData && !isLoading" type="doughnut" [data]="doughnutData" [options]="doughnutOptions"
+          width="160px" height="160px"></p-chart>
         <div *ngIf="!isLoading" class="doughnut-center">
           <span class="text-2xl font-extrabold title-color">{{ getTotalDoughnutSum() }}</span>
           <br>
-          <span class="text-xs subtitle-color font-semibold">TOTAL</span>
+          <span class="text-xs subtitle-color font-semibold">
+            {{ 'DASHBOARD.TOTAL' | translate }}
+          </span>
         </div>
         <div *ngIf="isLoading" class="flex justify-center items-center doughnut-loader">
           <i class="pi pi-spin pi-spinner text-3xl title-color"></i>
         </div>
       </div>
 
-      <!-- Legend with progress bars -->
+      <!-- Legend -->
       <div class="flex flex-col gap-4 flex-grow">
-        <!-- Checked In -->
         <div>
           <div class="flex justify-between items-center mb-1">
-            <span class="text-sm font-bold text-dark">Checked in</span>
+            <span class="text-sm font-bold text-dark">
+              {{ 'DASHBOARD.CHECKED_IN' | translate }}
+            </span>
             <span class="text-sm font-bold text-dark">{{ rawCounts.checkedIn }}</span>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-fill progress-fill-primary" [style.width.%]="(rawCounts.checkedIn / getTotalDoughnutSum()) * 100"></div>
+            <div class="progress-fill progress-fill-primary"
+              [style.width.%]="(rawCounts.checkedIn / getTotalDoughnutSum()) * 100"></div>
           </div>
         </div>
 
-        <!-- Checked Out -->
         <div>
           <div class="flex justify-between items-center mb-1">
-            <span class="text-sm font-bold text-dark">Checked out</span>
+            <span class="text-sm font-bold text-dark">
+              {{ 'DASHBOARD.CHECKED_OUT' | translate }}
+            </span>
             <span class="text-sm font-bold text-dark">{{ rawCounts.checkedOut }}</span>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-fill progress-fill-secondary" [style.width.%]="(rawCounts.checkedOut / getTotalDoughnutSum()) * 100"></div>
+            <div class="progress-fill progress-fill-secondary"
+              [style.width.%]="(rawCounts.checkedOut / getTotalDoughnutSum()) * 100"></div>
           </div>
         </div>
 
-        <!-- Cancelled -->
         <div>
           <div class="flex justify-between items-center mb-1">
-            <span class="text-sm font-bold text-dark">Cancelled</span>
+            <span class="text-sm font-bold text-dark">
+              {{ 'DASHBOARD.CANCELLED' | translate }}
+            </span>
             <span class="text-sm font-bold text-dark">{{ rawCounts.cancelled }}</span>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-fill progress-fill-danger" [style.width.%]="(rawCounts.cancelled / getTotalDoughnutSum()) * 100"></div>
+            <div class="progress-fill progress-fill-danger"
+              [style.width.%]="(rawCounts.cancelled / getTotalDoughnutSum()) * 100"></div>
           </div>
         </div>
       </div>
@@ -139,23 +170,33 @@
 
 <!-- Recent System Logs Table -->
 <div class="chart-card overflow-hidden">
-  <!-- Table Header -->
   <div class="table-header-bg flex justify-between items-center px-6 py-4">
     <div class="flex items-center gap-2">
       <i class="pi pi-history text-lg"></i>
-      <span class="font-bold text-base">Recent System Logs</span>
+      <span class="font-bold text-base">
+        {{ 'DASHBOARD.LOGS_TITLE' | translate }}
+      </span>
     </div>
-    <a class="text-sm font-semibold cursor-pointer view-all-link">View All Logs</a>
+    <a class="text-sm font-semibold cursor-pointer view-all-link">
+      {{ 'DASHBOARD.VIEW_ALL' | translate }}
+    </a>
   </div>
 
-  <!-- Table -->
   <table class="logs-table">
     <thead>
       <tr>
-        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">Timestamp</th>
-        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">Action</th>
-        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">User</th>
-        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">Status</th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">
+          {{ 'DASHBOARD.TIMESTAMP' | translate }}
+        </th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">
+          {{ 'DASHBOARD.ACTION' | translate }}
+        </th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">
+          {{ 'DASHBOARD.USER' | translate }}
+        </th>
+        <th class="text-left text-xs font-bold uppercase px-6 py-3 subtitle-color">
+          {{ 'DASHBOARD.STATUS' | translate }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -164,7 +205,9 @@
         <td class="px-6 py-4 text-sm font-semibold td-action">{{ log.action }}</td>
         <td class="px-6 py-4 text-sm subtitle-color">{{ log.user }}</td>
         <td class="px-6 py-4">
-          <span [class]="log.status === 'SUCCESS' ? 'badge-success' : 'badge-danger'">{{ log.status }}</span>
+          <span [class]="log.status === 'SUCCESS' ? 'badge-success' : 'badge-danger'">
+            {{ log.status }}
+          </span>
         </td>
       </tr>
     </tbody>
