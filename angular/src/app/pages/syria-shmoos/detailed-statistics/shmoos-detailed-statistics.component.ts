@@ -8,7 +8,7 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReservationFilterDto, ReservationGridDto, ReservationReadService } from '@proxy/reservations';
 import type { PagedResultDto } from '@abp/ng.core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslationService } from 'src/app/shared/services/translation.service';
 
 export enum GuestIdType {
@@ -51,7 +51,8 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
 
   constructor(
     private reservationReadService: ReservationReadService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private translate: TranslateService
   ) { }
 
 
@@ -61,7 +62,7 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
     this.idTypesList = Object.keys(GuestIdType)
       .filter(key => isNaN(Number(key)))
       .map(key => ({
-        label: key.replace(/([A-Z])/g, ' $1').trim(),
+        label: `RECORDS.ID_TYPES.${key}`,
         value: GuestIdType[key as keyof typeof GuestIdType]
       }));
 
@@ -137,7 +138,10 @@ export class ShmoosDetailedStatisticsComponent implements OnInit {
 
   getGuestIdTypeName(id: any): string {
     if (!id) return '-';
-    // Handle both numbers and strings for safety
-    return this.idTypesList.find(t => t.value === Number(id))?.label || id?.toString();
+    const label = this.idTypesList.find(t => t.value === Number(id))?.label;
+    if (label) {
+      return this.translate.instant(label);
+    }
+    return id?.toString();
   }
 }

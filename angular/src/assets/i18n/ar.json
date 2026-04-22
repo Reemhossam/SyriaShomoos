@@ -60,7 +60,15 @@
     "NOTE": "ملاحظة",
     "REVIEW": "مراجعة",
     "SHOWING": "عرض {first}-{last} من {totalRecords}",
-    "CONVICTS": "المدانون"
+    "CONVICTS": "المدانون",
+    "ID_TYPES": {
+      "NationalId": "البطاقة الشخصية",
+      "FamilyId": "البطاقة العائلية",
+      "Passport": "جواز سفر",
+      "ResidentPermit": "إقامة",
+      "GccId": "هوية مجلس التعاون الخليجي",
+      "VisitorId": "بطاقة زائر"
+    }
   },
   "DASHBOARD": {
     "DESCRIPTION": "ملخص الإحصائيات والاتجاهات. القيم المعروضة تجريبية لعرض التصميم.",

@@ -33,7 +33,14 @@
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.GUEST_ID_TYPE' | translate }}</label>
         <p-select [options]="idTypesList" [placeholder]="'RECORDS.GUEST_ID_TYPE' | translate"
-          styleClass="w-full custom-input" [(ngModel)]="filterGuestIdType"></p-select>
+          styleClass="w-full custom-input" [(ngModel)]="filterGuestIdType">
+          <ng-template #selectedItem let-selectedOption>
+            {{ selectedOption.label | translate }}
+          </ng-template>
+          <ng-template #item let-option>
+            {{ option.label | translate }}
+          </ng-template>
+        </p-select>
       </div>
       <div class="flex flex-col gap-2">
         <label class="text-sm font-semibold text-gray-600">{{ 'RECORDS.UNIT_NUMBER' | translate }}</label>

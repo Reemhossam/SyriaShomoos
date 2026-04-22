@@ -60,7 +60,15 @@
     "NOTE": "Note",
     "REVIEW": "Review",
     "SHOWING": "Showing {first}-{last} of {totalRecords} entries",
-    "CONVICTS": "Convicts"
+    "CONVICTS": "Convicts",
+    "ID_TYPES": {
+      "NationalId": "National ID",
+      "FamilyId": "Family ID",
+      "Passport": "Passport",
+      "ResidentPermit": "Resident Permit",
+      "GccId": "GCC ID",
+      "VisitorId": "Visitor ID"
+    }
   },
   "DASHBOARD": {
     "DESCRIPTION": "Summary metrics and trends. Values are dummy data for layout review.",
